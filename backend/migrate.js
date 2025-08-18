@@ -5,13 +5,26 @@
  * Runs database sync to create tables
  */
 
-require("dotenv").config();
+// Load dotenv only in development
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
-// Set production environment
+// Set production environment if not already set
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 console.log("🚀 Starting database setup...");
 console.log(`📍 Environment: ${process.env.NODE_ENV}`);
+console.log(`🔗 Database URL available: ${!!process.env.DB_URL}`);
+
+// Debug environment variables
+if (!process.env.DB_URL) {
+  console.error("❌ DB_URL not found in environment variables");
+  console.log("Available environment variables:");
+  Object.keys(process.env)
+    .filter(key => key.includes('DB') || key.includes('DATABASE'))
+    .forEach(key => console.log(`  ${key}: ${process.env[key] ? 'SET' : 'NOT SET'}`));
+}
 
 const sequelize = require("./src/config/database");
 
