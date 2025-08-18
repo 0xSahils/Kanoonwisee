@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: kanoonwise-app
+    env: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_URL
+        value: postgresql://neondb_owner:npg_u38miyDrPJXS@ep-tiny-frost-a1lat6gn-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      - key: JWT_SECRET
+        value: 00de6b81277bb947087a0e2a7ab3079252922280d10b2c354c166c702b2a3ca4054661eeb2e035dfa27e0524ac010b56e4ebd5cd3304739b59a84a1dfc341d6c
+      - key: JWT_ACCESS_EXPIRATION
+        value: 15m
+      - key: JWT_REFRESH_EXPIRATION
+        value: 7d
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        value: creature7985@gmail.com
+      - key: SMTP_PASS
+        value: voam emuv paeq drbr
+      - key: EMAIL_FROM
+        value: creature7985@gmail.com
+      - key: SEND_REAL_EMAILS
+        value: true
+      - key: USE_ETHEREAL_EMAIL
+        value: false
