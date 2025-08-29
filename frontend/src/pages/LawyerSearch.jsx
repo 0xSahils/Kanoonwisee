@@ -12,7 +12,7 @@ const LawyerSearch = () => {
     city: searchParams.get("city") || "",
     specialization: searchParams.get("specialization") || "",
     experience: searchParams.get("experience") || "",
-    sortBy: "rating",
+    sortBy: "experience",
   });
   const [searchInput, setSearchInput] = useState(
     searchParams.get("city") || ""
@@ -248,7 +248,6 @@ const LawyerSearch = () => {
                   onChange={(e) => handleFilterChange("sortBy", e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all text-sm sm:text-base"
                 >
-                  <option value="rating">Highest Rating</option>
                   <option value="experience">Most Experience</option>
                   <option value="fee">Lowest Fee</option>
                 </select>
@@ -332,26 +331,7 @@ const LawyerSearch = () => {
                               </span>
                             )}
                           </h3>
-                          <div className="flex items-center mb-3">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <i
-                                  key={i}
-                                  className={`fas fa-star text-lg ${
-                                    i < Math.floor(lawyer.rating)
-                                      ? "text-yellow-500"
-                                      : "text-gray-300"
-                                  }`}
-                                ></i>
-                              ))}
-                              <span className="ml-3 text-lg font-semibold text-gray-700">
-                                {lawyer.rating.toFixed(1)}
-                              </span>
-                              <span className="ml-2 text-gray-600">
-                                ({lawyer.reviews} reviews)
-                              </span>
-                            </div>
-                          </div>
+
                           <p className="text-gray-600 leading-relaxed">
                             {lawyer.description}
                           </p>
@@ -441,6 +421,17 @@ const LawyerSearch = () => {
                           >
                             View Profile
                           </button>
+                          <a
+                            href={`https://wa.me/919898989898?text=${encodeURIComponent(
+                              `Instant enquiry: I want to connect regarding ${lawyer.name}`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg flex items-center"
+                          >
+                            <i className="fab fa-whatsapp mr-2"></i>
+                            Instant Enquiry
+                          </a>
                           <button
                             onClick={() => handleBookConsultation(lawyer)}
                             className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg"

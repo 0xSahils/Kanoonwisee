@@ -284,41 +284,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* App Download Section */}
-        <div className="mt-12 text-center">
-          <h4 className="text-xl font-semibold mb-6">
-            Download Our Mobile App
-          </h4>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() =>
-                window.open("https://apps.apple.com/app/Kanoonwise", "_blank")
-              }
-              className="inline-flex items-center space-x-3 bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <i className="fab fa-apple text-2xl"></i>
-              <div className="text-left">
-                <div className="text-xs text-gray-400">Download on the</div>
-                <div className="font-semibold">App Store</div>
-              </div>
-            </button>
-            <button
-              onClick={() =>
-                window.open(
-                  "https://play.google.com/store/apps/details?id=com.Kanoonwise",
-                  "_blank"
-                )
-              }
-              className="inline-flex items-center space-x-3 bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <i className="fab fa-google-play text-2xl"></i>
-              <div className="text-left">
-                <div className="text-xs text-gray-400">Get it on</div>
-                <div className="font-semibold">Google Play</div>
-              </div>
-            </button>
-          </div>
-        </div>
+
       </div>
 
       {/* Bottom Footer */}

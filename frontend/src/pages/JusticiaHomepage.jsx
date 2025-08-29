@@ -34,28 +34,28 @@ const JusticiaHomepage = () => {
 
   const services = [
     {
-      icon: "fas fa-university",
-      title: "Banking Law",
-      description: "We'll take care of your finance.",
-      link: "#",
+      icon: "fas fa-rocket",
+      title: "Business Setup",
+      description: "Complete company registration and incorporation services.",
+      link: "/business-setup",
     },
     {
-      icon: "fas fa-user-injured",
-      title: "Personal Injury",
-      description: "Solve any kind of issues easily.",
-      link: "#",
+      icon: "fas fa-trademark",
+      title: "Trademark & IP",
+      description: "Protect your intellectual property and brand assets.",
+      link: "/trademark-ip",
     },
     {
-      icon: "fas fa-car-crash",
-      title: "Car Accidents",
-      description: "At your service every single day.",
-      link: "#",
+      icon: "fas fa-laptop-code",
+      title: "Tech Law",
+      description: "Legal expertise for technology companies and startups.",
+      link: "/search-lawyers?specialization=Tech%20Law",
     },
     {
-      icon: "fas fa-home",
-      title: "Estate Planning",
-      description: "Buy or sell property with confidence.",
-      link: "#",
+      icon: "fas fa-shield-alt",
+      title: "Compliance Package",
+      description: "Day-one compliance solutions for your business.",
+      link: "/compliance-package",
     },
   ];
 
@@ -152,12 +152,12 @@ const JusticiaHomepage = () => {
   ];
 
   const popularSearches = [
-    "Criminal Lawyer",
-    "Divorce Lawyer",
-    "Property Lawyer",
     "Corporate Lawyer",
     "Family Lawyer",
+    "Criminal Lawyer",
+    "Property Lawyer",
     "Civil Lawyer",
+    "Tax Lawyer",
   ];
 
   return (
@@ -180,16 +180,14 @@ const JusticiaHomepage = () => {
             <div className="mb-12">
               <div className="inline-block w-16 h-1 bg-yellow-500 mb-6"></div>
               <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
-                Connect with India's{" "}
-                <span className="text-yellow-500">Best Lawyers</span>
+                The Trusted Platform for{" "}
+                <span className="text-yellow-500">Vetted Legal Experts</span> in India
               </h1>
               <p className="text-xl md:text-2xl font-light mb-4 text-gray-300">
-                Your trusted platform to find, compare and book consultations
-                with verified lawyers
+                Connect with carefully selected lawyers who specialize in business, startup, and tech law
               </p>
               <p className="text-lg text-gray-400 mb-10">
-                From expert legal advice to complex case representation -
-                discover the perfect lawyer for your needs
+                Every lawyer on our platform goes through our rigorous 3-step verification process
               </p>
 
               {/* Enhanced Search Section */}
@@ -206,7 +204,7 @@ const JusticiaHomepage = () => {
                       className="w-full pl-12 pr-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
                     >
                       <option value="" className="text-gray-900">
-                        Select City
+                        Select State
                       </option>
                       {cities.map((city, index) => (
                         <option
@@ -240,7 +238,7 @@ const JusticiaHomepage = () => {
                   className="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105 mb-6"
                 >
                   <i className="fas fa-search mr-2"></i>
-                  Find Lawyers Now
+                  Find Vetted Legal Experts
                 </button>
 
                 {/* Popular Searches */}
@@ -407,101 +405,7 @@ const JusticiaHomepage = () => {
         </div>
       </section>
 
-      {/* Why Choose Kanoonwise Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="mb-8">
-                <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
-                <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 leading-tight">
-                  Experienced Attorneys
-                  <br />
-                  <span className="text-yellow-600">Professional Approach</span>
-                </h2>
-              </div>
 
-              <div className="space-y-6 text-gray-700 leading-relaxed">
-                <p className="text-lg">
-                  <span className="text-6xl font-light text-yellow-500 float-left mr-4 leading-none">
-                    L
-                  </span>
-                  orem ipsum dolor sit amet, consectetuer adipiscing elit.
-                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                  Theme natoque penatibus et magnis dis parturient montes,
-                  nascetur ridiculus mus. Aliquam lorem ante, dapibus in,
-                  viverra quis, feugiat a, tellus.
-                </p>
-
-                <p>
-                  Sed non mauris vitae erat consequat auctor eu in elit. Class
-                  aptent taciti sociosqu ad litora torquent per conubia nostra,
-                  per inceptos himenaeos. Mauris in erat justo. Nullam ac urna
-                  eu felis dapibus condimentum sit amet a augue.
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-6 mt-8">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <i className="fas fa-shield-check text-2xl text-yellow-600"></i>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        100% Verified
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        All lawyers are background checked
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <i className="fas fa-eye text-2xl text-yellow-600"></i>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        Full Transparency
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        Clear fees, ratings & reviews
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-4">
-                <img
-                  src="/legal5.png"
-                  alt="Professional lawyer 5"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg"
-                />
-                <img
-                  src="/legal6.png"
-                  alt="Professional lawyer 6"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg"
-                />
-                <img
-                  src="/legal1.png"
-                  alt="Professional lawyer 1"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg"
-                />
-                <img
-                  src="/legal2.png"
-                  alt="Professional lawyer 2"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg"
-                />
-              </div>
-              <div className="absolute -bottom-8 -left-8 bg-yellow-500 p-6 rounded-xl shadow-xl">
-                <h3 className="text-2xl font-bold text-gray-900">15,000+</h3>
-                <p className="text-gray-800 font-semibold">Verified Lawyers</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Services Section */}
       <section className="py-20 bg-gray-50">
@@ -509,11 +413,10 @@ const JusticiaHomepage = () => {
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              Our Practice Areas
+              Business Services
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive legal solutions tailored to meet your specific needs
-              with expertise and dedication.
+              Comprehensive business legal solutions for startups, tech companies, and growing businesses.
             </p>
           </div>
 
@@ -545,139 +448,161 @@ const JusticiaHomepage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <img
-            src="/hero.jpg"
-            alt="Legal background pattern"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
+      {/* Founder's Message Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="relative">
-                <img
-                  src="/satisfied client.png"
-                  alt="Satisfied Kanoonwise Client Success Story"
-                  className="w-full h-80 object-cover rounded-lg shadow-lg"
-                />
-                <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-300 rounded-lg group">
-                  <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <i className="fas fa-play text-gray-900 text-xl ml-1"></i>
-                  </div>
-                </button>
-              </div>
-              <div className="mt-8">
-                <h3 className="text-2xl font-semibold mb-2">
-                  Success Stories from Kanoonwise
-                </h3>
-                <p className="text-gray-400">
-                  Real experiences of clients who found perfect lawyers through
-                  our platform.
-                </p>
-              </div>
-            </div>
-
             <div>
               <div className="mb-8">
                 <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
-                <h2 className="text-4xl md:text-5xl font-light mb-6">
-                  What Our <span className="text-yellow-500">Clients Say</span>
+                <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 leading-tight">
+                  A Message from Our{" "}
+                  <span className="text-yellow-600">Founder</span>
                 </h2>
               </div>
-
-              <div className="space-y-8">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-16 h-16 rounded-full flex-shrink-0"
-                    />
-                    <div>
-                      <p className="text-gray-300 mb-3 italic">
-                        "{testimonial.text}"
-                      </p>
-                      <h4 className="text-yellow-500 font-semibold">
-                        {testimonial.name}
-                      </h4>
-                    </div>
-                  </div>
-                ))}
+              <div className="space-y-6 text-gray-700 leading-relaxed">
+                <p className="text-lg">
+                  "I started Kanoonwise with a simple mission: to connect businesses and startups with the right legal experts who truly understand their needs."
+                </p>
+                <p>
+                  "After seeing countless entrepreneurs struggle to find reliable legal counsel, I knew there had to be a better way. That's why every lawyer on our platform goes through our rigorous 3-step verification process."
+                </p>
+                <p>
+                  "We're not just another legal marketplace - we're your trusted partner in building a legally sound business foundation."
+                </p>
+                <div className="pt-4">
+                  <p className="font-semibold text-gray-900">- [Founder Name]</p>
+                  <p className="text-sm text-gray-600">Founder & CEO, Kanoonwise</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-2xl p-8">
+                <img
+                  src="/founder-photo.jpg"
+                  alt="Kanoonwise Founder"
+                  className="w-full h-80 object-cover rounded-xl shadow-lg"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Expertise Section */}
-      <section className="py-20 bg-white">
+      {/* Kanoonwise Verified Process Section */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              Our Expertise
+              The <span className="text-yellow-600">Kanoonwise Verified™</span> Process
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive legal expertise across multiple practice areas to
-              serve all your legal needs.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Every lawyer on our platform undergoes our rigorous 3-step verification process to ensure you get the highest quality legal expertise.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {expertise.map((item, index) => (
-              <div key={index} className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-lg">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-70"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="inline-block bg-yellow-500 text-gray-900 text-xs font-semibold px-3 py-1 rounded mb-2">
-                      {item.category}
-                    </span>
-                    <h3 className="text-xl font-semibold text-white group-hover:text-yellow-500 transition-colors duration-300">
-                      {item.title}
-                    </h3>
-                  </div>
-                </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-500 text-gray-900 rounded-full mb-6">
+                <span className="text-2xl font-bold">1</span>
               </div>
-            ))}
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Credential Verification
+              </h3>
+              <p className="text-gray-600">
+                We verify bar registration, educational qualifications, and professional certifications.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-500 text-gray-900 rounded-full mb-6">
+                <span className="text-2xl font-bold">2</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Experience Assessment
+              </h3>
+              <p className="text-gray-600">
+                We evaluate their track record, specialization expertise, and case success history.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-500 text-gray-900 rounded-full mb-6">
+                <span className="text-2xl font-bold">3</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Quality Interview
+              </h3>
+              <p className="text-gray-600">
+                Our legal experts conduct in-depth interviews to assess communication skills and client focus.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-yellow-500">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-            Every Person Who Walks Through Our Door Is Important To Us
-          </h2>
-          <div className="inline-block w-12 h-1 bg-gray-900 mb-6"></div>
-          <h3 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-8">
-            Committed to Helping Our Clients Succeed
-          </h3>
-          <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-            Get professional legal consultation tailored to your specific needs.
-            Our experienced team is ready to help you navigate through complex
-            legal matters.
-          </p>
-          <button
-            onClick={() => navigate("/quick-booking")}
-            className="inline-block bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 text-lg transition-all duration-300 transform hover:scale-105"
-          >
-            Free Consultation
-          </button>
         </div>
       </section>
 
       {/* Knowledge Bank Section */}
       <KnowledgeBank />
+
+      {/* Founder Spotlights Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+              Founder <span className="text-yellow-600">Spotlights</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Real success stories from founders who built their businesses with the right legal foundation through Kanoonwise.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div className="bg-gray-50 rounded-2xl p-8">
+              <div className="flex items-start space-x-4 mb-6">
+                <img
+                  src="/founder-spotlight-1.jpg"
+                  alt="Startup Founder"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Sarah Chen</h4>
+                  <p className="text-sm text-gray-600">Founder, TechStart Solutions</p>
+                </div>
+              </div>
+              <p className="text-gray-700 mb-4 italic">
+                "Kanoonwise connected me with a tech law expert who helped us navigate complex IP issues during our Series A. The lawyer understood our business model and provided strategic advice that saved us months of legal complications."
+              </p>
+              <div className="text-sm text-gray-600">
+                <strong>Challenge:</strong> IP protection for AI technology<br/>
+                <strong>Solution:</strong> Comprehensive IP strategy and patent filing<br/>
+                <strong>Result:</strong> Successful Series A funding with protected IP
+              </div>
+            </div>
+
+            <div className="bg-gray-50 rounded-2xl p-8">
+              <div className="flex items-start space-x-4 mb-6">
+                <img
+                  src="/founder-spotlight-2.jpg"
+                  alt="Business Founder"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="font-semibold text-gray-900">Rajesh Patel</h4>
+                  <p className="text-sm text-gray-600">Founder, GreenTech Innovations</p>
+                </div>
+              </div>
+              <p className="text-gray-700 mb-4 italic">
+                "The business setup service through Kanoonwise was exceptional. From company registration to compliance setup, everything was handled professionally. Our lawyer became a trusted advisor who still helps us with ongoing legal needs."
+              </p>
+              <div className="text-sm text-gray-600">
+                <strong>Challenge:</strong> Complete business incorporation and compliance<br/>
+                <strong>Solution:</strong> End-to-end business setup package<br/>
+                <strong>Result:</strong> Fully compliant business ready for operations
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section className="py-20 bg-gray-900 text-white px-20">

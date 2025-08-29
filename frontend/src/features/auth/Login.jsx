@@ -110,17 +110,73 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Welcome to KanoonWise</CardTitle>
-          <CardDescription>
-            {step === 'email' 
-              ? 'Enter your email to get started' 
-              : 'Enter the OTP sent to your email'
-            }
-          </CardDescription>
-        </CardHeader>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 relative overflow-hidden">
+      {/* Background Graphics */}
+      <div className="absolute inset-0 opacity-10">
+        <img
+          src="/login-bg-pattern.jpg"
+          alt="Legal Background Pattern"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Decorative Elements */}
+      <div className="absolute top-20 left-20 w-32 h-32 bg-yellow-500/20 rounded-full blur-xl"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-orange-500/20 rounded-full blur-xl"></div>
+      <div className="absolute top-1/2 left-10 w-24 h-24 bg-blue-500/20 rounded-full blur-lg"></div>
+
+      <div className="min-h-screen flex items-center justify-center px-4 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl w-full">
+          {/* Left Side - Graphics and Info */}
+          <div className="hidden lg:block space-y-8">
+            <div className="text-center">
+              <img
+                src="/login-hero-graphic.jpg"
+                alt="Legal Services Illustration"
+                className="w-full max-w-md mx-auto rounded-2xl shadow-2xl"
+              />
+            </div>
+            <div className="text-center text-white space-y-4">
+              <h2 className="text-3xl font-bold">Join India's Trusted Legal Platform</h2>
+              <p className="text-gray-300 text-lg">
+                Connect with verified legal experts and grow your practice with KanoonWise
+              </p>
+              <div className="grid grid-cols-3 gap-4 mt-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">500+</div>
+                  <div className="text-sm text-gray-300">Verified Lawyers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">1000+</div>
+                  <div className="text-sm text-gray-300">Happy Clients</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-400">24/7</div>
+                  <div className="text-sm text-gray-300">Support</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Login Form */}
+          <div className="w-full max-w-md mx-auto">
+            <Card className="backdrop-blur-md bg-white/10 border-white/20 shadow-2xl">
+              <CardHeader className="text-center">
+                <div className="mx-auto mb-4 w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
+                  <img
+                    src="/kanoonwise-logo-icon.png"
+                    alt="KanoonWise Logo"
+                    className="w-10 h-10"
+                  />
+                </div>
+                <CardTitle className="text-2xl font-bold text-white">Welcome to KanoonWise</CardTitle>
+                <CardDescription className="text-gray-300">
+                  {step === 'email'
+                    ? 'Enter your email to get started'
+                    : 'Enter the OTP sent to your email'
+                  }
+                </CardDescription>
+              </CardHeader>
         <CardContent>
           {step === 'email' ? (
             <form onSubmit={emailForm.handleSubmit(handleEmailSubmit)} className="space-y-4">
@@ -256,6 +312,9 @@ const Login = () => {
           )}
         </CardContent>
       </Card>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

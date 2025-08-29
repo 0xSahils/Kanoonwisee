@@ -8,9 +8,9 @@ async function testProfileCreation() {
     await sequelize.authenticate();
     console.log("Database connected successfully");
 
-    // Find test user
+    // Find test user - using existing user from database
     const testUser = await User.findOne({
-      where: { email: "testlawyer@test.com" },
+      where: { email: "lawyer@example.com" }, // This user exists in our database
     });
     if (!testUser) {
       console.log("Test user not found");
@@ -61,6 +61,11 @@ async function testProfileCreation() {
         languages: ["English", "Hindi"],
         city: "Mumbai",
         consultation_type: "both",
+        photo: "https://example.com/photo.jpg",
+        cv: "https://example.com/cv.pdf",
+        bar_registration_file: "https://example.com/bar-registration.pdf",
+        state: "Maharashtra",
+        secondary_specialization: ["Corporate Law", "Intellectual Property"],
       });
       console.log("✅ Full profile created successfully:", fullProfile.id);
     } catch (error) {

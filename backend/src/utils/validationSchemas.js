@@ -23,6 +23,11 @@ const lawyerProfileSchema = Joi.object({
   languages: Joi.array().items(Joi.string()),
   city: Joi.string(),
   consultation_type: Joi.string().valid("online", "offline", "both"),
+  photo: Joi.string().uri().allow(""),
+  cv: Joi.string().uri().allow(""),
+  bar_registration_file: Joi.string().uri().allow(""),
+  state: Joi.string(),
+  secondary_specialization: Joi.array().items(Joi.string()),
 });
 
 const respondAppointmentSchema = Joi.object({

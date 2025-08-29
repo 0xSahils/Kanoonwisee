@@ -24,6 +24,17 @@ import DocumentTemplates from "./pages/DocumentTemplates";
 import LegalFAQs from "./pages/LegalFAQs";
 import LawyerSearch from "./pages/LawyerSearch";
 
+// Business Services Pages
+import BusinessSetup from "./pages/BusinessSetup";
+import TrademarkIP from "./pages/TrademarkIP";
+import StartupLegalKit from "./pages/StartupLegalKit";
+import CompliancePackage from "./pages/CompliancePackage";
+
+// Resources Pages
+import KanoonwiseAcademy from "./pages/KanoonwiseAcademy";
+import LegalInsights from "./pages/LegalInsights";
+import AboutUs from "./pages/AboutUs";
+
 // Auth Pages
 import Login from "./features/auth/Login";
 
@@ -73,6 +84,17 @@ function App() {
             <Route path="/document-templates" element={<DocumentTemplates />} />
             <Route path="/legal-faqs" element={<LegalFAQs />} />
             <Route path="/my-appointments" element={<MyAppointments />} />
+
+            {/* Business Services Routes */}
+            <Route path="/business-setup" element={<BusinessSetup />} />
+            <Route path="/trademark-ip" element={<TrademarkIP />} />
+            <Route path="/startup-legal-kit" element={<StartupLegalKit />} />
+            <Route path="/compliance-package" element={<CompliancePackage />} />
+
+            {/* Resources Routes */}
+            <Route path="/academy" element={<KanoonwiseAcademy />} />
+            <Route path="/legal-insights" element={<LegalInsights />} />
+            <Route path="/about-us" element={<AboutUs />} />
 
             {/* Auth Routes */}
             <Route

@@ -51,24 +51,26 @@ const Header = () => {
   const handleDropdownClick = (item) => {
     // Handle specific navigation cases
     const routeMap = {
-      "Legal Articles": "/articles",
-      "Legal Calculators": "/legal-calculators",
+      // Resources menu
+      "Kanoonwise Academy": "/academy",
+      "Legal Insights": "/legal-insights",
       "Document Templates": "/document-templates",
-      "Legal FAQs": "/legal-faqs",
-      "Company Registration": "/legal-services",
-      "Legal Documentation": "/legal-services",
-      "Trademark Registration": "/legal-services",
-      "GST Services": "/legal-services",
+
+      // Business Services menu
+      "Business Setup": "/business-setup",
+      "Trademark & IP": "/trademark-ip",
+      "The Startup Legal Kit": "/startup-legal-kit",
+      "Compliance Package": "/compliance-package",
+
+      // Find a Lawyer menu - navigate to search with specialization
+      "Business & Startup Law": "/search-lawyers?specialization=Business%20%26%20Startup%20Law",
+      "Tech Law": "/search-lawyers?specialization=Tech%20Law",
+      "Corporate Law": "/search-lawyers?specialization=Corporate%20Law",
+      "Intellectual Property": "/search-lawyers?specialization=Intellectual%20Property",
     };
 
     if (routeMap[item.name]) {
       navigate(routeMap[item.name]);
-    } else if (item.name.includes("Lawyers")) {
-      // Navigate to lawyer search with specialization filter
-      const specialization = item.name.replace(" Lawyers", "");
-      navigate(
-        `/search-lawyers?specialization=${encodeURIComponent(specialization)}`
-      );
     } else {
       // Default navigation for services
       const path = `/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
@@ -100,34 +102,38 @@ const Header = () => {
 
   const navItems = [
     {
-      name: "Find Lawyers",
+      name: "Find a Lawyer",
       icon: "fas fa-search",
       dropdown: [
-        { name: "Criminal Lawyers", icon: "fas fa-gavel" },
-        { name: "Family Lawyers", icon: "fas fa-home" },
-        { name: "Corporate Lawyers", icon: "fas fa-building" },
-        { name: "Property Lawyers", icon: "fas fa-key" },
+        { name: "Business & Startup Law", icon: "fas fa-building" },
+        { name: "Tech Law", icon: "fas fa-laptop-code" },
+        { name: "Corporate Law", icon: "fas fa-briefcase" },
+        { name: "Intellectual Property", icon: "fas fa-lightbulb" },
       ],
     },
     {
-      name: "Legal Services",
+      name: "Business Services",
       icon: "fas fa-briefcase",
       dropdown: [
-        { name: "Company Registration", icon: "fas fa-certificate" },
-        { name: "Legal Documentation", icon: "fas fa-file-contract" },
-        { name: "Trademark Registration", icon: "fas fa-trademark" },
-        { name: "GST Services", icon: "fas fa-calculator" },
+        { name: "Business Setup", icon: "fas fa-rocket" },
+        { name: "Trademark & IP", icon: "fas fa-trademark" },
+        { name: "The Startup Legal Kit", icon: "fas fa-box" },
+        { name: "Compliance Package", icon: "fas fa-shield-alt" },
       ],
     },
     {
       name: "Resources",
       icon: "fas fa-book",
       dropdown: [
-        { name: "Legal Articles", icon: "fas fa-newspaper" },
-        { name: "Legal Calculators", icon: "fas fa-calculator" },
+        { name: "Kanoonwise Academy", icon: "fas fa-graduation-cap" },
+        { name: "Legal Insights", icon: "fas fa-lightbulb" },
         { name: "Document Templates", icon: "fas fa-file-alt" },
-        { name: "Legal FAQs", icon: "fas fa-question-circle" },
       ],
+    },
+    {
+      name: "About Us",
+      icon: "fas fa-info-circle",
+      path: "/about-us",
     },
   ];
 
@@ -208,9 +214,7 @@ const Header = () => {
               <div key={index} className="relative group">
                 <button
                   onClick={() =>
-                    handleNavigation(
-                      `/${item.name.toLowerCase().replace(/\s+/g, "-")}`
-                    )
+                    item.path ? handleNavigation(item.path) : null
                   }
                   className={`flex items-center space-x-1 font-medium transition-colors duration-200 ${
                     isHomepage
@@ -221,26 +225,30 @@ const Header = () => {
                   }`}
                 >
                   <span>{item.name}</span>
-                  <i className="fas fa-chevron-down text-xs group-hover:rotate-180 transition-transform duration-200"></i>
+                  {item.dropdown && (
+                    <i className="fas fa-chevron-down text-xs group-hover:rotate-180 transition-transform duration-200"></i>
+                  )}
                 </button>
 
-                {/* Dropdown */}
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
-                  <div className="py-2">
-                    {item.dropdown.map((dropdownItem, dropIndex) => (
-                      <button
-                        key={dropIndex}
-                        onClick={() => handleDropdownClick(dropdownItem)}
-                        className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition-colors duration-200 w-full text-left"
-                      >
-                        <i
-                          className={`${dropdownItem.icon} text-yellow-500 w-4`}
-                        ></i>
-                        <span>{dropdownItem.name}</span>
-                      </button>
-                    ))}
+                {/* Dropdown - only show if item has dropdown */}
+                {item.dropdown && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                    <div className="py-2">
+                      {item.dropdown.map((dropdownItem, dropIndex) => (
+                        <button
+                          key={dropIndex}
+                          onClick={() => handleDropdownClick(dropdownItem)}
+                          className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition-colors duration-200 w-full text-left"
+                        >
+                          <i
+                            className={`${dropdownItem.icon} text-yellow-500 w-4`}
+                          ></i>
+                          <span>{dropdownItem.name}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ))}
           </div>
@@ -380,39 +388,43 @@ const Header = () => {
             {navItems.map((item, index) => (
               <div key={index} className="px-4">
                 <button
-                  onClick={() => toggleDropdown(index)}
+                  onClick={() => item.path ? handleNavigation(item.path) : toggleDropdown(index)}
                   className="flex items-center justify-between w-full text-gray-700 font-medium py-3 border-b border-gray-100 hover:text-yellow-600 transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-3">
                     <i className={`${item.icon} text-yellow-600`}></i>
                     <span className="text-base">{item.name}</span>
                   </div>
-                  <i
-                    className={`fas fa-chevron-down text-sm transition-transform duration-200 ${
-                      openDropdowns[index] ? "rotate-180" : ""
-                    }`}
-                  ></i>
+                  {item.dropdown && (
+                    <i
+                      className={`fas fa-chevron-down text-sm transition-transform duration-200 ${
+                        openDropdowns[index] ? "rotate-180" : ""
+                      }`}
+                    ></i>
+                  )}
                 </button>
-                <div
-                  className={`ml-6 space-y-1 mt-2 overflow-hidden transition-all duration-300 ${
-                    openDropdowns[index]
-                      ? "max-h-96 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  {item.dropdown.map((dropdownItem, dropIndex) => (
-                    <button
-                      key={dropIndex}
-                      onClick={() => handleDropdownClick(dropdownItem)}
-                      className="flex items-center space-x-3 text-gray-600 hover:text-yellow-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
-                    >
-                      <i
-                        className={`${dropdownItem.icon} text-sm text-yellow-500`}
-                      ></i>
-                      <span className="text-sm">{dropdownItem.name}</span>
-                    </button>
-                  ))}
-                </div>
+                {item.dropdown && (
+                  <div
+                    className={`ml-6 space-y-1 mt-2 overflow-hidden transition-all duration-300 ${
+                      openDropdowns[index]
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    {item.dropdown.map((dropdownItem, dropIndex) => (
+                      <button
+                        key={dropIndex}
+                        onClick={() => handleDropdownClick(dropdownItem)}
+                        className="flex items-center space-x-3 text-gray-600 hover:text-yellow-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
+                      >
+                        <i
+                          className={`${dropdownItem.icon} text-sm text-yellow-500`}
+                        ></i>
+                        <span className="text-sm">{dropdownItem.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
 

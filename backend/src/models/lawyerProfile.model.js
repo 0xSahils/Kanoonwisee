@@ -46,6 +46,26 @@ const LawyerProfile = sequelize.define('LawyerProfile', {
   consultation_type: {
     type: DataTypes.ENUM('online', 'offline', 'both'),
   },
+  photo: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  cv: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bar_registration_file: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  state: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  secondary_specialization: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
 }, {
   timestamps: true,
   createdAt: 'created_at',
