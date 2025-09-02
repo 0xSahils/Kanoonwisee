@@ -83,14 +83,21 @@ console.log(
 
 async function startServer() {
   try {
-    // Test database connection
-    await sequelize.sync();
+    // Test database connection without forcing sync
+    await sequelize.authenticate();
+    console.log("✅ Database connection established");
     
     // Initialize session store if in production
     if (process.env.NODE_ENV === 'production' && sessionOptions.store) {
       console.log("🔄 Initializing session store...");
-      await sessionOptions.store.sync();
-      console.log("✅ Session store initialized");
+      try {
+        await sessionOptions.store.sync();
+        console.log("✅ Session store initialized");
+      } catch (sessionError) {
+        console.error("⚠️ Session store initialization failed:", sessionError.message);
+        // Don't fail the server startup for session store issues
+        console.log("⚠️ Continuing without session store - sessions will use memory store");
+      }
     }
     
     app.listen(PORT, () => {

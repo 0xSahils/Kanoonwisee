@@ -2,8 +2,8 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // Create Sessions table for connect-session-sequelize
-    await queryInterface.createTable('Sessions', {
+    // Create UserSessions table for connect-session-sequelize
+    await queryInterface.createTable('UserSessions', {
       sid: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -29,10 +29,10 @@ module.exports = {
     });
 
     // Add index on expires for efficient cleanup
-    await queryInterface.addIndex('Sessions', ['expires']);
+    await queryInterface.addIndex('UserSessions', ['expires']);
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Sessions');
+    await queryInterface.dropTable('UserSessions');
   }
 };

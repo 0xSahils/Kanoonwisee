@@ -10,6 +10,66 @@ require("dotenv").config();
 
 const sequelize = require("./src/config/database");
 
+async function fixSessionsTableConflict(sequelize) {
+  try {
+    const queryInterface = sequelize.getQueryInterface();
+    
+    // Check if Sessions table exists and drop it if it does
+    const tableExists = await queryInterface.showAllTables().then(tables => 
+      tables.includes('Sessions')
+    );
+    
+    if (tableExists) {
+      console.log("🗑️ Dropping conflicting Sessions table...");
+      await queryInterface.dropTable('Sessions');
+      console.log("✅ Sessions table dropped");
+    }
+    
+    // Check if UserSessions table exists, if not create it
+    const userSessionsExists = await queryInterface.showAllTables().then(tables => 
+      tables.includes('UserSessions')
+    );
+    
+    if (!userSessionsExists) {
+      console.log("📝 Creating UserSessions table...");
+      await queryInterface.createTable('UserSessions', {
+        sid: {
+          type: sequelize.Sequelize.STRING,
+          primaryKey: true,
+        },
+        expires: {
+          type: sequelize.Sequelize.DATE,
+          allowNull: true,
+        },
+        data: {
+          type: sequelize.Sequelize.TEXT,
+          allowNull: true,
+        },
+        createdAt: {
+          type: sequelize.Sequelize.DATE,
+          allowNull: false,
+          defaultValue: sequelize.Sequelize.fn('NOW'),
+        },
+        updatedAt: {
+          type: sequelize.Sequelize.DATE,
+          allowNull: false,
+          defaultValue: sequelize.Sequelize.fn('NOW'),
+        },
+      });
+      
+      // Add index on expires for efficient cleanup
+      await queryInterface.addIndex('UserSessions', ['expires']);
+      console.log("✅ UserSessions table created successfully");
+    } else {
+      console.log("✅ UserSessions table already exists");
+    }
+    
+  } catch (error) {
+    console.error("⚠️ Warning: Sessions table fix failed:", error.message);
+    // Don't throw the error, just log it as this shouldn't stop the main process
+  }
+}
+
 async function fixProductionDatabase() {
   try {
     console.log("🔗 Connecting to production database...");
@@ -83,6 +143,10 @@ async function fixProductionDatabase() {
     
     console.log("🎉 Database fix completed successfully!");
     
+    // Fix Sessions table conflict
+    console.log("🔧 Fixing Sessions table conflict...");
+    await fixSessionsTableConflict(sequelize);
+    
     // Verify the fix worked
     console.log("🔍 Verifying fix...");
     const updatedTableInfo = await sequelize.getQueryInterface().describeTable('LawyerProfiles');
@@ -108,4 +172,4 @@ if (require.main === module) {
   fixProductionDatabase();
 }
 
-module.exports = { fixProductionDatabase };
+module.exports = { fixProductionDatabase, fixSessionsTableConflict };

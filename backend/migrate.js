@@ -96,8 +96,13 @@ async function runMigrations() {
     // Try the manual fix as a fallback
     console.log("\n🔧 Attempting manual database fix...");
     try {
-      const { fixProductionDatabase } = require('./fix-production-db');
+      const { fixProductionDatabase, fixSessionsTableConflict } = require('./fix-production-db');
       await fixProductionDatabase();
+      
+      // Also specifically fix sessions table conflict
+      console.log("\n🔧 Fixing Sessions table conflict...");
+      await fixSessionsTableConflict(sequelize);
+      
       console.log("✅ Manual database fix completed!");
     } catch (fixError) {
       console.error("❌ Manual fix also failed:", fixError.message);

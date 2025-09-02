@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "debug": "node debug.js",
-    "migrate": "node migrate.js",
+    "migrate": "node deploy-production.js",
     "deploy": "node deploy.js",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:all": "sequelize-cli db:seed:all"

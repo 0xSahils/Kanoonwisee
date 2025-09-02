@@ -71,11 +71,18 @@ async function deploy() {
     console.log("\n🔍 Checking database connection...");
     
     // Run the database fix script first to ensure all required columns exist
-    console.log("\n🔧 Running database fix script...");
+    console.log("\n🔧 Running production database setup...");
     try {
-      await runCommand("node fix-production-db.js", "Fixing missing database columns");
+      await runCommand("node deploy-production.js", "Setting up production database");
     } catch (error) {
-      console.log("⚠️  Database fix script encountered an issue, but continuing with migrations...");
+      console.log("⚠️  Production database setup encountered an issue, trying alternative approach...");
+      
+      // Fallback to the old approach
+      try {
+        await runCommand("node fix-production-db.js", "Fixing missing database columns");
+      } catch (fallbackError) {
+        console.log("⚠️  Database fix script also failed, but continuing with migrations...");
+      }
     }
     
     // Run migrations with explicit environment

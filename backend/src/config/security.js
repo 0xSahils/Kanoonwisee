@@ -156,7 +156,7 @@ const csrfTokens = csrf();
 const sessionStore = process.env.NODE_ENV === 'production' 
   ? new SequelizeStore({
       db: sequelize,
-      tableName: 'Sessions',
+      tableName: 'UserSessions',
       checkExpirationInterval: 15 * 60 * 1000, // Check every 15 minutes
       expiration: 24 * 60 * 60 * 1000 // Session expires after 24 hours
     })
