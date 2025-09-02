@@ -79,21 +79,46 @@ const refreshRateLimit = rateLimit({
  */
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      'http://localhost:3000', // Development frontend
-      'http://localhost:5173', // Vite development server
-      'http://localhost:5174', // Alternative Vite port
-    ].filter(Boolean); // Remove undefined values
+    // Development environment - allow specific origins
+    if (process.env.NODE_ENV === 'development') {
+      const allowedOrigins = [
+        process.env.FRONTEND_URL,
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://localhost:5174',
+      ].filter(Boolean);
 
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS policy violation: ${origin} not allowed`));
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.log(`CORS blocked origin in development: ${origin}`);
+        return callback(new Error(`CORS policy violation: ${origin} not allowed`));
+      }
     }
+    
+    // Production environment - more permissive for same-origin deployments
+    if (process.env.NODE_ENV === 'production') {
+      // Allow requests with no origin (same-origin requests often don't have origin header)
+      if (!origin) return callback(null, true);
+      
+      // Allow production URLs
+      const productionOrigins = [
+        'https://kanoonwise-li7v.onrender.com',
+        process.env.FRONTEND_URL,
+      ].filter(Boolean);
+      
+      // Allow any render.com subdomain for flexibility
+      if (origin.includes('.onrender.com') || productionOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      console.log(`CORS blocked origin in production: ${origin}`);
+      console.log(`Allowed production origins: ${productionOrigins.join(', ')}`);
+      return callback(new Error(`CORS policy violation: ${origin} not allowed`));
+    }
+    
+    // Fallback - allow all in other environments
+    callback(null, true);
   },
   credentials: true, // Enable cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
