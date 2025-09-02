@@ -2,6 +2,11 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const csrf = require('csrf');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+// Database session store for production
+const sequelize = require('./database');
 
 /**
  * Security headers configuration
@@ -148,9 +153,19 @@ const csrfTokens = csrf();
 /**
  * Session configuration for CSRF protection
  */
+const sessionStore = process.env.NODE_ENV === 'production' 
+  ? new SequelizeStore({
+      db: sequelize,
+      tableName: 'Sessions',
+      checkExpirationInterval: 15 * 60 * 1000, // Check every 15 minutes
+      expiration: 24 * 60 * 60 * 1000 // Session expires after 24 hours
+    })
+  : undefined; // Use default MemoryStore in development
+
 const sessionOptions = {
   name: 'kanoonwise.sid',
   secret: process.env.SESSION_SECRET || 'kanoonwise-csrf-secret-key-2024',
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -160,6 +175,11 @@ const sessionOptions = {
     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax'
   }
 };
+
+// Initialize the session store table in production
+if (sessionStore) {
+  sessionStore.sync();
+}
 
 module.exports = {
   securityHeaders,

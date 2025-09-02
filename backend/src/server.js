@@ -81,9 +81,18 @@ console.log(
   `Frontend static files path: ${path.join(__dirname, "../../frontend/dist")}`
 );
 
-sequelize
-  .sync()
-  .then(() => {
+async function startServer() {
+  try {
+    // Test database connection
+    await sequelize.sync();
+    
+    // Initialize session store if in production
+    if (process.env.NODE_ENV === 'production' && sessionOptions.store) {
+      console.log("🔄 Initializing session store...");
+      await sessionOptions.store.sync();
+      console.log("✅ Session store initialized");
+    }
+    
     app.listen(PORT, () => {
       console.log(`✅ Server is running on port ${PORT}`);
       console.log(`🌐 Environment: ${process.env.NODE_ENV || "development"}`);
@@ -96,7 +105,10 @@ sequelize
         );
       }
     });
-  })
-  .catch((error) => {
-    console.error("❌ Database connection failed:", error);
-  });
+  } catch (error) {
+    console.error("❌ Server startup failed:", error);
+    process.exit(1);
+  }
+}
+
+startServer();
