@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Footer = () => {
   // Newsletter subscription handler
   const handleNewsletterSubscribe = () => {
     // You can add newsletter subscription logic here
-    alert("Newsletter subscription functionality to be implemented");
+    toast.info("Newsletter subscription functionality to be implemented");
   };
 
   // Social media handler

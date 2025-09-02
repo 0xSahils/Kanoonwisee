@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import toast from "react-hot-toast";
 
 const DocumentTemplates = () => {
   const navigate = useNavigate();
@@ -132,7 +133,7 @@ const DocumentTemplates = () => {
 
   const handleDownload = () => {
     // Mock download functionality
-    alert("Template download started!");
+    toast.success("Template download started!");
   };
 
   return (

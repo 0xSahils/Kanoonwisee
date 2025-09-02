@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/slices/authSlice";
+import { logoutUser } from "../../store/slices/authSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -80,9 +80,15 @@ const Header = () => {
     setOpenDropdowns({});
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Even if logout fails, redirect to home
+      navigate("/");
+    }
   };
 
   const handleDashboardNavigation = () => {

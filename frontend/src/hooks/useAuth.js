@@ -1,112 +1,135 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshAccessToken, logout } from "../store/slices/authSlice";
-import { isTokenExpired, isTokenExpiringSoon } from "../utils/tokenUtils";
+import { getCurrentUser, logoutUser, checkSession } from "../store/slices/authSlice";
+import { isAuthenticated, requiresAuth } from "../utils/cookieAuthUtils";
 
 /**
- * Custom hook for managing authentication and automatic token refresh
+ * Custom hook for managing cookie-based authentication
  */
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const { token, refreshToken, isAuthenticated, user, role } = useSelector(
-    (state) => state.auth
-  );
+  const { 
+    user, 
+    role, 
+    isAuthenticated: isAuthenticatedState, 
+    isLoading, 
+    sessionChecked,
+    error 
+  } = useSelector((state) => state.auth);
 
   /**
-   * Check and refresh token if needed
+   * Check session validity and update auth state
    */
-  const checkAndRefreshToken = useCallback(async () => {
-    if (!token || !refreshToken) {
-      // Give a grace period for new authentications to settle
-      const authTimestamp = localStorage.getItem("authTimestamp");
-      const now = Date.now();
-      if (authTimestamp && now - parseInt(authTimestamp) < 10000) {
-        // 10 second grace period
-        console.log(
-          "Grace period active - skipping logout for missing refresh token"
-        );
-        return true;
-      }
-
-      if (isAuthenticated) {
-        console.log("No token or refresh token found - logging out");
-        dispatch(logout());
-      }
-      return false;
+  const checkAuthSession = useCallback(async () => {
+    // Check if we just logged in (grace period)
+    const lastLoginTime = sessionStorage.getItem('lastLoginTime')
+    const now = Date.now()
+    const isRecentLogin = lastLoginTime && (now - parseInt(lastLoginTime)) < 10000 // 10 seconds
+    
+    if (isRecentLogin) {
+      console.log('Recent login detected, skipping session check')
+      return
     }
-
-    // If token is expired, try to refresh
-    if (isTokenExpired(token)) {
+    
+    // Check if we have a session cookie
+    const hasSessionCookie = isAuthenticated();
+    
+    if (hasSessionCookie && !isAuthenticatedState) {
+      // We have a session cookie but not authenticated in state
+      // Try to get current user info
       try {
-        await dispatch(refreshAccessToken()).unwrap();
-        return true;
+        await dispatch(getCurrentUser()).unwrap();
       } catch (error) {
-        console.error("Token refresh failed:", error);
-        dispatch(logout());
-        return false;
+        console.error('Failed to get current user:', error);
+        // Session might be expired, check session will handle cleanup
+        dispatch(checkSession());
       }
+    } else if (!hasSessionCookie && isAuthenticatedState) {
+      // No session cookie but authenticated in state
+      // Session expired, update state
+      dispatch(checkSession());
     }
-
-    // If token expires soon, refresh proactively
-    if (isTokenExpiringSoon(token)) {
-      try {
-        dispatch(refreshAccessToken());
-      } catch (error) {
-        console.error("Proactive token refresh failed:", error);
-      }
-    }
-
-    return true;
-  }, [dispatch, isAuthenticated, token, refreshToken]);
+  }, [dispatch, isAuthenticatedState]);
 
   /**
-   * Initialize auth state and setup periodic token checks
+   * Initialize auth state on mount and when location changes
    */
   useEffect(() => {
-    // Check token on mount
-    if (isAuthenticated) {
-      checkAndRefreshToken();
+    if (!sessionChecked) {
+      checkAuthSession();
     }
-
-    // Set up periodic token checking (every 4 minutes)
-    const interval = setInterval(() => {
-      if (isAuthenticated) {
-        checkAndRefreshToken();
-      }
-    }, 4 * 60 * 1000); // 4 minutes
-
-    return () => clearInterval(interval);
-  }, [checkAndRefreshToken, isAuthenticated]);
+  }, [checkAuthSession, sessionChecked]);
 
   /**
-   * Manual refresh function for components to use
+   * Periodic session check (every 5 minutes)
    */
-  const refreshTokenManually = useCallback(async () => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sessionChecked) {
+        checkAuthSession();
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return () => clearInterval(interval);
+  }, [checkAuthSession, sessionChecked]);
+
+  /**
+   * Logout function with proper cleanup
+   */
+  const handleLogout = useCallback(async () => {
     try {
-      await dispatch(refreshAccessToken()).unwrap();
-      return true;
+      await dispatch(logoutUser()).unwrap();
     } catch (error) {
-      console.error("Manual token refresh failed:", error);
-      return false;
+      console.error('Logout failed:', error);
+      // Even if logout API fails, local state is cleared
     }
   }, [dispatch]);
 
   /**
-   * Logout function
+   * Check if current route requires authentication
    */
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
+  const checkRouteAuth = useCallback((pathname) => {
+    const needsAuth = requiresAuth(pathname);
+    const hasValidSession = isAuthenticated();
+    
+    return {
+      needsAuth,
+      hasValidSession,
+      shouldRedirect: needsAuth && !hasValidSession && sessionChecked
+    };
+  }, [sessionChecked]);
+
+  /**
+   * Refresh user data manually
+   */
+  const refreshUserData = useCallback(async () => {
+    try {
+      await dispatch(getCurrentUser()).unwrap();
+      return true;
+    } catch (error) {
+      console.error('Failed to refresh user data:', error);
+      return false;
+    }
   }, [dispatch]);
 
   return {
-    isAuthenticated,
+    // Auth state
+    isAuthenticated: isAuthenticatedState,
     user,
     role,
-    token,
-    refreshToken,
-    checkAndRefreshToken,
-    refreshTokenManually,
+    isLoading,
+    error,
+    sessionChecked,
+    
+    // Actions
     logout: handleLogout,
+    checkAuthSession,
+    refreshUserData,
+    checkRouteAuth,
+    
+    // Helpers
+    hasSessionCookie: isAuthenticated(),
+    isSessionValid: isAuthenticatedState && isAuthenticated(),
   };
 };
 

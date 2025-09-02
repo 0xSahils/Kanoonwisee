@@ -20,6 +20,7 @@ import {
   verifyOtp,
   clearError,
 } from "../../store/slices/authSlice";
+import { store } from "../../store"; // Import store directly for fresh state
 import { Loader2, Mail, Shield } from "lucide-react";
 
 const emailSchema = z.object({
@@ -42,7 +43,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { isLoading, error, otpSent, isAuthenticated, user } = useSelector(
+  const { isLoading, error, otpSent } = useSelector(
     (state) => state.auth
   );
 
@@ -60,15 +61,6 @@ const Login = () => {
     resolver: zodResolver(otpSchema),
     defaultValues: { otp: "" },
   });
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const from =
-        location.state?.from?.pathname ||
-        (user.role === "lawyer" ? "/lawyer/dashboard" : "/client/dashboard");
-      navigate(from, { replace: true });
-    }
-  }, [isAuthenticated, user, navigate, location]);
 
   useEffect(() => {
     if (otpSent) {
@@ -98,9 +90,49 @@ const Login = () => {
 
   const handleOtpSubmit = async (data) => {
     try {
-      await dispatch(verifyOtp({ email, otp: data.otp })).unwrap();
-      toast.success("Login successful!");
-    } catch {
+      // Verify OTP and get user data
+      const result = await dispatch(verifyOtp({ email, otp: data.otp })).unwrap();
+      
+      // Wait a bit longer for Redux state to fully update
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Get fresh auth state from store
+      const freshAuthState = store.getState().auth;
+      
+      console.log('OTP verification successful:', {
+        result,
+        freshAuthState: {
+          isAuthenticated: freshAuthState.isAuthenticated,
+          user: freshAuthState.user,
+          role: freshAuthState.role
+        }
+      });
+      
+      if (freshAuthState.isAuthenticated && freshAuthState.user) {
+        toast.success("Login successful!");
+        
+        // Navigate based on user role with a small delay to ensure state consistency
+        const targetRoute = freshAuthState.user.role === "lawyer" 
+          ? "/lawyer/dashboard" 
+          : "/client/dashboard";
+        
+        const from = location.state?.from?.pathname || targetRoute;
+        
+        console.log('Navigating to:', from);
+        
+        // Use setTimeout to ensure navigation happens after React re-render
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 100);
+      } else {
+        console.error("Authentication state not properly updated after OTP verification", {
+          isAuthenticated: freshAuthState.isAuthenticated,
+          user: freshAuthState.user
+        });
+        toast.error("Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("OTP verification failed:", error);
       // Error handled by useEffect
     }
   };

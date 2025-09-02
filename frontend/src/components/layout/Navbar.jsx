@@ -15,7 +15,7 @@ import {
   Moon
 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { logout } from '../../store/slices/authSlice'
+import { logoutUser } from '../../store/slices/authSlice'
 import toast from 'react-hot-toast'
 
 const Navbar = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout()).unwrap()
+      await dispatch(logoutUser()).unwrap()
       navigate('/')
       toast.success('Logged out successfully')
     } catch {

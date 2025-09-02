@@ -1,5 +1,5 @@
 /**
- * Utility functions for token management
+ * Utility functions for token management with HttpOnly cookies
  */
 
 /**
@@ -80,35 +80,55 @@ export const getTokenExpiration = (token) => {
 }
 
 /**
- * Clear all authentication data from localStorage
+ * Clear all legacy authentication data from localStorage
+ * This function is kept for cleanup purposes only
  */
-export const clearAuthData = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('refreshToken')
-  localStorage.removeItem('user')
+export const clearLegacyAuthData = () => {
+  // Clear all legacy localStorage keys
+  const legacyKeys = ['token', 'refreshToken', 'user', 'authTimestamp', 'accessToken']
+  
+  legacyKeys.forEach(key => {
+    localStorage.removeItem(key)
+  })
+  
+  // Also clear any other auth-related localStorage
+  Object.keys(localStorage).forEach(key => {
+    if (key.toLowerCase().includes('auth') || key.toLowerCase().includes('token')) {
+      localStorage.removeItem(key)
+    }
+  })
+  
+  console.log('✅ Legacy localStorage auth data cleared')
 }
 
 /**
- * Get stored tokens from localStorage
- * @returns {object} - Object containing token and refreshToken
+ * Get CSRF token from cookies
+ * @returns {string|null} - CSRF token or null if not found
  */
-export const getStoredTokens = () => {
-  return {
-    token: localStorage.getItem('token'),
-    refreshToken: localStorage.getItem('refreshToken')
+export const getCsrfToken = () => {
+  try {
+    const cookies = document.cookie.split(';')
+    const csrfCookie = cookies.find(cookie => 
+      cookie.trim().startsWith('csrfToken=')
+    )
+    return csrfCookie ? csrfCookie.split('=')[1] : null
+  } catch (error) {
+    console.error('Error getting CSRF token:', error)
+    return null
   }
 }
 
 /**
- * Store tokens in localStorage
- * @param {string} token - Access token
- * @param {string} refreshToken - Refresh token
+ * Check if user is authenticated by checking for auth cookies
+ * Note: This is a basic check - actual auth state should come from Redux
+ * @returns {boolean} - True if auth cookies appear to be present
  */
-export const storeTokens = (token, refreshToken) => {
-  if (token) {
-    localStorage.setItem('token', token)
-  }
-  if (refreshToken) {
-    localStorage.setItem('refreshToken', refreshToken)
+export const hasAuthCookies = () => {
+  try {
+    const cookies = document.cookie
+    return cookies.includes('accessToken=') || cookies.includes('refreshToken=')
+  } catch (error) {
+    console.error('Error checking auth cookies:', error)
+    return false
   }
 }

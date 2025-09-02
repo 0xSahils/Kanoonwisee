@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Header from "../../components/landing/Header.jsx";
 import Footer from "../../components/landing/Footer.jsx";
+import axiosInstance from "../../api/index";
+import toast from "react-hot-toast";
 
 const SimpleBooking = () => {
   const { lawyerId } = useParams();
@@ -47,13 +49,13 @@ const SimpleBooking = () => {
 
     // Validate required fields
     if (!bookingData.preferred_date || !bookingData.preferred_time) {
-      alert("Please select both date and time for your consultation.");
+      toast.error("Please select both date and time for your consultation.");
       setSubmitting(false);
       return;
     }
 
     if (!bookingData.case_description.trim()) {
-      alert("Please provide a case description.");
+      toast.error("Please provide a case description.");
       setSubmitting(false);
       return;
     }
@@ -68,35 +70,19 @@ const SimpleBooking = () => {
         ).toISOString(),
       };
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/client/book`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(bookingPayload),
-        }
+      await axiosInstance.post("/client/book", bookingPayload);
+
+      toast.success(
+        "Consultation booked successfully! The lawyer will confirm your appointment."
       );
 
-      if (response.ok) {
-        alert(
-          "Consultation booked successfully! The lawyer will confirm your appointment."
-        );
-
-        // Small delay to ensure authentication state is properly set before navigation
-        setTimeout(() => {
-          navigate("/client/appointments");
-        }, 300);
-      } else {
-        const error = await response.json();
-        console.error("Booking error:", error);
-        alert(error.message || error.error || "Failed to book consultation");
-      }
+      // Small delay to ensure authentication state is properly set before navigation
+      setTimeout(() => {
+        navigate("/client/appointments");
+      }, 300);
     } catch (error) {
       console.error("Error booking consultation:", error);
-      alert("Failed to book consultation. Please try again.");
+      toast.error("Failed to book consultation. Please try again.");
     } finally {
       setSubmitting(false);
     }

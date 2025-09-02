@@ -1,6 +1,7 @@
 const express = require("express");
 const clientController = require("../controllers/clientController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const { authMiddleware } = require("../middlewares/authMiddleware");
+const { verifyCsrfToken } = require("../middlewares/csrfMiddleware");
 const roleMiddleware = require("../middlewares/roleMiddleware");
 const validateRequest = require("../middlewares/validateRequest");
 const {
@@ -14,27 +15,32 @@ const router = express.Router();
 router.use(authMiddleware);
 // Note: Removed role restriction to allow any authenticated user to book appointments
 
-// Client profile management
+// Client profile management (GET doesn't need CSRF, PUT does)
 router.get("/profile", clientController.getProfile);
 router.put(
   "/profile",
+  verifyCsrfToken,
   validateRequest(clientProfileSchema),
   clientController.updateProfile
 );
 
-// Lawyer search and discovery
+// Lawyer search and discovery (GET operations - no CSRF needed)
 router.get("/lawyers", clientController.getAllLawyers);
 router.get("/lawyers/search", clientController.searchLawyers);
 router.get("/lawyers/:id", clientController.getLawyerDetails);
 
-// Appointment management
+// Appointment management (state-changing operations need CSRF)
 router.post(
   "/book",
+  verifyCsrfToken,
   validateRequest(bookAppointmentSchema),
   clientController.bookAppointment
 );
 router.get("/appointments", clientController.getAppointments);
-router.delete("/appointments/:id", clientController.cancelAppointment);
-router.put("/appointments/:id/cancel", clientController.cancelAppointment);
+router.delete("/appointments/:id", verifyCsrfToken, clientController.cancelAppointment);
+
+// Stats endpoint (GET doesn't need CSRF)
+// TODO: Implement getStats method in clientController
+// router.get("/stats", clientController.getStats);
 
 module.exports = router;

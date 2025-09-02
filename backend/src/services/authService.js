@@ -57,12 +57,12 @@ const verifyOtp = async (email, otp) => {
   console.log("Generated tokens for user:", user.email);
 
   return {
-    token: tokens.accessToken,
+    accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken,
     user: {
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role, 
     },
   };
 };
@@ -82,8 +82,20 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
+// Helper function to get user by email
+const getUserByEmail = async (email) => {
+  return await User.findOne({ where: { email } });
+};
+
+// Helper function to get user by ID
+const getUserById = async (userId) => {
+  return await User.findByPk(userId);
+};
+
 module.exports = {
   requestOtp,
   verifyOtp,
   refreshAccessToken,
+  getUserByEmail,
+  getUserById,
 };

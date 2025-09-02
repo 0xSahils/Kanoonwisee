@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setCredentials } from "../store/slices/authSlice";
+import { verifyOtp, requestOtp } from "../store/slices/authSlice";
+import { store } from "../store";
 import Header from "../components/landing/Header.jsx";
 import Footer from "../components/landing/Footer.jsx";
+import axiosInstance from "../api/index";
+import toast from "react-hot-toast";
 
 const QuickBooking = () => {
   const { lawyerId } = useParams();
@@ -59,28 +62,14 @@ const QuickBooking = () => {
     if (lawyerId) {
       fetchLawyer();
     }
-
-    // Check token on component mount
-    const token = localStorage.getItem("token");
-    console.log(
-      "Component mounted - Token in localStorage:",
-      token ? "EXISTS" : "NOT FOUND"
-    );
-    console.log("User from Redux on mount:", user);
   }, [lawyerId]);
 
   // Add authentication state sync effect
   useEffect(() => {
     const syncAuthState = () => {
-      const token = localStorage.getItem("token");
-      if (token && !user) {
-        console.log(
-          "Token exists but no user in Redux - this might be a sync issue"
-        );
-      } else if (!token && user) {
-        console.log(
-          "User in Redux but no token - this might be a persistence issue"
-        );
+      // With cookie-based auth, we rely on Redux state and automatic session validation
+      if (!user) {
+        // User may need to login - handled by authentication flow
       }
     };
 
@@ -97,40 +86,16 @@ const QuickBooking = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/request-otp`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userDetails.email,
-            role: "client",
-          }),
-        }
-      );
-
-      if (response.ok) {
-        setOtpSent(true);
-        alert("OTP sent to your email!");
-      } else {
-        // Handle both JSON and non-JSON error responses
-        let errorMessage = "Failed to send OTP";
-        try {
-          const error = await response.json();
-          errorMessage = error.message || errorMessage;
-        } catch {
-          // If JSON parsing fails, try to get the text response
-          try {
-            errorMessage = await response.text();
-          } catch {
-            errorMessage = `Error ${response.status}: ${response.statusText}`;
-          }
-        }
-        alert(errorMessage);
-      }
+      await dispatch(requestOtp({ 
+        email: userDetails.email, 
+        role: "client" 
+      })).unwrap();
+      
+      setOtpSent(true);
+      toast.success("OTP sent to your email!");
     } catch (error) {
       console.error("Error sending OTP:", error);
-      alert("Failed to send OTP. Please try again.");
+      toast.error(error.message || "Failed to send OTP. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -141,114 +106,47 @@ const QuickBooking = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/verify-otp`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userDetails.email,
-            otp: userDetails.otp,
-          }),
+      // Use the Redux verifyOtp action instead of manual fetch
+      await dispatch(verifyOtp({ 
+        email: userDetails.email, 
+        otp: userDetails.otp 
+      })).unwrap();
+
+      // Wait longer for Redux state to update and cookies to be set
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Verify authentication state by making a test call
+      try {
+        await axiosInstance.get("/client/profile");
+      } catch (authError) {
+        if (authError.response?.status === 401) {
+          toast.error("Authentication failed. Please try verifying OTP again.");
+          setOtpSent(false);
+          return;
         }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("OTP verification response:", data);
-
-        if (!data.token || !data.user) {
-          throw new Error("Invalid response: missing token or user data");
-        }
-
-        // Set authentication timestamp for grace period
-        localStorage.setItem("authTimestamp", Date.now().toString());
-
-        // Update Redux state (this will also store in localStorage automatically)
-        dispatch(
-          setCredentials({
-            token: data.token,
-            user: data.user,
-            role: data.user.role,
-            refreshToken: data.refreshToken, // Include refresh token
-          })
-        );
-
-        // Wait a moment for Redux to complete the localStorage operations
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Verify storage after Redux update
-        const storedToken = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-        const storedRefreshToken = localStorage.getItem("refreshToken");
-        console.log("After Redux dispatch verification:");
-        console.log(
-          "- Token in localStorage:",
-          storedToken ? "EXISTS" : "MISSING"
-        );
-        console.log(
-          "- User in localStorage:",
-          storedUser ? "EXISTS" : "MISSING"
-        );
-        console.log(
-          "- RefreshToken in localStorage:",
-          storedRefreshToken ? "EXISTS" : "MISSING"
-        );
-        console.log("- Redux state updated with:", {
-          token: data.token ? "EXISTS" : "MISSING",
-          user: data.user ? "EXISTS" : "MISSING",
-          refreshToken: data.refreshToken ? "EXISTS" : "MISSING",
-          role: data.user.role,
-        });
-
-        // Create/update client profile
-        await updateClientProfile();
-
-        // Small delay to ensure everything is properly set
-        setTimeout(() => {
-          const finalToken = localStorage.getItem("token");
-          const finalUser = localStorage.getItem("user");
-          console.log("PRE-BOOKING FINAL CHECK:");
-          console.log(
-            "- Token in localStorage:",
-            finalToken ? "EXISTS" : "NOT FOUND"
-          );
-          console.log(
-            "- User in localStorage:",
-            finalUser ? "EXISTS" : "NOT FOUND"
-          );
-          console.log("- Current Redux user:", user ? "EXISTS" : "NOT FOUND");
-
-          if (!finalToken || !finalUser) {
-            console.error("CRITICAL: Auth data lost before booking step!");
-            alert("Authentication was lost. Please try again.");
-            setStep("details");
-            setOtpSent(false);
-            return;
-          }
-
-          // Go directly to booking - no dashboard choice
-          setStep("booking");
-        }, 1000); // Increased delay to ensure Redux state is fully persisted
-      } else {
-        // Handle both JSON and non-JSON error responses
-        let errorMessage = "Invalid OTP";
-        try {
-          const error = await response.json();
-          errorMessage = error.message || errorMessage;
-        } catch {
-          // If JSON parsing fails, try to get the text response
-          try {
-            errorMessage = await response.text();
-          } catch {
-            errorMessage = `Error ${response.status}: ${response.statusText}`;
-          }
-        }
-        alert(errorMessage);
       }
+
+      // Create/update client profile after successful authentication
+      await updateClientProfile();
+
+      // Check authentication state before proceeding
+      setTimeout(() => {
+        const currentUser = store.getState().auth.user;
+
+        if (!currentUser) {
+          toast.error("Authentication was lost. Please try again.");
+          setStep("details");
+          setOtpSent(false);
+          return;
+        }
+
+        // Go directly to booking - no dashboard choice
+        setStep("booking");
+      }, 100);
+      
     } catch (error) {
       console.error("Error verifying OTP:", error);
-      alert("Failed to verify OTP. Please try again.");
+      toast.error("Failed to verify OTP. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -256,42 +154,17 @@ const QuickBooking = () => {
 
   const updateClientProfile = async () => {
     try {
-      const token = localStorage.getItem("token");
-      console.log(
-        "Updating client profile with token:",
-        token ? "EXISTS" : "NOT FOUND"
-      );
+      // Update client profile using cookie-based authentication with axios
+      await axiosInstance.put("/client/profile", {
+        full_name: userDetails.full_name,
+        phone: userDetails.phone,
+        preferred_consultation_type: bookingData.consultation_type,
+      });
 
-      if (!token) {
-        console.error("No token available for profile update");
-        return;
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/client/profile`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            full_name: userDetails.full_name,
-            phone: userDetails.phone,
-            preferred_consultation_type: bookingData.consultation_type,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Client profile updated successfully:", result);
-      } else {
-        const error = await response.text();
-        console.log("Client profile update failed:", error);
-      }
     } catch (error) {
       console.error("Error updating profile:", error);
+      // Don't throw the error to prevent blocking the booking flow
+      // The profile update can be attempted again later
     }
   };
 
@@ -300,55 +173,9 @@ const QuickBooking = () => {
     setSubmitting(true);
 
     try {
-      let token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      console.log("=== BOOKING ATTEMPT DEBUG ===");
-      console.log("Token from localStorage:", token ? "EXISTS" : "NOT FOUND");
-      console.log(
-        "User from localStorage:",
-        storedUser ? "EXISTS" : "NOT FOUND"
-      );
-      console.log("User from Redux:", user ? "EXISTS" : "NOT FOUND");
-      console.log("Is Redux authenticated:", user ? "YES" : "NO");
-
-      // Try to recover from localStorage if Redux is empty
-      if (!token && !user) {
-        console.log("ERROR: No authentication found anywhere");
-        alert("Authentication session expired. Please verify OTP again.");
-        setStep("details");
-        setOtpSent(false);
-        return;
-      }
-
-      // If token exists but no Redux user, try to hydrate from localStorage
-      if (token && storedUser && !user) {
-        console.log(
-          "Found token and user in localStorage but not in Redux - attempting to sync"
-        );
-        try {
-          const parsedUser = JSON.parse(storedUser);
-          dispatch(
-            setCredentials({
-              token: token,
-              user: parsedUser,
-              role: parsedUser.role,
-            })
-          );
-          console.log("Successfully synced auth state from localStorage");
-        } catch (error) {
-          console.error("Failed to parse stored user data:", error);
-          alert("Authentication data is corrupted. Please verify OTP again.");
-          setStep("details");
-          setOtpSent(false);
-          return;
-        }
-      }
-
-      // Final validation
-      if (!token) {
-        console.log("ERROR: No token available for booking");
-        alert("Authentication session expired. Please verify OTP again.");
+      // Check authentication state
+      if (!user) {
+        toast.error("Authentication session expired. Please verify OTP again.");
         setStep("details");
         setOtpSent(false);
         return;
@@ -364,36 +191,20 @@ const QuickBooking = () => {
         ).toISOString(),
       };
 
-      console.log("Booking payload:", bookingPayload);
+      // Use cookie-based authentication
+      await axiosInstance.post("/client/book", bookingPayload);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/client/book`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(bookingPayload),
-        }
+      toast.success(
+        "Consultation booked successfully! Redirecting to your appointments..."
       );
 
-      if (response.ok) {
-        alert(
-          "Consultation booked successfully! Redirecting to your appointments..."
-        );
-
-        // Small delay to ensure authentication state is properly set before navigation
-        setTimeout(() => {
-          navigate("/my-appointments");
-        }, 300);
-      } else {
-        const error = await response.json();
-        alert(error.message || "Failed to book consultation");
-      }
+      // Small delay to ensure authentication state is properly set before navigation
+      setTimeout(() => {
+        navigate("/my-appointments");
+      }, 300);
     } catch (error) {
       console.error("Error booking consultation:", error);
-      alert("Failed to book consultation. Please try again.");
+      toast.error("Failed to book consultation. Please try again.");
     } finally {
       setSubmitting(false);
     }

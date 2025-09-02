@@ -5,37 +5,46 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const path = require("path");
 const sequelize = require("./config/database");
 const errorHandler = require("./middlewares/errorHandler");
 
+// Security configurations
+const {
+  securityHeaders,
+  generalRateLimit,
+  corsOptions,
+  cookieParserOptions,
+  sessionOptions
+} = require("./config/security");
+
 const authRoutes = require("./routes/auth.routes");
 const lawyerRoutes = require("./routes/lawyer.routes");
 const clientRoutes = require("./routes/client.routes");
+const appointmentRoutes = require("./routes/appointments.routes");
 const reviewRoutes = require("./routes/review.routes");
 const publicRoutes = require("./routes/public.routes");
 
 const app = express();
 
-// Middlewares
-app.use(
-  helmet({
-    contentSecurityPolicy: false, // Disable CSP for React app
-    crossOriginEmbedderPolicy: false,
-  })
-);
+// Security Middlewares
+app.use(securityHeaders);
+app.use(generalRateLimit);
 
-// CORS configuration for development and production
-const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? process.env.FRONTEND_URL || true
-      : ["http://localhost:5173", "http://localhost:3000"],
-  credentials: true,
-};
+// Cookie parser for handling httpOnly cookies
+app.use(cookieParser());
+
+// Session middleware for CSRF protection
+app.use(session(sessionOptions));
+
+// CORS configuration with credentials support
 app.use(cors(corsOptions));
-app.use(express.json());
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Serve static files from React build in production
 if (process.env.NODE_ENV === "production") {
@@ -49,6 +58,7 @@ app.use("/working", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/lawyer", lawyerRoutes);
 app.use("/api/client", clientRoutes);
+app.use("/api/appointments", appointmentRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/public", publicRoutes);
 

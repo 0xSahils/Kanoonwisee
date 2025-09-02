@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
 import { authAPI } from "../api/auth";
+import { verifyOtp } from "../store/slices/authSlice";
+import { store } from "../store"; // Import the store directly
+import axiosInstance from "../api/index";
 
 const LawyerInvitation = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -16,7 +21,6 @@ const LawyerInvitation = () => {
   const [step, setStep] = useState("registration"); // "registration", "otp", "profile", "success"
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [otp, setOtp] = useState("");
-  const [userTokens, setUserTokens] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -135,13 +139,27 @@ const LawyerInvitation = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await authAPI.verifyOtp(formData.email, otp);
-      setUserTokens(response.data);
+      // Use Redux to verify OTP and establish session
+      await dispatch(verifyOtp({ email: formData.email, otp })).unwrap();
+      
+      // Wait a moment for Redux state to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Get fresh Redux state directly from store
+      const freshAuthState = store.getState().auth;
+      
+      // If Redux state is still not updated, there might be an issue with the reducer
+      if (!freshAuthState.isAuthenticated) {
+        console.error("Redux state not updated after OTP verification");
+        toast.error("Authentication failed. Please try again.");
+        return;
+      }
+      
       toast.success("Email verified successfully!");
       setStep("profile");
     } catch (error) {
       console.error("Error verifying OTP:", error);
-      toast.error(error.response?.data?.message || "Invalid OTP");
+      toast.error(error || "Invalid OTP");
     } finally {
       setIsSubmitting(false);
     }
@@ -152,6 +170,15 @@ const LawyerInvitation = () => {
     setIsSubmitting(true);
 
     try {
+      // Manually fetch CSRF token to ensure it's ready
+      try {
+        await axiosInstance.get("/auth/csrf-token");
+      } catch (csrfError) {
+        console.error("Failed to fetch CSRF token:", csrfError);
+        toast.error("Session setup failed. Please try again.");
+        return;
+      }
+
       // Parse experience to get numeric value
       const experienceYears = formData.experience.includes("-")
         ? parseInt(formData.experience.split("-")[0])
@@ -172,22 +199,8 @@ const LawyerInvitation = () => {
         consultation_type: "both", // Default to both online and offline
       };
 
-      // Create axios instance with the token for this specific request
-      const API_BASE_URL =
-        import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-      const response = await fetch(`${API_BASE_URL}/lawyer/profile`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userTokens.token}`,
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create profile");
-      }
+      // Use the configured axios instance with cookie authentication
+      await axiosInstance.put("/lawyer/profile", profileData);
 
       toast.success("Registration completed successfully!");
       setStep("success");
@@ -198,7 +211,15 @@ const LawyerInvitation = () => {
       }, 3000);
     } catch (error) {
       console.error("Error creating profile:", error);
-      toast.error(error.message || "Failed to create profile");
+      
+      // Check for specific error codes
+      if (error.response?.status === 403 && error.response.data?.code?.includes('CSRF')) {
+        toast.error("Security token expired. Please refresh and try again.");
+      } else if (error.response?.status === 401) {
+        toast.error("Authentication failed. Please verify your OTP again.");
+      } else {
+        toast.error(error.response?.data?.message || "Failed to create profile");
+      }
     } finally {
       setIsSubmitting(false);
     }

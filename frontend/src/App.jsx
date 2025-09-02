@@ -83,7 +83,14 @@ function App() {
             <Route path="/legal-calculators" element={<LegalCalculators />} />
             <Route path="/document-templates" element={<DocumentTemplates />} />
             <Route path="/legal-faqs" element={<LegalFAQs />} />
-            <Route path="/my-appointments" element={<MyAppointments />} />
+            <Route 
+              path="/my-appointments" 
+              element={
+                <ProtectedRoute>
+                  <MyAppointments />
+                </ProtectedRoute>
+              } 
+            />
 
             {/* Business Services Routes */}
             <Route path="/business-setup" element={<BusinessSetup />} />

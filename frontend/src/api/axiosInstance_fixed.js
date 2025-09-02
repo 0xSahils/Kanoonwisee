@@ -35,7 +35,7 @@ const getCsrfToken = async () => {
 
   // If no cookie token, fetch from server
   try {
-    const response = await axios.get(`${API_BASE_URL}/auth/csrf-token`, {
+    const response = await axios.get(`${API_BASE_URL}/api/auth/csrf-token`, {
       withCredentials: true
     })
     csrfToken = response.data.csrfToken
@@ -104,56 +104,33 @@ axiosInstance.interceptors.response.use(
 
     // Handle authentication errors
     if (error.response?.status === 401) {
-      // For 401 errors, try to refresh token first before logging out
+      // For 401 errors, user session has expired
       const currentPath = window.location.pathname
       
-      // Don't try to refresh during auth flow - just reject the error
-      if (originalRequest.url?.includes('/auth/') || 
-          originalRequest.url?.includes('/verify-otp') || 
-          originalRequest.url?.includes('/request-otp')) {
+      // Don't automatically logout during auth flow
+      if (originalRequest.url?.includes('/auth/')) {
         return Promise.reject(error)
       }
       
-      // Don't retry if this is already a refresh attempt
-      if (originalRequest.url?.includes('/refresh') || originalRequest._retry) {
-        // Refresh failed, logout user
+      // Give a grace period for fresh logins (don't logout immediately)
+      const lastLoginTime = sessionStorage.getItem('lastLoginTime')
+      const now = Date.now()
+      if (lastLoginTime && (now - parseInt(lastLoginTime)) < 5000) {
+        // Within 5 seconds of login, just reject without logout
+        return Promise.reject(error)
+      }
+      
+      // Don't show toast for auth endpoints
+      if (!originalRequest.url?.includes('/auth/')) {
         toast.error('Your session has expired. Please login again.')
-        store.dispatch(logout())
-        
-        if (currentPath !== '/login' && currentPath !== '/') {
-          window.location.href = '/login'
-        }
-        
-        return Promise.reject(error)
       }
       
-      // Try to refresh the access token
-      if (!originalRequest._retry) {
-        originalRequest._retry = true
-        
-        try {
-          // Call the refresh token endpoint
-          await axios.post(`${API_BASE_URL}/auth/refresh`, {}, {
-            withCredentials: true
-          })
-          
-          console.log('Token refreshed successfully')
-          
-          // Retry the original request
-          return axiosInstance(originalRequest)
-        } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError)
-          
-          // Refresh failed, logout user
-          toast.error('Your session has expired. Please login again.')
-          store.dispatch(logout())
-          
-          if (currentPath !== '/login' && currentPath !== '/') {
-            window.location.href = '/login'
-          }
-          
-          return Promise.reject(error)
-        }
+      // Clear auth state
+      store.dispatch(logout())
+      
+      // Redirect to login if not already on login page
+      if (currentPath !== '/login' && currentPath !== '/') {
+        window.location.href = '/login'
       }
       
       return Promise.reject(error)

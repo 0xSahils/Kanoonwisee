@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/landing/Header.jsx";
 import Footer from "../components/landing/Footer.jsx";
+import axiosInstance from "../api/index";
+import toast from "react-hot-toast";
 
 const MyAppointments = () => {
   const navigate = useNavigate();
@@ -17,34 +19,15 @@ const MyAppointments = () => {
   }, []);
 
   useEffect(() => {
-    // Check both Redux state and localStorage for authentication
-    const token = localStorage.getItem("token");
-    const hasValidAuth = isAuthenticated || (token && token.trim() !== "");
-
-    if (!hasValidAuth) {
-      navigate("/login");
-      return;
-    }
+    // Fetch appointments when component mounts
+    // Authentication is now handled by ProtectedRoute wrapper
     fetchAppointments();
-  }, [isAuthenticated, navigate]);
+  }, []);
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/client/appointments`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setAppointments(data);
-      } else {
-        console.error("Failed to fetch appointments");
-      }
+      const response = await axiosInstance.get("/client/appointments");
+      setAppointments(response.data);
     } catch (error) {
       console.error("Error fetching appointments:", error);
     } finally {
@@ -83,27 +66,12 @@ const MyAppointments = () => {
     }
 
     try {
-      const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/client/appointments/${appointmentId}/cancel`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        alert("Appointment cancelled successfully");
-        fetchAppointments(); // Refresh the list
-      } else {
-        alert("Failed to cancel appointment");
-      }
+      await axiosInstance.put(`/client/appointments/${appointmentId}/cancel`);
+      toast.success("Appointment cancelled successfully");
+      fetchAppointments(); // Refresh the list
     } catch (error) {
       console.error("Error cancelling appointment:", error);
-      alert("Failed to cancel appointment");
+      toast.error("Failed to cancel appointment");
     }
   };
 

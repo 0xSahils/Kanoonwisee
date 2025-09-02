@@ -9,7 +9,7 @@ import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 import { Label } from '../../components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
-import { requestOtp, verifyOtp, clearError, setCredentials } from '../../store/slices/authSlice'
+import { requestOtp, verifyOtp, clearError } from '../../store/slices/authSlice'
 import { Loader2, Mail, Shield } from 'lucide-react'
 
 const emailSchema = z.object({
@@ -76,16 +76,9 @@ const Login = () => {
 
   const handleOtpSubmit = async (data) => {
     try {
-      const result = await dispatch(verifyOtp({ email, otp: data.otp })).unwrap()
+      await dispatch(verifyOtp({ email, otp: data.otp })).unwrap()
       
-      // Use setCredentials to ensure proper state management
-      dispatch(setCredentials({
-        token: result.token,
-        role: result.user.role,
-        user: result.user,
-        refreshToken: result.refreshToken
-      }))
-      
+      // No need to use setCredentials - verifyOtp already sets the state correctly
       toast.success('Login successful!')
     } catch {
       // Error handled by useEffect

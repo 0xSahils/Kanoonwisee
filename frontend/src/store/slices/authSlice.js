@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { authAPI } from '../../api/auth'
+import { clearLegacyAuthData, isAuthenticated } from '../../utils/cookieAuthUtils'
 
-// Async thunks
+// Async thunks for cookie-based authentication
 export const requestOtp = createAsyncThunk(
   'auth/requestOtp',
-  async ({ email, role = 'lawyer' }, { rejectWithValue }) => {
+  async ({ email, role = 'client' }, { rejectWithValue }) => {
     try {
       const response = await authAPI.requestOtp(email, role)
       return response.data
@@ -26,111 +27,120 @@ export const verifyOtp = createAsyncThunk(
   }
 )
 
-export const refreshAccessToken = createAsyncThunk(
-  'auth/refreshAccessToken',
+export const getCurrentUser = createAsyncThunk(
+  'auth/getCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken')
-      if (!refreshToken) {
-        throw new Error('No refresh token available')
-      }
-      
-      const response = await authAPI.refreshToken(refreshToken)
+      const response = await authAPI.getCurrentUser()
       return response.data
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to refresh token')
+      return rejectWithValue(error.response?.data?.message || 'Failed to get user info')
     }
   }
 )
 
-// Initial state - check localStorage for saved auth data
-const savedToken = localStorage.getItem('token')
-const savedUser = localStorage.getItem('user')
+// Initialize authentication from existing cookies on app startup
+export const initializeAuth = createAsyncThunk(
+  'auth/initializeAuth',
+  async (_, { rejectWithValue }) => {
+    try {
+      // Check if we have authentication cookies
+      if (!isAuthenticated()) {
+        return rejectWithValue('No authentication cookies found')
+      }
+      
+      // Try to get current user info to validate session
+      const response = await authAPI.getCurrentUser()
+      return response.data
+    } catch (error) {
+      // Session invalid or expired
+      return rejectWithValue(error.response?.data?.message || 'Session invalid')
+    }
+  }
+)
 
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async () => {
+    try {
+      await authAPI.logout()
+      return {}
+    } catch {
+      // Even if logout API fails, we should clear local state
+      return {}
+    }
+  }
+)
+
+// Initial state - no localStorage dependency
 const initialState = {
-  token: savedToken || null,
-  role: savedUser ? JSON.parse(savedUser).role : null,
-  user: savedUser ? JSON.parse(savedUser) : null,
-  refreshToken: localStorage.getItem('refreshToken') || null,
-  isAuthenticated: !!savedToken,
+  user: null,
+  role: null,
+  isAuthenticated: false,
   isLoading: false,
   error: null,
   otpSent: false,
+  sessionChecked: false, // Flag to track if we've checked session on startup
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    // Set user credentials after successful authentication
     setCredentials: (state, action) => {
-      const { token, role, user, refreshToken } = action.payload
-      state.token = token
-      state.role = role || user?.role
+      const { user } = action.payload
       state.user = user
+      state.role = user?.role
       state.isAuthenticated = true
       state.error = null
-      
-      // Persist to localStorage as backup
-      localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(user))
-      if (refreshToken) {
-        state.refreshToken = refreshToken
-        localStorage.setItem('refreshToken', refreshToken)
-      }
+      state.sessionChecked = true
     },
+    
+    // Clear all authentication state
     logout: (state) => {
-      state.token = null
-      state.role = null
       state.user = null
-      state.refreshToken = null
+      state.role = null
       state.isAuthenticated = false
       state.otpSent = false
       state.error = null
+      state.sessionChecked = true
       
-      // Clear localStorage
-      localStorage.removeItem('token')
-      localStorage.removeItem('refreshToken')
-      localStorage.removeItem('user')
+      // Clear any legacy localStorage data
+      clearLegacyAuthData()
     },
+    
+    // Update user information
     updateUser: (state, action) => {
-      state.user = { ...state.user, ...action.payload }
-      localStorage.setItem('user', JSON.stringify(state.user))
-    },
-    updateTokens: (state, action) => {
-      const { accessToken, refreshToken } = action.payload
-      state.token = accessToken
-      if (refreshToken) {
-        state.refreshToken = refreshToken
-      }
-      localStorage.setItem('token', accessToken)
-      if (refreshToken) {
-        localStorage.setItem('refreshToken', refreshToken)
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload }
       }
     },
+    
+    // Clear errors
     clearError: (state) => {
       state.error = null
     },
-    hydrateAuth: (state) => {
-      // Hydrate Redux state from localStorage on app startup
-      const savedToken = localStorage.getItem('token')
-      const savedUser = localStorage.getItem('user')
-      const savedRefreshToken = localStorage.getItem('refreshToken')
+    
+    // Check session status from cookies
+    checkSession: (state) => {
+      const hasSession = isAuthenticated()
       
-      if (savedToken && savedUser) {
-        try {
-          const user = JSON.parse(savedUser)
-          state.token = savedToken
-          state.role = user.role
-          state.user = user
-          state.refreshToken = savedRefreshToken
-          state.isAuthenticated = true
-        } catch {
-          // If parsing fails, clear invalid data
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          localStorage.removeItem('refreshToken')
-        }
+      if (!hasSession && state.isAuthenticated) {
+        // Session expired, clear state
+        state.user = null
+        state.role = null
+        state.isAuthenticated = false
+        state.otpSent = false
       }
+      
+      state.sessionChecked = true
+    },
+    
+    // Reset OTP state
+    resetOtpState: (state) => {
+      state.otpSent = false
+      state.error = null
     },
   },
   extraReducers: (builder) => {
@@ -148,62 +158,114 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload
       })
-      // Verify OTP
+      
+      // Verify OTP - establishes session via cookies
       .addCase(verifyOtp.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
       .addCase(verifyOtp.fulfilled, (state, action) => {
         state.isLoading = false
-        state.token = action.payload.token
-        state.role = action.payload.user.role
         state.user = action.payload.user
-        state.refreshToken = action.payload.refreshToken
+        state.role = action.payload.user?.role
         state.isAuthenticated = true
         state.otpSent = false
+        state.sessionChecked = true
         
-        // Persist to localStorage as backup
-        localStorage.setItem('token', action.payload.token)
-        localStorage.setItem('user', JSON.stringify(action.payload.user))
-        if (action.payload.refreshToken) {
-          localStorage.setItem('refreshToken', action.payload.refreshToken)
-        }
+        // Set login timestamp for grace period
+        sessionStorage.setItem('lastLoginTime', Date.now().toString())
+        
+        // Clear any legacy localStorage data
+        clearLegacyAuthData()
       })
       .addCase(verifyOtp.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload
       })
-      // Refresh Token
-      .addCase(refreshAccessToken.pending, (state) => {
+      
+      // Get current user info
+      .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(refreshAccessToken.fulfilled, (state, action) => {
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.isLoading = false
-        state.token = action.payload.accessToken
-        if (action.payload.refreshToken) {
-          state.refreshToken = action.payload.refreshToken
-        }
-        localStorage.setItem('token', action.payload.accessToken)
-        if (action.payload.refreshToken) {
-          localStorage.setItem('refreshToken', action.payload.refreshToken)
-        }
+        state.user = action.payload.user
+        state.role = action.payload.user?.role
+        state.isAuthenticated = true
+        state.sessionChecked = true
       })
-      .addCase(refreshAccessToken.rejected, (state, action) => {
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload
-        // Clear auth state on refresh failure
-        state.token = null
-        state.role = null
-        state.user = null
-        state.refreshToken = null
         state.isAuthenticated = false
-        localStorage.removeItem('token')
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('user')
+        state.user = null
+        state.role = null
+        state.sessionChecked = true
+      })
+      
+      // Initialize authentication from cookies on app startup
+      .addCase(initializeAuth.pending, (state) => {
+        // Don't set loading for initialization to avoid blocking UI
+        state.error = null
+      })
+      .addCase(initializeAuth.fulfilled, (state, action) => {
+        state.user = action.payload.user
+        state.role = action.payload.user?.role
+        state.isAuthenticated = true
+        state.sessionChecked = true
+        state.error = null
+      })
+      .addCase(initializeAuth.rejected, (state) => {
+        // No valid session found, ensure clean state
+        state.user = null
+        state.role = null
+        state.isAuthenticated = false
+        state.sessionChecked = true
+        state.error = null
+        
+        // Clear any legacy localStorage data
+        clearLegacyAuthData()
+      })
+      
+      // Logout user
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false
+        state.user = null
+        state.role = null
+        state.isAuthenticated = false
+        state.otpSent = false
+        state.error = null
+        state.sessionChecked = true
+        
+        // Clear any legacy localStorage data
+        clearLegacyAuthData()
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.isLoading = false
+        // Even if logout fails, clear the state
+        state.user = null
+        state.role = null
+        state.isAuthenticated = false
+        state.otpSent = false
+        state.sessionChecked = true
+        
+        // Clear any legacy localStorage data
+        clearLegacyAuthData()
       })
   },
 })
 
-export const { setCredentials, logout, updateUser, updateTokens, clearError, hydrateAuth } = authSlice.actions
+export const { 
+  setCredentials, 
+  logout, 
+  updateUser, 
+  clearError, 
+  checkSession, 
+  resetOtpState 
+} = authSlice.actions
+
 export default authSlice.reducer
