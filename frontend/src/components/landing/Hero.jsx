@@ -67,32 +67,37 @@ const Hero = () => {
   return (
     <section className="relative bg-white pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-50 to-transparent opacity-50"></div>
+      <div className="absolute inset-0 bg-white"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-white opacity-0"></div>
 
       <div className="container-custom relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] sm:min-h-[70vh]">
           {/* Left Content */}
           <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-primary-100 rounded-full px-3 sm:px-4 py-2">
-              <div className="flex items-center justify-center w-4 sm:w-5 h-4 sm:h-5 bg-primary-600 rounded-full">
+            <div className="inline-flex items-center space-x-2 bg-primary-100 rounded-full px-3 sm:px-4 py-2 animate-fade-in">
+              <div className="flex items-center justify-center w-4 sm:w-5 h-4 sm:h-5 bg-primary-900 rounded-full">
                 <i className="fas fa-check text-white text-xs"></i>
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-primary-700">
+              <span className="text-xs sm:text-sm font-semibold text-primary-900">
                 🇮🇳 India's Premier Legal Network
               </span>
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-4 sm:space-y-6 animate-slide-up">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
                 Connect with India's
-                <span className="text-primary-600"> Best Advocates</span>
+                <span className="text-primary-900 font-extrabold">
+                  {" "}
+                  Best Advocates
+                </span>
                 <br />
-                <span className="text-orange-600">Expert Legal Solutions</span>
+                <span className="text-accent-500 font-bold">
+                  Expert Legal Solutions
+                </span>
               </h1>
-              <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
                 Access verified advocates across India for expert legal
                 consultation. From Supreme Court to District Courts - find
                 specialized legal expertise for your constitutional, civil,
@@ -148,7 +153,7 @@ const Hero = () => {
                   </button>
                   <button
                     onClick={() => navigate("/join-as-lawyer")}
-                    className="flex-1 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:scale-105 text-base sm:text-lg min-h-[44px]"
+                    className="flex-1 bg-primary-900 hover:bg-primary-800 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-colors duration-200 text-base sm:text-lg min-h-[44px]"
                   >
                     <i className="fas fa-balance-scale mr-2"></i>
                     Join as Advocate

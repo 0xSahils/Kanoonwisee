@@ -78,11 +78,9 @@ const Articles = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing-simple pb-12 sm:pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative navbar-spacing-simple pb-12 sm:pb-16 bg-primary-900 text-white overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-        </div>
+        <div className="absolute inset-0 opacity-10"></div>
 
         <div className="container-custom relative z-10 pt-16 sm:pt-20 px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
@@ -113,7 +111,7 @@ const Articles = () => {
                   alt="Legal Books and Documents on Professional Desk"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="absolute bottom-4 left-4 text-white">
                   <p className="text-lg font-semibold">Legal Knowledge Hub</p>
                   <p className="text-sm opacity-90">
@@ -240,7 +238,7 @@ const Articles = () => {
                     onClick={() => handleArticleClick(article.id)}
                     className="bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-700 transform hover:-translate-y-1"
                   >
-                    <div className="h-28 sm:h-32 bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center border-b border-gray-600">
+                    <div className="h-28 sm:h-32 bg-gray-100 flex items-center justify-center border-b">
                       <div className="text-center text-gray-400">
                         <i className="fas fa-file-alt text-xl sm:text-2xl mb-1"></i>
                         <p className="text-xs">{article.image}</p>

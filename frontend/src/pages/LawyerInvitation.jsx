@@ -141,20 +141,20 @@ const LawyerInvitation = () => {
     try {
       // Use Redux to verify OTP and establish session
       await dispatch(verifyOtp({ email: formData.email, otp })).unwrap();
-      
+
       // Wait a moment for Redux state to update
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       // Get fresh Redux state directly from store
       const freshAuthState = store.getState().auth;
-      
+
       // If Redux state is still not updated, there might be an issue with the reducer
       if (!freshAuthState.isAuthenticated) {
         console.error("Redux state not updated after OTP verification");
         toast.error("Authentication failed. Please try again.");
         return;
       }
-      
+
       toast.success("Email verified successfully!");
       setStep("profile");
     } catch (error) {
@@ -211,14 +211,19 @@ const LawyerInvitation = () => {
       }, 3000);
     } catch (error) {
       console.error("Error creating profile:", error);
-      
+
       // Check for specific error codes
-      if (error.response?.status === 403 && error.response.data?.code?.includes('CSRF')) {
+      if (
+        error.response?.status === 403 &&
+        error.response.data?.code?.includes("CSRF")
+      ) {
         toast.error("Security token expired. Please refresh and try again.");
       } else if (error.response?.status === 401) {
         toast.error("Authentication failed. Please verify your OTP again.");
       } else {
-        toast.error(error.response?.data?.message || "Failed to create profile");
+        toast.error(
+          error.response?.data?.message || "Failed to create profile"
+        );
       }
     } finally {
       setIsSubmitting(false);
@@ -255,10 +260,10 @@ const LawyerInvitation = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing-simple pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative navbar-spacing-simple pb-16 bg-primary-900 text-white overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-transparent"></div>
         </div>
 
         <div className="container-custom relative z-10 pt-20">
@@ -325,7 +330,7 @@ const LawyerInvitation = () => {
                   alt="Professional Advocates in Indian Courtroom"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="absolute bottom-4 left-4 text-white">
                   <p className="text-lg font-semibold">
                     Join India's Premier Legal Network
@@ -348,7 +353,7 @@ const LawyerInvitation = () => {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200">
+            <div className="text-center p-6 rounded-xl bg-white border">
               <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i className="fas fa-users text-white text-2xl"></i>
               </div>
@@ -361,7 +366,7 @@ const LawyerInvitation = () => {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
+            <div className="text-center p-6 rounded-xl bg-white border">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i className="fas fa-chart-line text-white text-2xl"></i>
               </div>
@@ -374,7 +379,7 @@ const LawyerInvitation = () => {
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+            <div className="text-center p-6 rounded-xl bg-white border">
               <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i className="fas fa-shield-alt text-white text-2xl"></i>
               </div>
@@ -391,7 +396,7 @@ const LawyerInvitation = () => {
       </section>
 
       {/* Registration Form */}
-      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 to-gray-800">
+      <section className="py-16 px-4 bg-primary-900 text-white">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
@@ -604,7 +609,7 @@ const LawyerInvitation = () => {
                           </button>
                         </span>
                       ))}
-                      
+
                       {/* Autocomplete input */}
                       <input
                         type="text"
@@ -617,7 +622,11 @@ const LawyerInvitation = () => {
                         onBlur={() =>
                           setTimeout(() => setShowLanguageDropdown(false), 150)
                         }
-                        placeholder={formData.languages.length === 0 ? "Type a language and select to add" : "Add another language..."}
+                        placeholder={
+                          formData.languages.length === 0
+                            ? "Type a language and select to add"
+                            : "Add another language..."
+                        }
                         className="flex-1 min-w-[120px] outline-none bg-transparent"
                       />
                     </div>
@@ -734,7 +743,7 @@ const LawyerInvitation = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full sm:w-auto px-8 py-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <i className="fas fa-paper-plane mr-2"></i>
                   {isSubmitting ? "Sending OTP..." : "Send OTP"}
@@ -787,7 +796,7 @@ const LawyerInvitation = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || otp.length !== 6}
-                className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary w-full py-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Verifying..." : "Verify OTP"}
               </button>
@@ -824,7 +833,7 @@ const LawyerInvitation = () => {
               ) : (
                 <button
                   onClick={handleProfileSubmit}
-                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 rounded-xl transition-all duration-300"
+                  className="btn-primary w-full py-4 rounded-xl"
                 >
                   Complete Registration
                 </button>
@@ -859,7 +868,7 @@ const LawyerInvitation = () => {
 
               <button
                 onClick={() => navigate("/login")}
-                className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-4 rounded-xl transition-all duration-300"
+                className="btn-primary w-full py-4 rounded-xl"
               >
                 Go to Login
               </button>

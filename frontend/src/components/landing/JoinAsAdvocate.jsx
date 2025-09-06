@@ -55,7 +55,7 @@ const JoinAsAdvocate = () => {
   ];
 
   return (
-    <section className="section-padding bg-gradient-to-br from-orange-50 via-white to-yellow-50 relative overflow-hidden">
+    <section className="section-padding bg-white relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5">
         <div className="absolute top-20 left-20 w-32 h-32 bg-orange-500 rounded-full animate-pulse-slow"></div>
@@ -125,7 +125,7 @@ const JoinAsAdvocate = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-orange-600 to-yellow-600 rounded-3xl p-8 lg:p-12 text-center text-white relative overflow-hidden">
+        <div className="bg-primary-900 text-white rounded-3xl p-8 lg:p-12 text-center relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 left-0 w-full h-full bg-pattern"></div>
@@ -143,7 +143,7 @@ const JoinAsAdvocate = () => {
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <button
                 onClick={handleJoinNow}
-                className="group bg-white text-orange-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl text-lg"
+                className="btn-primary text-lg py-4 px-8 rounded-xl"
               >
                 <i className="fas fa-balance-scale mr-3 group-hover:scale-110 transition-transform duration-300"></i>
                 Join as Advocate
