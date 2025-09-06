@@ -24,7 +24,7 @@ import { Loader2, Mail, Shield } from "lucide-react";
 
 const emailSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  role: z.enum(["lawyer", "client"], {
+  role: z.enum(["lawyer", "client", "admin"], {
     required_error: "Please select your role",
   }),
 });
