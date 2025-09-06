@@ -306,7 +306,7 @@ const LawyerSearch = () => {
                     <div className="flex-shrink-0 self-center lg:self-start">
                       <div className="relative">
                         <img
-                          src={lawyer.image}
+                          src={lawyer.photo}
                           alt={lawyer.name}
                           className="w-32 h-32 rounded-2xl object-cover shadow-lg"
                         />

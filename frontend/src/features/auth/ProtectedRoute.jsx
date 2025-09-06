@@ -22,7 +22,12 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   if (requiredRole && role !== requiredRole) {
     // Redirect to appropriate dashboard based on user role
-    const redirectPath = role === 'lawyer' ? '/lawyer/dashboard' : '/client/dashboard'
+    let redirectPath = '/client/dashboard'
+    if (role === 'lawyer') {
+      redirectPath = '/lawyer/dashboard'
+    } else if (role === 'admin') {
+      redirectPath = '/admin/panel'
+    }
     return <Navigate to={redirectPath} replace />
   }
 

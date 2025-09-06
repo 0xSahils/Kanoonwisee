@@ -21,11 +21,11 @@ import {
   clearError,
 } from "../../store/slices/authSlice";
 import { store } from "../../store"; // Import store directly for fresh state
-import { Loader2, Mail, Shield } from "lucide-react";
+import { Loader2, Shield } from "lucide-react";
 
 const emailSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  role: z.enum(["lawyer", "client"], {
+  role: z.enum(["lawyer", "client", "admin"], {
     required_error: "Please select your role",
   }),
 });
@@ -114,6 +114,8 @@ const Login = () => {
         // Navigate based on user role with a small delay to ensure state consistency
         const targetRoute = freshAuthState.user.role === "lawyer" 
           ? "/lawyer/dashboard" 
+          : freshAuthState.user.role === "admin"
+          ? "/admin/dashboard" 
           : "/client/dashboard";
         
         const from = location.state?.from?.pathname || targetRoute;
@@ -160,11 +162,7 @@ const Login = () => {
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <div className="bg-primary/10 p-3 rounded-full">
-              {step === "email" ? (
-                <Mail className="h-6 w-6 text-primary" />
-              ) : (
-                <Shield className="h-6 w-6 text-primary" />
-              )}
+              <Shield className="h-6 w-6 text-primary" />
             </div>
           </div>
           <CardTitle className="text-2xl text-center">
@@ -191,6 +189,7 @@ const Login = () => {
                 >
                   <option value="lawyer">Lawyer</option>
                   <option value="client">Client</option>
+                  <option value="admin">Admin</option>
                 </select>
                 {emailForm.formState.errors.role && (
                   <p className="text-sm text-destructive">

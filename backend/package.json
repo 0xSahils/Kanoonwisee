@@ -10,12 +10,17 @@
     "migrate": "node deploy-production.js",
     "deploy": "node deploy.js",
     "db:migrate": "sequelize-cli db:migrate",
-    "db:seed:all": "sequelize-cli db:seed:all"
+    "db:seed:all": "sequelize-cli db:seed:all",
+    "test:s3": "node test-s3-connection.js",
+    "test:upload": "node test-file-upload.js",
+    "test:registration": "node test-integrated-registration.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.879.0",
+    "@aws-sdk/s3-request-presigner": "^3.879.0",
     "aws-sdk": "^2.1589.0",
     "bcrypt": "^5.1.1",
     "connect-session-sequelize": "^8.0.2",
@@ -30,6 +35,8 @@
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "kanoonwise-fullstack": "file:..",
+    "multer": "^2.0.2",
+    "multer-s3": "^3.0.1",
     "nodemailer": "^6.9.13",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",

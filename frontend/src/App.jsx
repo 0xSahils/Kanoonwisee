@@ -56,6 +56,8 @@ import SimpleBooking from "./pages/client/SimpleBooking";
 import QuickBooking from "./pages/QuickBooking";
 import MyAppointments from "./pages/MyAppointments";
 import PublicLawyerProfile from "./pages/PublicLawyerProfile";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
@@ -224,6 +226,28 @@ function App() {
                     <BookAppointment />
                   </ProtectedRoute>
                 </Layout>
+              }
+            />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin/panel"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </AdminLayout>
               }
             />
 

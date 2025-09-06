@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const requestOtpSchema = Joi.object({
   email: Joi.string().email().required(),
-  role: Joi.string().valid("lawyer", "client").default("lawyer"),
+  role: Joi.string().valid("lawyer", "client", "admin").default("lawyer"),
 });
 
 const verifyOtpSchema = Joi.object({
@@ -23,12 +23,45 @@ const lawyerProfileSchema = Joi.object({
   languages: Joi.array().items(Joi.string()),
   city: Joi.string(),
   consultation_type: Joi.string().valid("online", "offline", "both"),
-  photo: Joi.string().uri().allow(""),
-  cv: Joi.string().uri().allow(""),
-  bar_registration_file: Joi.string().uri().allow(""),
   state: Joi.string(),
   secondary_specialization: Joi.array().items(Joi.string()),
 });
+
+const lawyerFileUploadSchema = Joi.object({
+  full_name: Joi.string().optional(),
+  bar_registration_number: Joi.string().optional(),
+  specialization: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.string()
+  ).optional(),
+  court_practice: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.string()
+  ).optional(),
+  fee_structure: Joi.alternatives().try(
+    Joi.object({
+      consultation: Joi.number(),
+      court: Joi.number(),
+    }),
+    Joi.string()
+  ).optional(),
+  years_experience: Joi.alternatives().try(
+    Joi.number().integer(),
+    Joi.string().pattern(/^\d+$/)
+  ).optional(),
+  languages: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.string()
+  ).optional(),
+  city: Joi.string().optional(),
+  consultation_type: Joi.string().valid("online", "offline", "both").optional(),
+  state: Joi.string().optional(),
+  secondary_specialization: Joi.alternatives().try(
+    Joi.array().items(Joi.string()),
+    Joi.string()
+  ).optional(),
+  message: Joi.string().optional(),
+}).unknown(true); // Allow unknown fields (for files)
 
 const respondAppointmentSchema = Joi.object({
   appointmentId: Joi.string().uuid().required(),
@@ -84,6 +117,7 @@ module.exports = {
   requestOtpSchema,
   verifyOtpSchema,
   lawyerProfileSchema,
+  lawyerFileUploadSchema,
   respondAppointmentSchema,
   refreshTokenSchema,
   clientProfileSchema,

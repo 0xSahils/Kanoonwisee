@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true, // 🍪 Enable cookie support
-  timeout: 10000, // 10 second timeout
+  timeout: 60000, // 60 second timeout (increased for file uploads)
 })
 
 // CSRF Token management
