@@ -60,7 +60,11 @@ const Login = () => {
     if (isAuthenticated && role) {
       const from =
         location.state?.from?.pathname ||
-        (role === "lawyer" ? "/lawyer/dashboard" : "/client/dashboard");
+        (role === "lawyer"
+          ? "/lawyer/dashboard"
+          : role === "admin"
+          ? "/admin/panel"
+          : "/client/dashboard");
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, role, navigate, location]);
@@ -182,11 +186,7 @@ const Login = () => {
             <Card className="bg-white border shadow-md">
               <CardHeader className="text-center">
                 <div className="mx-auto mb-4 w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <img
-                    src="/kanoonwise-logo-icon.png"
-                    alt="KanoonWise Logo"
-                    className="w-10 h-10"
-                  />
+                  <Shield className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-white">
                   Welcome to KanoonWise
@@ -242,6 +242,15 @@ const Login = () => {
                             className="radio"
                           />
                           <span>Client</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="radio"
+                            value="admin"
+                            {...emailForm.register("role")}
+                            className="radio"
+                          />
+                          <span>Admin</span>
                         </label>
                       </div>
                       {emailForm.formState.errors.role && (

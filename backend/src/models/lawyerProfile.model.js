@@ -49,14 +49,17 @@ const LawyerProfile = sequelize.define('LawyerProfile', {
   photo: {
     type: DataTypes.STRING,
     allowNull: true,
+    comment: 'S3 key for lawyer profile photo'
   },
   cv: {
     type: DataTypes.STRING,
     allowNull: true,
+    comment: 'S3 key for lawyer CV document'
   },
   bar_registration_file: {
     type: DataTypes.STRING,
     allowNull: true,
+    comment: 'S3 key for bar registration document'
   },
   state: {
     type: DataTypes.STRING,
@@ -65,6 +68,11 @@ const LawyerProfile = sequelize.define('LawyerProfile', {
   secondary_specialization: {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
+  },
+  approved: {
+    type: DataTypes.ENUM('pending', 'approved', 'canceled'),
+    allowNull: false,
+    defaultValue: 'pending',
   },
 }, {
   timestamps: true,

@@ -29,12 +29,12 @@ console.log("Database URL available:", !!databaseUrl);
 const sequelize = new Sequelize(databaseUrl, {
   dialect: "postgres",
   logging: process.env.NODE_ENV === "development",
-  dialectOptions: {
+  dialectOptions: process.env.NODE_ENV === "production" ? {
     ssl: {
       require: true,
       rejectUnauthorized: false,
     },
-  },
+  } : {},
 });
 
 module.exports = sequelize;

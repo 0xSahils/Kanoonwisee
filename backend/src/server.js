@@ -26,6 +26,9 @@ const clientRoutes = require("./routes/client.routes");
 const appointmentRoutes = require("./routes/appointments.routes");
 const reviewRoutes = require("./routes/review.routes");
 const publicRoutes = require("./routes/public.routes");
+const fileUploadRoutes = require("./routes/fileUpload.routes");
+const healthRoutes = require("./routes/health.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 
@@ -46,6 +49,14 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Increase timeout for file upload requests
+app.use('/api/lawyer/profile', (req, res, next) => {
+  // Set timeout to 60 seconds for file upload
+  req.setTimeout(60000);
+  res.setTimeout(60000);
+  next();
+});
+
 // Serve static files from React build in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
@@ -55,12 +66,15 @@ if (process.env.NODE_ENV === "production") {
 app.use("/working", (req, res) => {
   res.send("Server is working");
 });
+app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/lawyer", lawyerRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/files", fileUploadRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Catch-all handler: send back React's index.html file in production
 if (process.env.NODE_ENV === "production") {
@@ -100,7 +114,7 @@ async function startServer() {
       }
     }
     
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`✅ Server is running on port ${PORT}`);
       console.log(`🌐 Environment: ${process.env.NODE_ENV || "development"}`);
       if (process.env.NODE_ENV === "production") {
@@ -112,6 +126,10 @@ async function startServer() {
         );
       }
     });
+    
+    // Set server timeout to 60 seconds for file uploads
+    server.timeout = 60000;
+    console.log("⏱️  Server timeout set to 60 seconds for file uploads");
   } catch (error) {
     console.error("❌ Server startup failed:", error);
     process.exit(1);

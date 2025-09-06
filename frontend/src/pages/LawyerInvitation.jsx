@@ -86,9 +86,46 @@ const LawyerInvitation = () => {
     const { name, value, type, files, selectedOptions } = e.target;
     // Handle file inputs and multi-selects
     if (type === "file") {
+      const file = files && files.length ? files[0] : null;
+      
+      // File validation
+      if (file) {
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+          toast.error(`File size too large. Maximum size is 5MB.`);
+          e.target.value = ''; // Clear the input
+          return;
+        }
+
+        // Validate file types
+        if (name === 'resumeFile' && file.type !== 'application/pdf') {
+          toast.error('Resume must be a PDF file.');
+          e.target.value = '';
+          return;
+        }
+        
+        if (name === 'barRegistrationFile') {
+          const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+          if (!validTypes.includes(file.type)) {
+            toast.error('Bar registration must be a PDF or image file (JPEG, PNG).');
+            e.target.value = '';
+            return;
+          }
+        }
+        
+        if (name === 'photoFile') {
+          const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+          if (!validTypes.includes(file.type)) {
+            toast.error('Photo must be an image file (JPEG, PNG).');
+            e.target.value = '';
+            return;
+          }
+        }
+      }
+
       setFormData({
         ...formData,
-        [name]: files && files.length ? files[0] : null,
+        [name]: file,
       });
       return;
     }
@@ -184,23 +221,88 @@ const LawyerInvitation = () => {
         ? parseInt(formData.experience.split("-")[0])
         : parseInt(formData.experience.replace("+", ""));
 
-      const profileData = {
-        full_name: formData.fullName,
-        bar_registration_number: formData.barRegistration,
-        specialization: [formData.specialization],
-        court_practice: [formData.courtPractice],
-        fee_structure: {
-          consultation: 1000, // Default consultation fee
-          court: 5000, // Default court fee
-        },
-        years_experience: experienceYears,
-        languages: ["English", "Hindi"], // Default languages
-        city: formData.city,
-        consultation_type: "both", // Default to both online and offline
-      };
+      // Check if any files are selected
+      const hasFiles = formData.photoFile || formData.resumeFile || formData.barRegistrationFile;
 
-      // Use the configured axios instance with cookie authentication
-      await axiosInstance.put("/lawyer/profile", profileData);
+      if (hasFiles) {
+        // Create FormData for file upload
+        const formDataToSend = new FormData();
+        
+        // Get CSRF token and add it to FormData
+        try {
+          const csrfResponse = await axiosInstance.get("/auth/csrf-token");
+          const csrfToken = csrfResponse.data.csrfToken;
+          if (csrfToken) {
+            formDataToSend.append('csrfToken', csrfToken);
+          }
+        } catch (csrfError) {
+          console.error("Failed to get CSRF token:", csrfError);
+          toast.error("Security setup failed. Please try again.");
+          return;
+        }
+        
+        // Add text fields
+        formDataToSend.append('full_name', formData.fullName);
+        formDataToSend.append('bar_registration_number', formData.barRegistration);
+        formDataToSend.append('specialization', JSON.stringify([formData.specialization]));
+        formDataToSend.append('court_practice', JSON.stringify([formData.courtPractice]));
+        formDataToSend.append('fee_structure', JSON.stringify({
+          consultation: 1000,
+          court: 5000,
+        }));
+        formDataToSend.append('years_experience', experienceYears);
+        formDataToSend.append('languages', JSON.stringify(formData.languages.length > 0 ? formData.languages : ["English", "Hindi"]));
+        formDataToSend.append('city', formData.city);
+        formDataToSend.append('consultation_type', 'both');
+        
+        // Add message if provided
+        if (formData.message) {
+          formDataToSend.append('message', formData.message);
+        }
+
+        // Add files if selected
+        if (formData.photoFile) {
+          formDataToSend.append('photo', formData.photoFile);
+        }
+        if (formData.resumeFile) {
+          formDataToSend.append('cv', formData.resumeFile);
+        }
+        if (formData.barRegistrationFile) {
+          formDataToSend.append('bar_registration_certificate', formData.barRegistrationFile);
+        }
+
+        // Send FormData with files
+        await axiosInstance.put("/lawyer/profile", formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          timeout: 60000, // 60 second timeout for file uploads
+        });
+      } else {
+        // Send JSON data when no files
+        const profileData = {
+          full_name: formData.fullName,
+          bar_registration_number: formData.barRegistration,
+          specialization: [formData.specialization],
+          court_practice: [formData.courtPractice],
+          fee_structure: {
+            consultation: 1000, // Default consultation fee
+            court: 5000, // Default court fee
+          },
+          years_experience: experienceYears,
+          languages: formData.languages.length > 0 ? formData.languages : ["English", "Hindi"],
+          city: formData.city,
+          consultation_type: "both", // Default to both online and offline
+        };
+
+        // Add message if provided
+        if (formData.message) {
+          profileData.message = formData.message;
+        }
+
+        // Use the configured axios instance with cookie authentication
+        await axiosInstance.put("/lawyer/profile", profileData);
+      }
 
       toast.success("Registration completed successfully!");
       setStep("success");
@@ -704,38 +806,56 @@ const LawyerInvitation = () => {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Add Resume/CV (PDF)
+                    <span className="text-xs text-gray-500 block font-normal">Max 5MB</span>
                   </label>
                   <input
                     type="file"
                     name="resumeFile"
                     accept="application/pdf"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
+                  {formData.resumeFile && (
+                    <p className="text-xs text-green-600 mt-1">
+                      ✓ {formData.resumeFile.name}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Bar Registration (PDF/Image)
+                    <span className="text-xs text-gray-500 block font-normal">Max 5MB</span>
                   </label>
                   <input
                     type="file"
                     name="barRegistrationFile"
                     accept="application/pdf,image/*"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
+                  {formData.barRegistrationFile && (
+                    <p className="text-xs text-green-600 mt-1">
+                      ✓ {formData.barRegistrationFile.name}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Photo to display (Image)
+                    <span className="text-xs text-gray-500 block font-normal">Max 5MB</span>
                   </label>
                   <input
                     type="file"
                     name="photoFile"
                     accept="image/*"
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
+                  {formData.photoFile && (
+                    <p className="text-xs text-green-600 mt-1">
+                      ✓ {formData.photoFile.name}
+                    </p>
+                  )}
                 </div>
               </div>
 

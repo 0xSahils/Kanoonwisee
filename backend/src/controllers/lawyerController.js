@@ -15,8 +15,15 @@ const sanitizeLawyerProfile = (profile) => {
     years_experience: profile.years_experience,
     languages: profile.languages,
     city: profile.city,
+    state: profile.state,
     consultation_type: profile.consultation_type,
-    // Sensitive fields like user_id, bar_registration_number are excluded
+    secondary_specialization: profile.secondary_specialization,
+    // Include file information (just existence, not the actual S3 keys for security)
+    files: {
+      photo: profile.photo ? { hasFile: true, key: profile.photo } : { hasFile: false },
+      cv: profile.cv ? { hasFile: true, key: profile.cv } : { hasFile: false },
+      bar_registration_file: profile.bar_registration_file ? { hasFile: true, key: profile.bar_registration_file } : { hasFile: false }
+    },
     created_at: profile.created_at,
     updated_at: profile.updated_at
   };
@@ -40,15 +47,36 @@ const getProfile = async (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
   try {
-    const profile = await lawyerService.createOrUpdateLawyerProfile(req.user.id, req.body);
+    const files = req.files || {};
     
-    // Filter out sensitive information before sending response
-    const safeProfile = sanitizeLawyerProfile(profile);
-    
-    res.status(200).json({ 
-      message: 'Profile updated successfully',
-      profile: safeProfile 
-    });
+    // Use the file upload service if files are present
+    if (Object.keys(files).length > 0) {
+      // Use the file upload service for profiles with files
+      const profile = await lawyerService.createOrUpdateLawyerProfileWithFiles(
+        req.user.id, 
+        req.body, 
+        files
+      );
+      
+      // Filter out sensitive information before sending response
+      const safeProfile = sanitizeLawyerProfile(profile);
+      
+      res.status(200).json({ 
+        message: 'Profile updated successfully with files',
+        profile: safeProfile 
+      });
+    } else {
+      // Use the regular service for profiles without files
+      const profile = await lawyerService.createOrUpdateLawyerProfile(req.user.id, req.body);
+      
+      // Filter out sensitive information before sending response
+      const safeProfile = sanitizeLawyerProfile(profile);
+      
+      res.status(200).json({ 
+        message: 'Profile updated successfully',
+        profile: safeProfile 
+      });
+    }
   } catch (error) {
     next(error);
   }
