@@ -17,5 +17,6 @@ router.use(requireAdmin);
 
 router.get('/lawyers/pending', adminController.getPendingLawyers);
 router.put('/lawyers/:id/status', adminController.updateLawyerStatus);
+router.get('/lawyers/:id/document', adminController.getLawyerDocumentUrl);
 
 module.exports = router;

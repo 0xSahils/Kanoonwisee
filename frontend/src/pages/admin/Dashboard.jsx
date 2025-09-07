@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { adminAPI } from '../../api/admin'
 import toast from 'react-hot-toast'
-import { CheckCircle, XCircle, Clock, User, Mail, MapPin, Briefcase, Award, Shield } from 'lucide-react'
+import { CheckCircle, XCircle, Clock, User, Mail, MapPin, Briefcase, Award, Shield, FileText, Eye, RefreshCw } from 'lucide-react'
 import AdminLayout from './AdminLayout'
+
+// Lazy load the DocumentViewer component
+const LazyDocumentViewer = React.lazy(() => import('../../components/admin/DocumentViewer'))
 
 const AdminDashboard = () => {
   const [lawyers, setLawyers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [filter, setFilter] = useState('all')
+  const [documentViewer, setDocumentViewer] = useState({
+    isOpen: false,
+    lawyer: null,
+    documentType: null
+  })
 
   useEffect(() => {
     fetchPendingLawyers()
@@ -25,6 +34,20 @@ const AdminDashboard = () => {
     }
   }
 
+  const handleRefresh = async () => {
+    setRefreshing(true)
+    try {
+      const data = await adminAPI.getPendingLawyers()
+      setLawyers(data)
+      toast.success('Lawyers list refreshed')
+    } catch (error) {
+      console.error('Error refreshing lawyers:', error)
+      toast.error('Failed to refresh lawyers list')
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
   const handleStatusUpdate = async (id, status) => {
     try {
       await adminAPI.updateLawyerStatus(id, status)
@@ -35,6 +58,22 @@ const AdminDashboard = () => {
       console.error('Error updating status:', error)
       toast.error('Failed to update lawyer status')
     }
+  }
+
+  const openDocumentViewer = (lawyer, documentType) => {
+    setDocumentViewer({
+      isOpen: true,
+      lawyer,
+      documentType
+    })
+  }
+
+  const closeDocumentViewer = () => {
+    setDocumentViewer({
+      isOpen: false,
+      lawyer: null,
+      documentType: null
+    })
   }
 
   const filteredLawyers = lawyers.filter(lawyer => {
@@ -60,14 +99,24 @@ const AdminDashboard = () => {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-              <Shield className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                <Shield className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+                <p className="text-gray-600">Manage lawyer applications and platform oversight</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600">Manage lawyer applications and platform oversight</p>
-            </div>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+              {refreshing ? 'Refreshing...' : 'Refresh'}
+            </button>
           </div>
         </div>
 
@@ -207,6 +256,27 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                     <div className="mt-4 lg:mt-0 lg:ml-6 flex flex-col sm:flex-row gap-3">
+                      {/* Document Viewing Buttons */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => openDocumentViewer(lawyer, 'cv')}
+                          className="inline-flex items-center justify-center px-3 py-2 border border-blue-300 text-sm font-medium rounded-lg text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                          title="View CV"
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          CV
+                        </button>
+                        <button
+                          onClick={() => openDocumentViewer(lawyer, 'bar_registration_file')}
+                          className="inline-flex items-center justify-center px-3 py-2 border border-blue-300 text-sm font-medium rounded-lg text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                          title="View Bar Registration"
+                        >
+                          <Award className="h-4 w-4 mr-1" />
+                          Bar
+                        </button>
+                      </div>
+                      
+                      {/* Action Buttons */}
                       <button
                         onClick={() => handleStatusUpdate(lawyer.id, 'approved')}
                         className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
@@ -229,6 +299,31 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
+      
+      {/* Lazy-loaded Document Viewer Modal */}
+      {documentViewer.isOpen && (
+        <React.Suspense 
+          fallback={
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-hidden">
+                <div className="flex items-center justify-center py-20">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading document viewer...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        >
+          <LazyDocumentViewer
+            isOpen={documentViewer.isOpen}
+            onClose={closeDocumentViewer}
+            lawyer={documentViewer.lawyer}
+            documentType={documentViewer.documentType}
+          />
+        </React.Suspense>
+      )}
     </AdminLayout>
   )
 }
