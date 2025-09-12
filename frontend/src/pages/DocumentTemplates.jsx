@@ -141,9 +141,9 @@ const DocumentTemplates = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing-simple pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative navbar-spacing-simple pb-16 bg-primary-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></div>
         </div>
 
         <div className="container-custom relative z-10 pt-20">
@@ -185,7 +185,7 @@ const DocumentTemplates = () => {
                   alt="Stack of Legal Documents and Templates"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="absolute bottom-4 left-4 text-white">
                   <p className="text-lg font-semibold">
                     Professional Templates
@@ -250,7 +250,7 @@ const DocumentTemplates = () => {
                     className="bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-600"
                   >
                     {/* Template Image */}
-                    <div className="h-40 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center border-b border-gray-600">
+                    <div className="h-40 bg-gray-700 flex items-center justify-center border-b border-gray-600">
                       <div className="text-center text-yellow-400">
                         <i className="fas fa-file-alt text-3xl mb-2"></i>
                         <p className="text-xs opacity-75">{template.image}</p>
@@ -345,7 +345,7 @@ const DocumentTemplates = () => {
       {/* Custom Drafting CTA */}
       <section className="py-16 bg-gray-900">
         <div className="container-custom">
-          <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-2xl p-8 border border-yellow-500/30 text-center">
+          <div className="bg-gray-700 rounded-2xl p-8 border border-gray-600 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">
               Need Custom Legal Documents?
             </h2>

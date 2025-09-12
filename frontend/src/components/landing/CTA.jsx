@@ -24,7 +24,7 @@ const CTA = () => {
   };
 
   return (
-    <section className="section-padding bg-gradient-to-br from-primary-600 via-primary-700 to-accent-600 relative overflow-hidden">
+    <section className="section-padding bg-white relative overflow-hidden border-t border-b">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full bg-pattern"></div>
@@ -42,7 +42,7 @@ const CTA = () => {
       ></div>
 
       <div className="container-custom relative z-10">
-        <div className="text-center text-white">
+        <div className="text-center text-gray-900">
           {/* Main CTA Content */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
@@ -55,7 +55,7 @@ const CTA = () => {
             <h2 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
               Ready to Get Legal Help?
             </h2>
-            <p className="text-xl lg:text-2xl text-primary-100 mb-8 leading-relaxed">
+            <p className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed">
               Join thousands of satisfied clients who trust Kanoonwise for their
               legal needs. Get connected with expert lawyers in minutes.
             </p>
@@ -64,7 +64,7 @@ const CTA = () => {
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
               <button
                 onClick={handleFindLawyer}
-                className="group bg-white text-primary-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl text-lg"
+                className="group bg-primary-700 hover:bg-primary-800 text-white font-semibold py-4 px-8 rounded-lg transition-colors duration-200 text-lg"
               >
                 <i className="fas fa-search mr-3 group-hover:scale-110 transition-transform duration-300"></i>
                 Find a Lawyer
@@ -72,7 +72,7 @@ const CTA = () => {
               </button>
               <button
                 onClick={handleExploreServices}
-                className="group bg-primary-800 hover:bg-primary-900 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl text-lg border-2 border-primary-500"
+                className="group bg-white text-primary-700 border border-primary-200 hover:bg-primary-50 font-semibold py-4 px-8 rounded-lg transition-colors duration-200 text-lg"
               >
                 <i className="fas fa-briefcase mr-3 group-hover:scale-110 transition-transform duration-300"></i>
                 Explore Services
@@ -83,32 +83,32 @@ const CTA = () => {
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-xl mb-4">
-                <i className="fas fa-clock text-white text-2xl"></i>
+            <div className="bg-white rounded-xl p-6 border">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-50 rounded-lg mb-4">
+                <i className="fas fa-clock text-primary-700 text-xl"></i>
               </div>
-              <h3 className="text-xl font-bold mb-3">Quick Response</h3>
-              <p className="text-primary-100">
+              <h3 className="text-xl font-semibold mb-2">Quick Response</h3>
+              <p className="text-gray-600">
                 Get connected with lawyers within 30 minutes
               </p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-xl mb-4">
-                <i className="fas fa-shield-check text-white text-2xl"></i>
+            <div className="bg-white rounded-xl p-6 border">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-50 rounded-lg mb-4">
+                <i className="fas fa-shield-check text-primary-700 text-xl"></i>
               </div>
-              <h3 className="text-xl font-bold mb-3">100% Secure</h3>
-              <p className="text-primary-100">
+              <h3 className="text-xl font-semibold mb-2">100% Secure</h3>
+              <p className="text-gray-600">
                 Your information is completely safe and confidential
               </p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-xl mb-4">
-                <i className="fas fa-award text-white text-2xl"></i>
+            <div className="bg-white rounded-xl p-6 border">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-50 rounded-lg mb-4">
+                <i className="fas fa-award text-primary-700 text-xl"></i>
               </div>
-              <h3 className="text-xl font-bold mb-3">Expert Lawyers</h3>
-              <p className="text-primary-100">
+              <h3 className="text-xl font-semibold mb-2">Expert Lawyers</h3>
+              <p className="text-gray-600">
                 Only verified and experienced legal professionals
               </p>
             </div>
@@ -158,22 +158,22 @@ const CTA = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="mt-12 pt-8 border-t border-white/20">
-            <div className="flex flex-wrap justify-center items-center gap-8 text-primary-100">
+          <div className="mt-12 pt-8 border-t">
+            <div className="flex flex-wrap justify-center items-center gap-8 text-gray-600">
               <div className="flex items-center space-x-2">
-                <i className="fas fa-check-circle text-green-400"></i>
+                <i className="fas fa-check-circle text-accent-500"></i>
                 <span>15,000+ Verified Lawyers</span>
               </div>
               <div className="flex items-center space-x-2">
-                <i className="fas fa-check-circle text-green-400"></i>
+                <i className="fas fa-check-circle text-accent-500"></i>
                 <span>50,000+ Cases Resolved</span>
               </div>
               <div className="flex items-center space-x-2">
-                <i className="fas fa-check-circle text-green-400"></i>
+                <i className="fas fa-check-circle text-accent-500"></i>
                 <span>98% Success Rate</span>
               </div>
               <div className="flex items-center space-x-2">
-                <i className="fas fa-check-circle text-green-400"></i>
+                <i className="fas fa-check-circle text-accent-500"></i>
                 <span>24/7 Support</span>
               </div>
             </div>

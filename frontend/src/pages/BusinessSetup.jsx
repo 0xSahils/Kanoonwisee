@@ -19,7 +19,8 @@ const BusinessSetup = () => {
       originalPrice: "₹2,999",
       price: "₹1,499",
       discount: "50% off",
-      description: "Faster application submission with expert assistance in just 7 days.",
+      description:
+        "Faster application submission with expert assistance in just 7 days.",
       features: [
         "Expert assisted process",
         "Your company name is filed in just 1 - 2 days*",
@@ -28,11 +29,12 @@ const BusinessSetup = () => {
         "Incorporation Certificate in 14 - 21 days",
         "Company PAN+TAN",
         "DIN for directors",
-        "Digital welcome kit that includes a checklist of all post-incorporation compliances"
+        "Digital welcome kit that includes a checklist of all post-incorporation compliances",
       ],
       cashback: "Get ₹1000 cashback*",
-      cashbackNote: "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
-      popular: false
+      cashbackNote:
+        "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
+      popular: false,
     },
     {
       id: "premium",
@@ -40,7 +42,8 @@ const BusinessSetup = () => {
       originalPrice: "₹4,999",
       price: "₹2,499",
       discount: "50% off",
-      description: "Complete business setup with additional compliance support.",
+      description:
+        "Complete business setup with additional compliance support.",
       features: [
         "Everything in Standard",
         "GST Registration included",
@@ -49,11 +52,12 @@ const BusinessSetup = () => {
         "Bank Account Opening Assistance",
         "Trademark Search Report",
         "1 Year Compliance Calendar",
-        "Priority Customer Support"
+        "Priority Customer Support",
       ],
       cashback: "Get ₹2000 cashback*",
-      cashbackNote: "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
-      popular: true
+      cashbackNote:
+        "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
+      popular: true,
     },
     {
       id: "enterprise",
@@ -61,7 +65,8 @@ const BusinessSetup = () => {
       originalPrice: "₹7,999",
       price: "₹3,999",
       discount: "50% off",
-      description: "Complete business setup with legal consultation and ongoing support.",
+      description:
+        "Complete business setup with legal consultation and ongoing support.",
       features: [
         "Everything in Premium",
         "1 Hour Legal Consultation",
@@ -70,31 +75,34 @@ const BusinessSetup = () => {
         "Privacy Policy & Terms of Service",
         "Dedicated Relationship Manager",
         "Quarterly Compliance Review",
-        "24/7 Priority Support"
+        "24/7 Priority Support",
       ],
       cashback: "Get ₹3000 cashback*",
-      cashbackNote: "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
-      popular: false
-    }
+      cashbackNote:
+        "Unlock cashback benefits upon opening a current account with our partner banks. T&C",
+      popular: false,
+    },
   ];
 
   const handleGetStarted = (packageData) => {
     setSelectedPackage(packageData);
     // Create WhatsApp message
     const message = `Hi! I'm interested in the ${packageData.name} Business Setup package (${packageData.price}). Please help me get started with company registration.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative pt-32 pb-16 bg-primary-900 text-white overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10 pt-20">
@@ -120,7 +128,9 @@ const BusinessSetup = () => {
                   <span className="text-orange-400">Made Simple</span>
                 </h1>
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  Complete company registration and incorporation services with expert legal guidance. From Private Limited Company to LLP registration - get your business legally established.
+                  Complete company registration and incorporation services with
+                  expert legal guidance. From Private Limited Company to LLP
+                  registration - get your business legally established.
                 </p>
               </div>
 
@@ -130,7 +140,9 @@ const BusinessSetup = () => {
                   <div className="text-2xl font-bold text-yellow-400">
                     1000+
                   </div>
-                  <div className="text-sm text-gray-300">Companies Registered</div>
+                  <div className="text-sm text-gray-300">
+                    Companies Registered
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-yellow-400">
@@ -150,11 +162,19 @@ const BusinessSetup = () => {
             {/* Right Content - CTA */}
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-white mb-4">Get Started Today</h3>
-                <p className="text-gray-300">Choose your business setup package and launch with confidence</p>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Get Started Today
+                </h3>
+                <p className="text-gray-300">
+                  Choose your business setup package and launch with confidence
+                </p>
               </div>
               <button
-                onClick={() => document.getElementById('pricing-section').scrollIntoView({ behavior: 'smooth' })}
+                onClick={() =>
+                  document
+                    .getElementById("pricing-section")
+                    .scrollIntoView({ behavior: "smooth" })
+                }
                 className="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
               >
                 View Packages
@@ -169,10 +189,12 @@ const BusinessSetup = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              Choose Your <span className="text-yellow-600">Business Setup Package</span>
+              Choose Your{" "}
+              <span className="text-yellow-600">Business Setup Package</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Select the perfect package for your business needs. All packages include expert assistance and government fee coverage.
+              Select the perfect package for your business needs. All packages
+              include expert assistance and government fee coverage.
             </p>
           </div>
 
@@ -181,7 +203,9 @@ const BusinessSetup = () => {
               <div
                 key={pkg.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  pkg.popular ? 'ring-2 ring-yellow-500 transform scale-105' : ''
+                  pkg.popular
+                    ? "ring-2 ring-yellow-500 transform scale-105"
+                    : ""
                 }`}
               >
                 {pkg.popular && (
@@ -191,28 +215,40 @@ const BusinessSetup = () => {
                     </span>
                   </div>
                 )}
-                
+
                 <div className="p-8">
                   <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      {pkg.name}
+                    </h3>
                     <p className="text-gray-600 mb-4">{pkg.description}</p>
-                    
+
                     <div className="mb-4">
-                      <span className="text-gray-500 line-through text-lg">{pkg.originalPrice}</span>
+                      <span className="text-gray-500 line-through text-lg">
+                        {pkg.originalPrice}
+                      </span>
                       <span className="ml-2 bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-semibold">
                         {pkg.discount}
                       </span>
                     </div>
-                    
-                    <div className="text-4xl font-bold text-gray-900 mb-2">{pkg.price}</div>
-                    <div className="text-sm text-gray-600 mb-4">+ Govt Fee (to be paid later)</div>
-                    
+
+                    <div className="text-4xl font-bold text-gray-900 mb-2">
+                      {pkg.price}
+                    </div>
+                    <div className="text-sm text-gray-600 mb-4">
+                      + Govt Fee (to be paid later)
+                    </div>
+
                     <div className="bg-blue-50 p-3 rounded-lg mb-6">
                       <div className="flex items-center justify-center mb-1">
                         <i className="fas fa-gift text-blue-600 mr-2"></i>
-                        <span className="font-semibold text-blue-800">{pkg.cashback}</span>
+                        <span className="font-semibold text-blue-800">
+                          {pkg.cashback}
+                        </span>
                       </div>
-                      <p className="text-xs text-blue-600">{pkg.cashbackNote}</p>
+                      <p className="text-xs text-blue-600">
+                        {pkg.cashbackNote}
+                      </p>
                     </div>
                   </div>
 
@@ -220,17 +256,22 @@ const BusinessSetup = () => {
                     onClick={() => handleGetStarted(pkg)}
                     className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
                       pkg.popular
-                        ? 'bg-yellow-500 hover:bg-yellow-400 text-gray-900'
-                        : 'bg-gray-900 hover:bg-gray-800 text-white'
+                        ? "bg-yellow-500 hover:bg-yellow-400 text-gray-900"
+                        : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
                   >
                     Get Started
                   </button>
 
                   <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-900 mb-4">What you'll get</h4>
+                    <h4 className="font-semibold text-gray-900 mb-4">
+                      What you'll get
+                    </h4>
                     {pkg.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-start space-x-3">
+                      <div
+                        key={featureIndex}
+                        className="flex items-start space-x-3"
+                      >
                         <i className="fas fa-check text-green-500 mt-1 flex-shrink-0"></i>
                         <span className="text-gray-700 text-sm">{feature}</span>
                       </div>
@@ -243,10 +284,12 @@ const BusinessSetup = () => {
 
           <div className="text-center mt-12">
             <p className="text-gray-600 mb-4">
-              <strong>Note:</strong> Approval is based on MCA review. We'll do our best to ensure smooth processing. T&C
+              <strong>Note:</strong> Approval is based on MCA review. We'll do
+              our best to ensure smooth processing. T&C
             </p>
             <p className="text-sm text-gray-500">
-              * Timeline may vary based on government processing and document submission
+              * Timeline may vary based on government processing and document
+              submission
             </p>
           </div>
         </div>
@@ -270,29 +313,45 @@ const BusinessSetup = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500 text-gray-900 rounded-full mb-6">
                 <span className="text-xl font-bold">1</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Choose Package</h3>
-              <p className="text-gray-600">Select the business setup package that fits your needs</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Choose Package
+              </h3>
+              <p className="text-gray-600">
+                Select the business setup package that fits your needs
+              </p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500 text-gray-900 rounded-full mb-6">
                 <span className="text-xl font-bold">2</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Submit Details</h3>
-              <p className="text-gray-600">Provide company details and required documents via WhatsApp</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Submit Details
+              </h3>
+              <p className="text-gray-600">
+                Provide company details and required documents via WhatsApp
+              </p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500 text-gray-900 rounded-full mb-6">
                 <span className="text-xl font-bold">3</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Expert Processing</h3>
-              <p className="text-gray-600">Our legal experts handle all paperwork and government filings</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Expert Processing
+              </h3>
+              <p className="text-gray-600">
+                Our legal experts handle all paperwork and government filings
+              </p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500 text-gray-900 rounded-full mb-6">
                 <span className="text-xl font-bold">4</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Business Ready</h3>
-              <p className="text-gray-600">Receive incorporation certificate and start operations</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                Business Ready
+              </h3>
+              <p className="text-gray-600">
+                Receive incorporation certificate and start operations
+              </p>
             </div>
           </div>
         </div>

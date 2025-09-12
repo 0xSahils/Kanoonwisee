@@ -27,7 +27,7 @@ const Services = () => {
       features: ["Bail Applications", "Criminal Defense", "FIR Consultation"],
       price: "₹2,999",
       popular: true,
-      gradient: "from-red-500 to-red-600",
+      gradient: "",
     },
     {
       icon: "fas fa-home",
@@ -97,17 +97,17 @@ const Services = () => {
     <section className="section-padding bg-gray-50">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-orange-100 rounded-full px-4 py-2 mb-4">
-            <i className="fas fa-balance-scale text-orange-600"></i>
-            <span className="text-orange-600 font-semibold">
+        <div className="text-center mb-16 animate-fade-in">
+          <div className="inline-flex items-center space-x-2 bg-primary-100 rounded-full px-4 py-2 mb-4">
+            <i className="fas fa-balance-scale text-primary-900"></i>
+            <span className="text-primary-900 font-semibold">
               🇮🇳 Legal Expertise
             </span>
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Expert Legal Services Across India
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto font-medium">
             Connect with specialized advocates for all your legal needs - from
             Supreme Court to District Courts. Professional legal consultation
             with transparent pricing across all major Indian cities.
@@ -119,14 +119,15 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group ${
+              className={`relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group animate-scale-in ${
                 service.popular ? "ring-2 ring-primary-500" : ""
               }`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Popular Badge */}
               {service.popular && (
                 <div className="absolute top-4 right-4 z-10">
-                  <div className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  <div className="bg-primary-700 text-white px-3 py-1 rounded-full text-xs font-semibold">
                     Most Popular
                   </div>
                 </div>
@@ -135,7 +136,7 @@ const Services = () => {
               {/* Service Icon */}
               <div className="p-8 pb-6">
                 <div
-                  className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${service.gradient} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}
+                  className={`inline-flex items-center justify-center w-16 h-16 bg-primary-100 text-primary-900 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}
                 >
                   <i className={`${service.icon} text-white text-2xl`}></i>
                 </div>
@@ -175,7 +176,7 @@ const Services = () => {
                 {/* CTA Button */}
                 <button
                   onClick={() => handleServiceClick(service)}
-                  className={`w-full py-4 px-6 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300`}
+                  className={`w-full py-4 px-6 bg-primary-900 hover:bg-primary-800 text-white font-semibold rounded-xl transition-colors duration-200`}
                 >
                   Get Started
                   <i className="fas fa-arrow-right ml-2"></i>
@@ -184,7 +185,7 @@ const Services = () => {
 
               {/* Hover Effect Background */}
               <div
-                className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                className={`absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
               ></div>
             </div>
           ))}

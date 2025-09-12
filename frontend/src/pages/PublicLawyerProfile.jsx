@@ -72,7 +72,8 @@ const PublicLawyerProfile = () => {
               Lawyer Not Found
             </h1>
             <p className="text-gray-600 mb-6">
-              The lawyer profile you're looking for doesn't exist or has been removed.
+              The lawyer profile you're looking for doesn't exist or has been
+              removed.
             </p>
             <button
               onClick={() => navigate("/search-lawyers")}
@@ -90,9 +91,9 @@ const PublicLawyerProfile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <section className="relative pt-32 pb-12 bg-white">
         <div className="absolute inset-0 opacity-10">
           <img
             src="/hero.jpg"
@@ -102,11 +103,11 @@ const PublicLawyerProfile = () => {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-block w-16 h-1 bg-yellow-500 mb-6"></div>
-            <h1 className="text-4xl sm:text-5xl font-light mb-6">
-              Legal Expert <span className="text-yellow-500">Profile</span>
+            <div className="inline-block w-16 h-1 bg-accent-500 mb-6"></div>
+            <h1 className="text-4xl sm:text-5xl font-semibold mb-4 text-gray-900">
+              Legal Expert Profile
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 mb-6 max-w-3xl mx-auto">
               Get to know your legal expert and book a consultation
             </p>
           </div>
@@ -117,7 +118,7 @@ const PublicLawyerProfile = () => {
         {/* Main Profile Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden mb-8">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-8 sm:p-12">
+          <div className="bg-white p-8 sm:p-12 border-b">
             <div className="flex flex-col lg:flex-row gap-8 items-start">
               {/* Profile Image */}
               <div className="flex-shrink-0 mx-auto lg:mx-0">
@@ -144,8 +145,9 @@ const PublicLawyerProfile = () => {
                     Verified Legal Expert
                   </div>
                   <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
-                    Experienced lawyer with {lawyer.years_experience || 0} years of practice, 
-                    specializing in providing comprehensive legal solutions.
+                    Experienced lawyer with {lawyer.years_experience || 0} years
+                    of practice, specializing in providing comprehensive legal
+                    solutions.
                   </p>
                 </div>
 
@@ -176,14 +178,21 @@ const PublicLawyerProfile = () => {
                     <div className="text-2xl font-bold text-gray-900 mb-1">
                       {lawyer.years_experience || 0}+
                     </div>
-                    <div className="text-sm text-gray-600">Years Experience</div>
+                    <div className="text-sm text-gray-600">
+                      Years Experience
+                    </div>
                   </div>
 
                   <div className="text-center">
                     <div className="text-2xl font-bold text-yellow-600 mb-1">
-                      ₹{Number(lawyer.fee_structure?.consultation || 0).toLocaleString()}
+                      ₹
+                      {Number(
+                        lawyer.fee_structure?.consultation || 0
+                      ).toLocaleString()}
                     </div>
-                    <div className="text-sm text-gray-600">Consultation Fee</div>
+                    <div className="text-sm text-gray-600">
+                      Consultation Fee
+                    </div>
                   </div>
                 </div>
               </div>
@@ -305,7 +314,9 @@ const PublicLawyerProfile = () => {
                     <MapPin className="w-5 h-5 text-yellow-500 mr-2" />
                     Location
                   </h3>
-                  <p className="text-gray-700">{lawyer.city || "Not specified"}</p>
+                  <p className="text-gray-700">
+                    {lawyer.city || "Not specified"}
+                  </p>
                 </div>
 
                 {/* Consultation Types */}
@@ -315,7 +326,7 @@ const PublicLawyerProfile = () => {
                     Consultation Options
                   </h3>
                   <div className="space-y-3">
-                    {(lawyer.consultation_type === "both" || 
+                    {(lawyer.consultation_type === "both" ||
                       lawyer.consultation_type === "online" ||
                       !lawyer.consultation_type) && (
                       <div className="flex items-center p-3 bg-white rounded-lg border">
@@ -327,7 +338,7 @@ const PublicLawyerProfile = () => {
                         <span className="text-gray-700">Video Call</span>
                       </div>
                     )}
-                    {(lawyer.consultation_type === "both" || 
+                    {(lawyer.consultation_type === "both" ||
                       lawyer.consultation_type === "offline") && (
                       <div className="flex items-center p-3 bg-white rounded-lg border">
                         <img
@@ -348,7 +359,10 @@ const PublicLawyerProfile = () => {
                   </h3>
                   <div className="mb-4">
                     <div className="text-2xl font-bold text-gray-900 mb-1">
-                      ₹{Number(lawyer.fee_structure?.consultation || 0).toLocaleString()}
+                      ₹
+                      {Number(
+                        lawyer.fee_structure?.consultation || 0
+                      ).toLocaleString()}
                     </div>
                     <div className="text-sm text-gray-600">
                       Initial Consultation Fee

@@ -157,7 +157,7 @@ const LawyersByCity = () => {
             >
               {/* City Icon */}
               <div
-                className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r ${city.gradient} rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                className={`inline-flex items-center justify-center w-14 h-14 bg-primary-100 text-primary-900 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
               >
                 <i className={`${city.icon} text-white text-xl`}></i>
               </div>
@@ -183,7 +183,7 @@ const LawyersByCity = () => {
 
               {/* Hover Effect */}
               <div
-                className={`absolute inset-0 bg-gradient-to-r ${city.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-2xl`}
+                className={`absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-2xl`}
               ></div>
             </div>
           ))}
@@ -233,7 +233,7 @@ const LawyersByCity = () => {
 
         {/* Search CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 lg:p-12 text-white">
+          <div className="bg-primary-700 rounded-2xl p-8 lg:p-12 text-white">
             <h3 className="text-3xl lg:text-4xl font-bold mb-4">
               Can't Find Your City?
             </h3>

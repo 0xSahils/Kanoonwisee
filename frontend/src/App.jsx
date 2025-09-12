@@ -25,10 +25,17 @@ import LegalFAQs from "./pages/LegalFAQs";
 import LawyerSearch from "./pages/LawyerSearch";
 
 // Business Services Pages
+import BusinessServices from "./pages/BusinessServices";
 import BusinessSetup from "./pages/BusinessSetup";
 import TrademarkIP from "./pages/TrademarkIP";
 import StartupLegalKit from "./pages/StartupLegalKit";
 import CompliancePackage from "./pages/CompliancePackage";
+import PrivateLimitedRegistration from "./pages/PrivateLimitedRegistration";
+import LLPRegistration from "./pages/LLPRegistration";
+import OPCRegistration from "./pages/OPCRegistration";
+import SoleProprietorshipRegistration from "./pages/SoleProprietorshipRegistration";
+import NidhiCompanyRegistration from "./pages/NidhiCompanyRegistration";
+import PartnershipFirmRegistration from "./pages/PartnershipFirmRegistration";
 
 // Resources Pages
 import KanoonwiseAcademy from "./pages/KanoonwiseAcademy";
@@ -71,7 +78,10 @@ function App() {
 
             {/* Public Routes */}
             <Route path="/search-lawyers" element={<LawyerSearch />} />
-            <Route path="/lawyer-profile/:id" element={<PublicLawyerProfile />} />
+            <Route
+              path="/lawyer-profile/:id"
+              element={<PublicLawyerProfile />}
+            />
             <Route
               path="/book-consultation/:lawyerId"
               element={<SimpleBooking />}
@@ -85,20 +95,39 @@ function App() {
             <Route path="/legal-calculators" element={<LegalCalculators />} />
             <Route path="/document-templates" element={<DocumentTemplates />} />
             <Route path="/legal-faqs" element={<LegalFAQs />} />
-            <Route 
-              path="/my-appointments" 
+            <Route
+              path="/my-appointments"
               element={
                 <ProtectedRoute>
                   <MyAppointments />
                 </ProtectedRoute>
-              } 
+              }
             />
 
             {/* Business Services Routes */}
+            <Route path="/business-services" element={<BusinessServices />} />
             <Route path="/business-setup" element={<BusinessSetup />} />
             <Route path="/trademark-ip" element={<TrademarkIP />} />
             <Route path="/startup-legal-kit" element={<StartupLegalKit />} />
             <Route path="/compliance-package" element={<CompliancePackage />} />
+            <Route
+              path="/private-limited-registration"
+              element={<PrivateLimitedRegistration />}
+            />
+            <Route path="/llp-registration" element={<LLPRegistration />} />
+            <Route path="/opc-registration" element={<OPCRegistration />} />
+            <Route
+              path="/sole-proprietorship-registration"
+              element={<SoleProprietorshipRegistration />}
+            />
+            <Route
+              path="/nidhi-company-registration"
+              element={<NidhiCompanyRegistration />}
+            />
+            <Route
+              path="/partnership-firm-registration"
+              element={<PartnershipFirmRegistration />}
+            />
 
             {/* Resources Routes */}
             <Route path="/academy" element={<KanoonwiseAcademy />} />

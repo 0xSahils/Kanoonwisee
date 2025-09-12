@@ -91,10 +91,10 @@ const LegalServices = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing-simple pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative navbar-spacing-simple pb-16 bg-primary-900 text-white overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></div>
         </div>
 
         <div className="container-custom relative z-10 pt-20">
@@ -141,7 +141,7 @@ const LegalServices = () => {
                   alt="Professional Lawyers Working on Legal Documents"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
                 <div className="absolute bottom-4 left-4 text-white">
                   <p className="text-lg font-semibold">
                     Professional Legal Services
@@ -185,7 +185,7 @@ const LegalServices = () => {
                 className="bg-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group border border-gray-600"
               >
                 {/* Service Image */}
-                <div className="h-48 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center border-b border-gray-600">
+                <div className="h-48 bg-gray-700 flex items-center justify-center border-b border-gray-600">
                   <div className="text-center text-yellow-400">
                     <i className={`${service.icon} text-4xl mb-2`}></i>
                     <p className="text-sm opacity-75">{service.image}</p>

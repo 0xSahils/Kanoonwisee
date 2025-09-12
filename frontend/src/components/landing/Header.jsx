@@ -49,24 +49,31 @@ const Header = () => {
   };
 
   const handleDropdownClick = (item) => {
-    // Handle specific navigation cases
+    // If item has a direct path, use it; otherwise use the route map
+    if (item.path) {
+      navigate(item.path);
+      setIsMenuOpen(false);
+      setOpenDropdowns({});
+      return;
+    }
+
+    // Handle specific navigation cases for items without direct paths
     const routeMap = {
       // Resources menu
       "Kanoonwise Academy": "/academy",
       "Legal Insights": "/legal-insights",
       "Document Templates": "/document-templates",
 
-      // Business Services menu
-      "Business Setup": "/business-setup",
-      "Trademark & IP": "/trademark-ip",
-      "The Startup Legal Kit": "/startup-legal-kit",
-      "Compliance Package": "/compliance-package",
+      // Business Services menu (fallback for items without direct paths)
+      "Business Services": "/business-services",
 
       // Find a Lawyer menu - navigate to search with specialization
-      "Business & Startup Law": "/search-lawyers?specialization=Business%20%26%20Startup%20Law",
+      "Business & Startup Law":
+        "/search-lawyers?specialization=Business%20%26%20Startup%20Law",
       "Tech Law": "/search-lawyers?specialization=Tech%20Law",
       "Corporate Law": "/search-lawyers?specialization=Corporate%20Law",
-      "Intellectual Property": "/search-lawyers?specialization=Intellectual%20Property",
+      "Intellectual Property":
+        "/search-lawyers?specialization=Intellectual%20Property",
     };
 
     if (routeMap[item.name]) {
@@ -108,23 +115,60 @@ const Header = () => {
 
   const navItems = [
     {
-      name: "Find a Lawyer",
-      icon: "fas fa-search",
-      dropdown: [
-        { name: "Business & Startup Law", icon: "fas fa-building" },
-        { name: "Tech Law", icon: "fas fa-laptop-code" },
-        { name: "Corporate Law", icon: "fas fa-briefcase" },
-        { name: "Intellectual Property", icon: "fas fa-lightbulb" },
-      ],
-    },
-    {
       name: "Business Services",
       icon: "fas fa-briefcase",
       dropdown: [
-        { name: "Business Setup", icon: "fas fa-rocket" },
-        { name: "Trademark & IP", icon: "fas fa-trademark" },
-        { name: "The Startup Legal Kit", icon: "fas fa-box" },
-        { name: "Compliance Package", icon: "fas fa-shield-alt" },
+        {
+          name: "Business Setup",
+          icon: "fas fa-rocket",
+          subDropdown: [
+            {
+              name: "Private Limited Company",
+              icon: "fas fa-building",
+              path: "/private-limited-registration",
+            },
+            {
+              name: "Limited Liability Partnership",
+              icon: "fas fa-handshake",
+              path: "/llp-registration",
+            },
+            {
+              name: "One Person Company",
+              icon: "fas fa-user-tie",
+              path: "/opc-registration",
+            },
+            {
+              name: "Sole Proprietorship",
+              icon: "fas fa-user-circle",
+              path: "/sole-proprietorship-registration",
+            },
+            {
+              name: "Partnership Firm",
+              icon: "fas fa-users",
+              path: "/partnership-firm-registration",
+            },
+            {
+              name: "Nidhi Company",
+              icon: "fas fa-university",
+              path: "/nidhi-company-registration",
+            },
+          ],
+        },
+        {
+          name: "Trademark & IP",
+          icon: "fas fa-trademark",
+          path: "/trademark-ip",
+        },
+        {
+          name: "The Startup Legal Kit",
+          icon: "fas fa-box",
+          path: "/startup-legal-kit",
+        },
+        {
+          name: "Compliance Package",
+          icon: "fas fa-shield-alt",
+          path: "/compliance-package",
+        },
       ],
     },
     {
@@ -171,19 +215,19 @@ const Header = () => {
             <div className="flex items-center space-x-4">
               <a
                 href="#"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                className="hover:text-primary-300 transition-colors duration-300"
               >
                 <i className="fab fa-twitter"></i>
               </a>
               <a
                 href="#"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                className="hover:text-primary-300 transition-colors duration-300"
               >
                 <i className="fab fa-linkedin"></i>
               </a>
               <a
                 href="#"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                className="hover:text-primary-300 transition-colors duration-300"
               >
                 <i className="fab fa-youtube"></i>
               </a>
@@ -197,8 +241,8 @@ const Header = () => {
           {/* Logo */}
           <a href="/" className="flex items-center space-x-3">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded flex items-center justify-center">
-                <span className="text-gray-900 font-bold text-xl">K</span>
+              <div className="w-10 h-10 bg-primary-900 rounded flex items-center justify-center">
+                <span className="text-white font-bold text-xl">K</span>
               </div>
               <span
                 className={`text-2xl font-light tracking-wide ${
@@ -225,9 +269,9 @@ const Header = () => {
                   className={`flex items-center space-x-1 font-medium transition-colors duration-200 ${
                     isHomepage
                       ? isScrolled
-                        ? "text-gray-700 hover:text-yellow-600"
-                        : "text-white hover:text-yellow-500"
-                      : "text-gray-700 hover:text-yellow-600"
+                        ? "text-gray-700 hover:text-primary-600"
+                        : "text-white hover:text-primary-300"
+                      : "text-gray-700 hover:text-primary-600"
                   }`}
                 >
                   <span>{item.name}</span>
@@ -241,16 +285,48 @@ const Header = () => {
                   <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
                     <div className="py-2">
                       {item.dropdown.map((dropdownItem, dropIndex) => (
-                        <button
-                          key={dropIndex}
-                          onClick={() => handleDropdownClick(dropdownItem)}
-                          className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition-colors duration-200 w-full text-left"
-                        >
-                          <i
-                            className={`${dropdownItem.icon} text-yellow-500 w-4`}
-                          ></i>
-                          <span>{dropdownItem.name}</span>
-                        </button>
+                        <div key={dropIndex} className="relative group/sub">
+                          <button
+                            onClick={() =>
+                              dropdownItem.path
+                                ? handleDropdownClick(dropdownItem)
+                                : null
+                            }
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left"
+                          >
+                            <i
+                              className={`${dropdownItem.icon} text-yellow-500 w-4`}
+                            ></i>
+                            <span>{dropdownItem.name}</span>
+                            {dropdownItem.subDropdown && (
+                              <i className="fas fa-chevron-right ml-auto text-xs"></i>
+                            )}
+                          </button>
+
+                          {/* SubDropdown (only for Business Setup) */}
+                          {dropdownItem.subDropdown && (
+                            <div className="absolute top-0 left-full mt-0 ml-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 transform translate-x-2 group-hover/sub:translate-x-0">
+                              <div className="py-2">
+                                {dropdownItem.subDropdown.map(
+                                  (subItem, subIndex) => (
+                                    <button
+                                      key={subIndex}
+                                      onClick={() =>
+                                        handleDropdownClick(subItem)
+                                      }
+                                      className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left"
+                                    >
+                                      <i
+                                        className={`${subItem.icon} text-yellow-500 w-4`}
+                                      ></i>
+                                      <span>{subItem.name}</span>
+                                    </button>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -268,9 +344,9 @@ const Header = () => {
                   className={`font-medium transition-colors duration-200 flex items-center ${
                     isHomepage
                       ? isScrolled
-                        ? "text-gray-700 hover:text-yellow-600"
-                        : "text-white hover:text-yellow-500"
-                      : "text-gray-700 hover:text-yellow-600"
+                        ? "text-gray-700 hover:text-primary-600"
+                        : "text-white hover:text-primary-300"
+                      : "text-gray-700 hover:text-primary-600"
                   }`}
                 >
                   <i className="fas fa-calendar-alt mr-2"></i>
@@ -281,9 +357,9 @@ const Header = () => {
                     className={`flex items-center space-x-2 font-medium transition-colors duration-200 ${
                       isHomepage
                         ? isScrolled
-                          ? "text-gray-700 hover:text-yellow-600"
-                          : "text-white hover:text-yellow-500"
-                        : "text-gray-700 hover:text-yellow-600"
+                          ? "text-gray-700 hover:text-primary-600"
+                          : "text-white hover:text-primary-300"
+                        : "text-gray-700 hover:text-primary-600"
                     }`}
                   >
                     <i className="fas fa-user-circle"></i>
@@ -294,14 +370,14 @@ const Header = () => {
                     <div className="py-2">
                       <button
                         onClick={handleDashboardNavigation}
-                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 w-full text-left"
+                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 w-full text-left"
                       >
                         <i className="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span>
                       </button>
                       <button
                         onClick={() => handleNavigation("/my-appointments")}
-                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 w-full text-left"
+                        className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 w-full text-left"
                       >
                         <i className="fas fa-calendar-alt"></i>
                         <span>My Appointments</span>
@@ -330,25 +406,19 @@ const Header = () => {
                   }`}
                 >
                   <i className="fas fa-balance-scale mr-2"></i>
-                  Join as Advocate
+                  Join as Lawyer
                 </button>
                 <button
                   onClick={() => handleNavigation("/login")}
                   className={`font-medium transition-colors duration-200 ${
                     isHomepage
                       ? isScrolled
-                        ? "text-gray-700 hover:text-yellow-600"
-                        : "text-white hover:text-yellow-500"
-                      : "text-gray-700 hover:text-yellow-600"
+                        ? "text-gray-700 hover:text-primary-600"
+                        : "text-white hover:text-primary-300"
+                      : "text-gray-700 hover:text-primary-600"
                   }`}
                 >
                   Login
-                </button>
-                <button
-                  onClick={() => handleNavigation("/search-lawyers")}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  Find Advocate
                 </button>
               </>
             )}
@@ -394,8 +464,12 @@ const Header = () => {
             {navItems.map((item, index) => (
               <div key={index} className="px-4">
                 <button
-                  onClick={() => item.path ? handleNavigation(item.path) : toggleDropdown(index)}
-                  className="flex items-center justify-between w-full text-gray-700 font-medium py-3 border-b border-gray-100 hover:text-yellow-600 transition-colors duration-200"
+                  onClick={() =>
+                    item.path
+                      ? handleNavigation(item.path)
+                      : toggleDropdown(index)
+                  }
+                  className="flex items-center justify-between w-full text-gray-700 font-medium py-3 border-b border-gray-100 hover:text-primary-600 transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-3">
                     <i className={`${item.icon} text-yellow-600`}></i>
@@ -421,7 +495,7 @@ const Header = () => {
                       <button
                         key={dropIndex}
                         onClick={() => handleDropdownClick(dropdownItem)}
-                        className="flex items-center space-x-3 text-gray-600 hover:text-yellow-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
+                        className="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
                       >
                         <i
                           className={`${dropdownItem.icon} text-sm text-yellow-500`}
@@ -440,14 +514,14 @@ const Header = () => {
                   <>
                     <button
                       onClick={handleDashboardNavigation}
-                      className="w-full text-left text-gray-700 hover:text-yellow-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
+                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
                     >
                       <i className="fas fa-tachometer-alt text-yellow-600"></i>
                       <span>Dashboard</span>
                     </button>
                     <button
                       onClick={() => handleNavigation("/my-appointments")}
-                      className="w-full text-left text-gray-700 hover:text-yellow-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
+                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
                     >
                       <i className="fas fa-calendar-alt text-yellow-600"></i>
                       <span>My Appointments</span>
@@ -471,16 +545,9 @@ const Header = () => {
                     </button>
                     <button
                       onClick={() => handleNavigation("/login")}
-                      className="w-full text-left text-gray-700 hover:text-yellow-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 min-h-[44px]"
+                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 min-h-[44px]"
                     >
                       Login
-                    </button>
-                    <button
-                      onClick={() => handleNavigation("/search-lawyers")}
-                      className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 mt-3 min-h-[44px]"
-                    >
-                      <i className="fas fa-search mr-2"></i>
-                      Find Advocate
                     </button>
                   </>
                 )}

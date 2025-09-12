@@ -198,7 +198,7 @@ const ArticleDetail = () => {
       <Header />
 
       {/* Article Header */}
-      <section className="navbar-spacing-simple pb-8 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900">
+      <section className="navbar-spacing-simple pb-8 bg-primary-900 text-white">
         <div className="container-custom pt-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <button
@@ -252,7 +252,7 @@ const ArticleDetail = () => {
       <section className="py-6 sm:py-8 bg-gray-800">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="h-48 sm:h-64 md:h-80 lg:h-96 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl sm:rounded-2xl flex items-center justify-center border border-yellow-500/30">
+            <div className="h-48 sm:h-64 md:h-80 lg:h-96 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center border">
               <div className="text-center text-yellow-400 px-4">
                 <i className="fas fa-balance-scale text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4"></i>
                 <p className="text-sm sm:text-base md:text-lg font-semibold line-clamp-2">
@@ -363,7 +363,7 @@ const ArticleDetail = () => {
                       <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-3">
                         {article.authorBio}
                       </p>
-                      <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all text-xs sm:text-sm w-full sm:w-auto">
+                      <button className="btn-primary px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm w-full sm:w-auto">
                         View Profile
                       </button>
                     </div>

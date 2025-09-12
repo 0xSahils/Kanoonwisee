@@ -96,7 +96,7 @@ const MyAppointments = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      <section className="relative navbar-spacing pb-16 bg-primary-900 text-white">
         <div className="absolute inset-0 opacity-10">
           <img
             src="/calender-booking.png"
@@ -276,7 +276,10 @@ const MyAppointments = () => {
                               </span>
                               {appointment.fee && (
                                 <span className="text-sm font-medium text-primary-600">
-                                  ₹{Number(appointment.fee || 0).toLocaleString()}
+                                  ₹
+                                  {Number(
+                                    appointment.fee || 0
+                                  ).toLocaleString()}
                                 </span>
                               )}
                             </div>
