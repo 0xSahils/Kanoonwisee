@@ -101,7 +101,8 @@ async function fixPartialMigrationState() {
     
     const migrations = [
       '20250828000001-add-lawyer-profile-fields.js',
-      '20250829000001-add-bar-registration-file.js'
+      '20250829000001-add-bar-registration-file.js',
+      '20250902000001-create-sessions-table.js'
     ];
     
     for (const migration of migrations) {
@@ -115,6 +116,35 @@ async function fixPartialMigrationState() {
       } catch (error) {
         console.log(`⚠️ Migration status update for ${migration}:`, error.message);
       }
+    }
+    
+    // Fix UserSessions table if needed
+    console.log('🔧 Checking UserSessions table...');
+    try {
+      const tablesInfo = await queryInterface.showAllTables();
+      if (tablesInfo.includes('UserSessions')) {
+        const userSessionsInfo = await queryInterface.describeTable('UserSessions');
+        
+        if (!userSessionsInfo.expires) {
+          console.log('➕ Adding missing expires column to UserSessions...');
+          await queryInterface.addColumn('UserSessions', 'expires', {
+            type: sequelize.Sequelize.DATE,
+            allowNull: true
+          });
+        }
+        
+        if (!userSessionsInfo.data) {
+          console.log('➕ Adding missing data column to UserSessions...');
+          await queryInterface.addColumn('UserSessions', 'data', {
+            type: sequelize.Sequelize.TEXT,
+            allowNull: true
+          });
+        }
+        
+        console.log('✅ UserSessions table is properly configured');
+      }
+    } catch (error) {
+      console.log('⚠️ UserSessions table check failed:', error.message);
     }
     
     // Final verification
