@@ -4,7 +4,7 @@
   "description": "Backend for a lawyer-facing platform.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node fix-partial-migration.js && node src/server.js",
     "dev": "nodemon src/server.js",
     "debug": "node debug.js",
     "migrate": "node deploy-production.js",

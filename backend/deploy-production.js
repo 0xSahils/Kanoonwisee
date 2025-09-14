@@ -122,7 +122,7 @@ async function deploy() {
     
     // Run the database fix script to ensure all required columns exist
     console.log("\n🔧 Running database fix script...");
-    await runCommand("node fix-production-db.js", "Fixing missing database columns");
+    await runCommand("node fix-partial-migration.js", "Fixing partial migration state");
     
     // Run migrations but don't fail on errors (they might be expected)
     console.log("\n📊 Running Sequelize migrations...");
