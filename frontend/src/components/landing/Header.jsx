@@ -287,11 +287,7 @@ const Header = () => {
                       {item.dropdown.map((dropdownItem, dropIndex) => (
                         <div key={dropIndex} className="relative group/sub">
                           <button
-                            onClick={() =>
-                              dropdownItem.path
-                                ? handleDropdownClick(dropdownItem)
-                                : null
-                            }
+                            onClick={() => handleDropdownClick(dropdownItem)}
                             className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left"
                           >
                             <i

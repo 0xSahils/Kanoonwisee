@@ -15,8 +15,14 @@ const requireAdmin = (req, res, next) => {
 router.use(authMiddleware);
 router.use(requireAdmin);
 
+// Lawyer management routes
 router.get('/lawyers/pending', adminController.getPendingLawyers);
+router.get('/lawyers', adminController.getAllLawyers);
 router.put('/lawyers/:id/status', adminController.updateLawyerStatus);
 router.get('/lawyers/:id/document', adminController.getLawyerDocumentUrl);
+
+// User management routes
+router.get('/users', adminController.getAllUsers);
+router.get('/users/:id', adminController.getUserDetails);
 
 module.exports = router;

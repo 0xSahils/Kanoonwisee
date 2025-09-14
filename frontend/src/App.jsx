@@ -65,6 +65,8 @@ import MyAppointments from "./pages/MyAppointments";
 import PublicLawyerProfile from "./pages/PublicLawyerProfile";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
+import AdminUsers from "./pages/admin/Users";
+import AdminLawyers from "./pages/admin/Lawyers";
 
 function App() {
   return (
@@ -275,6 +277,26 @@ function App() {
                 <AdminLayout>
                   <ProtectedRoute requiredRole="admin">
                     <AdminDashboard />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminUsers />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/lawyers"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminLawyers />
                   </ProtectedRoute>
                 </AdminLayout>
               }

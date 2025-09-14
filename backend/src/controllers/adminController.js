@@ -1,6 +1,7 @@
 const LawyerProfile = require('../models/lawyerProfile.model');
 const User = require('../models/user.model');
 const { generatePresignedUrl } = require('../services/s3Service');
+const { Op } = require('sequelize');
 
 const getPendingLawyers = async (req, res) => {
   try {
@@ -14,6 +15,117 @@ const getPendingLawyers = async (req, res) => {
     res.json(lawyers);
   } catch (error) {
     console.error('Error fetching pending lawyers:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const getAllLawyers = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, status, search } = req.query;
+    const offset = (page - 1) * limit;
+
+    // Build where conditions
+    const whereConditions = {};
+    if (status && status !== 'all') {
+      whereConditions.approved = status;
+    }
+
+    // Search conditions
+    let searchConditions = {};
+    if (search) {
+      searchConditions = {
+        [Op.or]: [
+          { full_name: { [Op.iLike]: `%${search}%` } },
+          { bar_registration_number: { [Op.iLike]: `%${search}%` } },
+          { city: { [Op.iLike]: `%${search}%` } }
+        ]
+      };
+    }
+
+    const { count, rows } = await LawyerProfile.findAndCountAll({
+      where: {
+        ...whereConditions,
+        ...searchConditions
+      },
+      include: [{
+        model: User,
+        attributes: ['email'],
+        where: search ? {
+          email: { [Op.iLike]: `%${search}%` }
+        } : undefined,
+        required: search ? true : false
+      }],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+      order: [['created_at', 'DESC']]
+    });
+
+    res.json({
+      lawyers: rows,
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: parseInt(page)
+    });
+  } catch (error) {
+    console.error('Error fetching lawyers:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, role, search } = req.query;
+    const offset = (page - 1) * limit;
+
+    // Build where conditions
+    const whereConditions = {};
+    if (role && role !== 'all') {
+      whereConditions.role = role;
+    }
+
+    if (search) {
+      whereConditions.email = { [Op.iLike]: `%${search}%` };
+    }
+
+    const { count, rows } = await User.findAndCountAll({
+      where: whereConditions,
+      attributes: ['id', 'email', 'role', 'created_at'],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+      order: [['created_at', 'DESC']]
+    });
+
+    res.json({
+      users: rows,
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: parseInt(page)
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const getUserDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id, {
+      attributes: ['id', 'email', 'role', 'created_at'],
+      include: [{
+        model: LawyerProfile,
+        required: false
+      }]
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user details:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -86,6 +198,9 @@ const getLawyerDocumentUrl = async (req, res) => {
 
 module.exports = {
   getPendingLawyers,
+  getAllLawyers,
+  getAllUsers,
+  getUserDetails,
   updateLawyerStatus,
   getLawyerDocumentUrl
 };
