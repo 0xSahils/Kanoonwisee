@@ -102,7 +102,8 @@ async function fixPartialMigrationState() {
     const migrations = [
       '20250828000001-add-lawyer-profile-fields.js',
       '20250829000001-add-bar-registration-file.js',
-      '20250902000001-create-sessions-table.js'
+      '20250902000001-create-sessions-table.js',
+      '20250904000001-update-lawyer-files-to-json.js'
     ];
     
     for (const migration of migrations) {
