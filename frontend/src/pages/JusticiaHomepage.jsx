@@ -168,7 +168,7 @@ const JusticiaHomepage = () => {
         {/* Background Image */}
         <div className="absolute inset-0 opacity-20">
           <img
-            src="/hero.jpg"
+            src="/supreme_background.webp"
             alt="Professional legal services"
             className="w-full h-full object-cover"
           />
@@ -181,13 +181,16 @@ const JusticiaHomepage = () => {
               <div className="inline-block w-16 h-1 bg-yellow-500 mb-6"></div>
               <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
                 The Trusted Platform for{" "}
-                <span className="text-yellow-500">Vetted Legal Experts</span> in India
+                <span className="text-yellow-500">Vetted Legal Experts</span> in
+                India
               </h1>
               <p className="text-xl md:text-2xl font-light mb-4 text-gray-300">
-                Connect with carefully selected lawyers who specialize in business, startup, and tech law
+                Connect with carefully selected lawyers who specialize in
+                business, startup, and tech law
               </p>
               <p className="text-lg text-gray-400 mb-10">
-                Every lawyer on our platform goes through our rigorous 3-step verification process
+                Every lawyer on our platform goes through our rigorous 3-step
+                verification process
               </p>
 
               {/* Enhanced Search Section */}
@@ -405,8 +408,6 @@ const JusticiaHomepage = () => {
         </div>
       </section>
 
-
-
       {/* Services Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
@@ -416,7 +417,8 @@ const JusticiaHomepage = () => {
               Business Services
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive business legal solutions for startups, tech companies, and growing businesses.
+              Comprehensive business legal solutions for startups, tech
+              companies, and growing businesses.
             </p>
           </div>
 
@@ -462,17 +464,27 @@ const JusticiaHomepage = () => {
               </div>
               <div className="space-y-6 text-gray-700 leading-relaxed">
                 <p className="text-lg">
-                  "I started Kanoonwise with a simple mission: to connect businesses and startups with the right legal experts who truly understand their needs."
+                  "I started Kanoonwise with a simple mission: to connect
+                  businesses and startups with the right legal experts who truly
+                  understand their needs."
                 </p>
                 <p>
-                  "After seeing countless entrepreneurs struggle to find reliable legal counsel, I knew there had to be a better way. That's why every lawyer on our platform goes through our rigorous 3-step verification process."
+                  "After seeing countless entrepreneurs struggle to find
+                  reliable legal counsel, I knew there had to be a better way.
+                  That's why every lawyer on our platform goes through our
+                  rigorous 3-step verification process."
                 </p>
                 <p>
-                  "We're not just another legal marketplace - we're your trusted partner in building a legally sound business foundation."
+                  "We're not just another legal marketplace - we're your trusted
+                  partner in building a legally sound business foundation."
                 </p>
                 <div className="pt-4">
-                  <p className="font-semibold text-gray-900">- [Founder Name]</p>
-                  <p className="text-sm text-gray-600">Founder & CEO, Kanoonwise</p>
+                  <p className="font-semibold text-gray-900">
+                    - [Founder Name]
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Founder & CEO, Kanoonwise
+                  </p>
                 </div>
               </div>
             </div>
@@ -495,10 +507,13 @@ const JusticiaHomepage = () => {
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              The <span className="text-yellow-600">Kanoonwise Verified™</span> Process
+              The <span className="text-yellow-600">Kanoonwise Verified™</span>{" "}
+              Process
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Every lawyer on our platform undergoes our rigorous 3-step verification process to ensure you get the highest quality legal expertise.
+              Every lawyer on our platform undergoes our rigorous 3-step
+              verification process to ensure you get the highest quality legal
+              expertise.
             </p>
           </div>
 
@@ -511,7 +526,8 @@ const JusticiaHomepage = () => {
                 Credential Verification
               </h3>
               <p className="text-gray-600">
-                We verify bar registration, educational qualifications, and professional certifications.
+                We verify bar registration, educational qualifications, and
+                professional certifications.
               </p>
             </div>
             <div className="text-center">
@@ -522,7 +538,8 @@ const JusticiaHomepage = () => {
                 Experience Assessment
               </h3>
               <p className="text-gray-600">
-                We evaluate their track record, specialization expertise, and case success history.
+                We evaluate their track record, specialization expertise, and
+                case success history.
               </p>
             </div>
             <div className="text-center">
@@ -533,7 +550,8 @@ const JusticiaHomepage = () => {
                 Quality Interview
               </h3>
               <p className="text-gray-600">
-                Our legal experts conduct in-depth interviews to assess communication skills and client focus.
+                Our legal experts conduct in-depth interviews to assess
+                communication skills and client focus.
               </p>
             </div>
           </div>
@@ -552,7 +570,8 @@ const JusticiaHomepage = () => {
               Founder <span className="text-yellow-600">Spotlights</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real success stories from founders who built their businesses with the right legal foundation through Kanoonwise.
+              Real success stories from founders who built their businesses with
+              the right legal foundation through Kanoonwise.
             </p>
           </div>
 
@@ -566,16 +585,25 @@ const JusticiaHomepage = () => {
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">Sarah Chen</h4>
-                  <p className="text-sm text-gray-600">Founder, TechStart Solutions</p>
+                  <p className="text-sm text-gray-600">
+                    Founder, TechStart Solutions
+                  </p>
                 </div>
               </div>
               <p className="text-gray-700 mb-4 italic">
-                "Kanoonwise connected me with a tech law expert who helped us navigate complex IP issues during our Series A. The lawyer understood our business model and provided strategic advice that saved us months of legal complications."
+                "Kanoonwise connected me with a tech law expert who helped us
+                navigate complex IP issues during our Series A. The lawyer
+                understood our business model and provided strategic advice that
+                saved us months of legal complications."
               </p>
               <div className="text-sm text-gray-600">
-                <strong>Challenge:</strong> IP protection for AI technology<br/>
-                <strong>Solution:</strong> Comprehensive IP strategy and patent filing<br/>
-                <strong>Result:</strong> Successful Series A funding with protected IP
+                <strong>Challenge:</strong> IP protection for AI technology
+                <br />
+                <strong>Solution:</strong> Comprehensive IP strategy and patent
+                filing
+                <br />
+                <strong>Result:</strong> Successful Series A funding with
+                protected IP
               </div>
             </div>
 
@@ -588,16 +616,25 @@ const JusticiaHomepage = () => {
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">Rajesh Patel</h4>
-                  <p className="text-sm text-gray-600">Founder, GreenTech Innovations</p>
+                  <p className="text-sm text-gray-600">
+                    Founder, GreenTech Innovations
+                  </p>
                 </div>
               </div>
               <p className="text-gray-700 mb-4 italic">
-                "The business setup service through Kanoonwise was exceptional. From company registration to compliance setup, everything was handled professionally. Our lawyer became a trusted advisor who still helps us with ongoing legal needs."
+                "The business setup service through Kanoonwise was exceptional.
+                From company registration to compliance setup, everything was
+                handled professionally. Our lawyer became a trusted advisor who
+                still helps us with ongoing legal needs."
               </p>
               <div className="text-sm text-gray-600">
-                <strong>Challenge:</strong> Complete business incorporation and compliance<br/>
-                <strong>Solution:</strong> End-to-end business setup package<br/>
-                <strong>Result:</strong> Fully compliant business ready for operations
+                <strong>Challenge:</strong> Complete business incorporation and
+                compliance
+                <br />
+                <strong>Solution:</strong> End-to-end business setup package
+                <br />
+                <strong>Result:</strong> Fully compliant business ready for
+                operations
               </div>
             </div>
           </div>
