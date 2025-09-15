@@ -28,6 +28,10 @@ import LawyerSearch from "./pages/LawyerSearch";
 import BusinessServices from "./pages/BusinessServices";
 import BusinessSetup from "./pages/BusinessSetup";
 import TrademarkIP from "./pages/TrademarkIP";
+import TrademarkServices from "./pages/TrademarkServices";
+import PatentServices from "./pages/PatentServices";
+import CopyrightServices from "./pages/CopyrightServices";
+import DesignRegistration from "./pages/DesignRegistration";
 import StartupLegalKit from "./pages/StartupLegalKit";
 import CompliancePackage from "./pages/CompliancePackage";
 import PrivateLimitedRegistration from "./pages/PrivateLimitedRegistration";
@@ -36,6 +40,15 @@ import OPCRegistration from "./pages/OPCRegistration";
 import SoleProprietorshipRegistration from "./pages/SoleProprietorshipRegistration";
 import NidhiCompanyRegistration from "./pages/NidhiCompanyRegistration";
 import PartnershipFirmRegistration from "./pages/PartnershipFirmRegistration";
+
+// Compliance Pages
+import GSTCompliance from "./pages/GSTCompliance";
+import AnnualCorporateCompliance from "./pages/AnnualCorporateCompliance";
+import AnnualLLPCompliance from "./pages/AnnualLLPCompliance";
+import AccountingTaxServices from "./pages/AccountingTaxServices";
+import LabourLawCompliance from "./pages/LabourLawCompliance";
+import POSHCompliance from "./pages/POSHCompliance";
+import BusinessChangesUpdates from "./pages/BusinessChangesUpdates";
 
 // Resources Pages
 import KanoonwiseAcademy from "./pages/KanoonwiseAcademy";
@@ -108,6 +121,13 @@ function App() {
             <Route path="/business-services" element={<BusinessServices />} />
             <Route path="/business-setup" element={<BusinessSetup />} />
             <Route path="/trademark-ip" element={<TrademarkIP />} />
+            <Route path="/trademark-services" element={<TrademarkServices />} />
+            <Route path="/patent-services" element={<PatentServices />} />
+            <Route path="/copyright-services" element={<CopyrightServices />} />
+            <Route
+              path="/design-registration"
+              element={<DesignRegistration />}
+            />
             <Route path="/startup-legal-kit" element={<StartupLegalKit />} />
             <Route path="/compliance-package" element={<CompliancePackage />} />
             <Route
@@ -127,6 +147,30 @@ function App() {
             <Route
               path="/partnership-firm-registration"
               element={<PartnershipFirmRegistration />}
+            />
+
+            {/* Compliance Routes */}
+            <Route path="/gst-compliance" element={<GSTCompliance />} />
+            <Route
+              path="/annual-corporate-compliance"
+              element={<AnnualCorporateCompliance />}
+            />
+            <Route
+              path="/annual-llp-compliance"
+              element={<AnnualLLPCompliance />}
+            />
+            <Route
+              path="/accounting-tax-services"
+              element={<AccountingTaxServices />}
+            />
+            <Route
+              path="/labour-law-compliance"
+              element={<LabourLawCompliance />}
+            />
+            <Route path="/posh-compliance" element={<POSHCompliance />} />
+            <Route
+              path="/business-changes-updates"
+              element={<BusinessChangesUpdates />}
             />
 
             {/* Resources Routes */}

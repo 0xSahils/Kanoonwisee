@@ -157,7 +157,28 @@ const Header = () => {
         {
           name: "Trademark & IP",
           icon: "fas fa-trademark",
-          path: "/trademark-ip",
+          subDropdown: [
+            {
+              name: "Trademark Registration",
+              icon: "fas fa-certificate",
+              path: "/trademark-services",
+            },
+            {
+              name: "Patent Services",
+              icon: "fas fa-lightbulb",
+              path: "/patent-services",
+            },
+            {
+              name: "Copyright Registration",
+              icon: "fas fa-copyright",
+              path: "/copyright-services",
+            },
+            {
+              name: "Design Registration",
+              icon: "fas fa-palette",
+              path: "/design-registration",
+            },
+          ],
         },
         {
           name: "The Startup Legal Kit",
@@ -167,7 +188,43 @@ const Header = () => {
         {
           name: "Compliance Package",
           icon: "fas fa-shield-alt",
-          path: "/compliance-package",
+          subDropdown: [
+            {
+              name: "GST Registration & Filing",
+              icon: "fas fa-receipt",
+              path: "/gst-compliance",
+            },
+            {
+              name: "Annual Corporate Compliance",
+              icon: "fas fa-building",
+              path: "/annual-corporate-compliance",
+            },
+            {
+              name: "Annual LLP Compliance",
+              icon: "fas fa-handshake",
+              path: "/annual-llp-compliance",
+            },
+            {
+              name: "Accounting & Tax Services",
+              icon: "fas fa-calculator",
+              path: "/accounting-tax-services",
+            },
+            {
+              name: "Labour Law Compliance",
+              icon: "fas fa-users",
+              path: "/labour-law-compliance",
+            },
+            {
+              name: "POSH Compliance",
+              icon: "fas fa-shield-alt",
+              path: "/posh-compliance",
+            },
+            {
+              name: "Business Changes & Updates",
+              icon: "fas fa-edit",
+              path: "/business-changes-updates",
+            },
+          ],
         },
       ],
     },

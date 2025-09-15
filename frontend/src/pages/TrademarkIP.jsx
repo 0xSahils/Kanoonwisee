@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
 
 const TrademarkIP = () => {
   const navigate = useNavigate();
-  const [selectedService, setSelectedService] = useState(null);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -14,106 +13,157 @@ const TrademarkIP = () => {
 
   const services = [
     {
-      id: "trademark-basic",
-      name: "Trademark Registration",
-      subtitle: "Basic",
-      originalPrice: "₹4,999",
-      price: "₹2,499",
-      discount: "50% off",
-      description: "Complete trademark registration with expert assistance.",
+      id: "trademark",
+      title: "Trademark Registration",
+      description:
+        "Secure your brand identity with comprehensive trademark protection. From search to registration, we ensure your brand is legally yours.",
       features: [
-        "Comprehensive trademark search",
-        "Application filing in 1 class",
-        "Response to examination report",
-        "Publication and opposition handling",
-        "Registration certificate",
-        "10-year protection",
-        "Expert legal assistance throughout",
+        "Comprehensive Trademark Search",
+        "Application Drafting & Filing",
+        "Objection Handling",
+        "Status Monitoring",
+        "Search Success Guarantee",
       ],
-      timeline: "6-8 months",
+      price: "Starting from ₹7,999",
+      icon: "fas fa-certificate",
+      path: "/trademark-services",
+      color: "yellow",
+      timeline: "8-12 months",
       popular: true,
     },
     {
-      id: "trademark-premium",
-      name: "Trademark Registration",
-      subtitle: "Premium",
-      originalPrice: "₹7,999",
-      price: "₹3,999",
-      discount: "50% off",
-      description: "Enhanced trademark protection with additional services.",
+      id: "patent",
+      title: "Patent Services",
+      description:
+        "Transform your invention into a legally protected, high-value asset. Secure your 20-year monopoly with expert patent services.",
       features: [
-        "Everything in Basic package",
-        "Registration in 2 classes",
-        "Logo design consultation",
-        "Brand protection strategy",
-        "Trademark watch service (1 year)",
-        "Priority filing support",
-        "Dedicated IP consultant",
+        "Patentability Search",
+        "Provisional & Complete Applications",
+        "Examination Response",
+        "International Filing (PCT)",
+        "Procedural Guarantee",
       ],
-      timeline: "6-8 months",
+      price: "Starting from ₹19,999",
+      icon: "fas fa-lightbulb",
+      path: "/patent-services",
+      color: "blue",
+      timeline: "2-4 years",
       popular: false,
     },
     {
       id: "copyright",
-      name: "Copyright Registration",
-      subtitle: "Complete Protection",
-      originalPrice: "₹2,999",
-      price: "₹1,499",
-      discount: "50% off",
-      description: "Protect your creative works with copyright registration.",
+      title: "Copyright Registration",
+      description:
+        "Protect your creative work from code to art. Secure your intellectual property with official copyright registration.",
       features: [
-        "Copyright application filing",
-        "Document preparation",
-        "Government fee included",
-        "Registration certificate",
-        "Legal validity proof",
-        "Expert consultation",
-        "Fast-track processing",
+        "Expert Consultation",
+        "Application Drafting & Filing",
+        "Legal Review",
+        "Objection Response",
+        "Lifetime Protection",
       ],
-      timeline: "2-3 months",
+      price: "Starting from ₹4,999",
+      icon: "fas fa-copyright",
+      path: "/copyright-services",
+      color: "purple",
+      timeline: "3-4 months",
       popular: false,
     },
     {
-      id: "patent-consultation",
-      name: "Patent Consultation",
-      subtitle: "Innovation Protection",
-      originalPrice: "₹9,999",
-      price: "₹4,999",
-      discount: "50% off",
-      description: "Expert consultation for patent filing and strategy.",
+      id: "design",
+      title: "Design Registration",
+      description:
+        "Protect your product's unique appearance and design. Secure exclusive rights to your visual innovations.",
       features: [
-        "Patentability assessment",
-        "Prior art search",
-        "Patent drafting guidance",
-        "Filing strategy consultation",
-        "Market analysis",
-        "IP portfolio review",
-        "2-hour expert consultation",
+        "Design Search & Analysis",
+        "Multi-view Drawings",
+        "Application Filing",
+        "Objection Handling",
+        "15-Year Protection",
       ],
-      timeline: "1-2 weeks",
+      price: "Starting from ₹9,999",
+      icon: "fas fa-palette",
+      path: "/design-registration",
+      color: "indigo",
+      timeline: "6-9 months",
       popular: false,
     },
   ];
 
-  const handleGetStarted = (service) => {
-    setSelectedService(service);
-    // Create WhatsApp message
-    const message = `Hi! I'm interested in ${service.name} - ${service.subtitle} (${service.price}). Please help me get started with IP protection.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
+  const handleServiceClick = (path) => {
+    navigate(path);
   };
+
+  const whyChooseUs = [
+    {
+      title: "Expert Legal Team",
+      description:
+        "Our registered Patent Agents and Trademark Attorneys have the dual expertise in law and technology to protect your intellectual property effectively.",
+      icon: "fas fa-users",
+    },
+    {
+      title: "Comprehensive Protection",
+      description:
+        "From trademarks to patents, copyrights to designs, we offer complete IP protection services under one roof.",
+      icon: "fas fa-shield-alt",
+    },
+    {
+      title: "Transparent Pricing",
+      description:
+        "Clear, fixed-fee packages with no hidden costs. Government fees are separate and charged at actuals for complete transparency.",
+      icon: "fas fa-dollar-sign",
+    },
+    {
+      title: "Guaranteed Service",
+      description:
+        "We stand behind our work with ironclad guarantees. Our success is aligned with yours.",
+      icon: "fas fa-handshake",
+    },
+  ];
+
+  const processSteps = [
+    {
+      step: 1,
+      title: "Free Consultation",
+      description:
+        "Discuss your IP needs with our experts and get a customized protection strategy.",
+    },
+    {
+      step: 2,
+      title: "Search & Analysis",
+      description:
+        "Comprehensive search to assess the viability and potential risks of your IP.",
+    },
+    {
+      step: 3,
+      title: "Application Filing",
+      description:
+        "Expert drafting and filing of your IP application with the relevant government office.",
+    },
+    {
+      step: 4,
+      title: "Protection Secured",
+      description:
+        "Monitor the process and handle any objections until your IP is officially protected.",
+    },
+  ];
+
+  const stats = [
+    { number: "500+", label: "IP Applications Filed" },
+    { number: "95%", label: "Success Rate" },
+    { number: "₹50L+", label: "Client Savings" },
+    { number: "24/7", label: "Support Available" },
+  ];
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 bg-primary-900 text-white overflow-hidden">
+      <section className="relative pt-32 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 via-blue-500 to-purple-500"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10 pt-20">
@@ -123,69 +173,106 @@ const TrademarkIP = () => {
               {/* Badge */}
               <div className="inline-flex items-center space-x-2 bg-yellow-500/20 rounded-full px-4 py-2 border border-yellow-500/30">
                 <div className="flex items-center justify-center w-5 h-5 bg-yellow-500 rounded-full">
-                  <i className="fas fa-shield-alt text-gray-900 text-xs"></i>
+                  <i className="fas fa-trademark text-gray-900 text-xs"></i>
                 </div>
                 <span className="text-sm font-semibold text-yellow-400">
-                  🛡️ Protect Your Brand
+                  🛡️ Intellectual Property Protection
                 </span>
               </div>
 
               {/* Main Heading */}
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
-                  Trademark &
-                  <span className="text-yellow-400"> IP Protection</span>
+                  Protect Your
                   <br />
-                  <span className="text-orange-400">Secure Your Assets</span>
+                  <span className="text-yellow-400">Intellectual Property</span>
+                  <br />
+                  <span className="text-blue-400">Secure Your Future</span>
                 </h1>
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  Protect your intellectual property and brand assets with
-                  comprehensive IP services. From trademark registration to
-                  patent consultation - secure your innovations.
+                  From trademarks to patents, copyrights to designs - we provide
+                  comprehensive IP protection services to safeguard your
+                  innovations, brand, and creative works. Your intellectual
+                  property is your most valuable asset.
                 </p>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">500+</div>
-                  <div className="text-sm text-gray-300">Trademarks Filed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    6-8 Months
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <div className="text-2xl font-bold text-yellow-400">
+                      {stat.number}
+                    </div>
+                    <div className="text-sm text-gray-300">{stat.label}</div>
                   </div>
-                  <div className="text-sm text-gray-300">Registration Time</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    10 Years
-                  </div>
-                  <div className="text-sm text-gray-300">Protection Period</div>
-                </div>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("services-section")
+                      .scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Explore Our Services
+                </button>
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("why-choose-section")
+                      .scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"
+                >
+                  Why Choose Us
+                </button>
               </div>
             </div>
 
-            {/* Right Content - CTA */}
+            {/* Right Content - IP Types */}
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-white mb-4">
-                  Protect Your Brand Today
+                  Types of IP Protection
                 </h3>
                 <p className="text-gray-300">
-                  Choose the right IP protection service for your business
+                  Choose the right protection for your assets
                 </p>
               </div>
-              <button
-                onClick={() =>
-                  document
-                    .getElementById("services-section")
-                    .scrollIntoView({ behavior: "smooth" })
-                }
-                className="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
-              >
-                View Services
-              </button>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/20 rounded-lg p-4 text-center">
+                  <i className="fas fa-certificate text-yellow-400 text-2xl mb-2"></i>
+                  <div className="text-sm text-white font-semibold">
+                    Trademark
+                  </div>
+                  <div className="text-xs text-gray-300">Brand Protection</div>
+                </div>
+                <div className="bg-white/20 rounded-lg p-4 text-center">
+                  <i className="fas fa-lightbulb text-blue-400 text-2xl mb-2"></i>
+                  <div className="text-sm text-white font-semibold">Patent</div>
+                  <div className="text-xs text-gray-300">
+                    Invention Protection
+                  </div>
+                </div>
+                <div className="bg-white/20 rounded-lg p-4 text-center">
+                  <i className="fas fa-copyright text-purple-400 text-2xl mb-2"></i>
+                  <div className="text-sm text-white font-semibold">
+                    Copyright
+                  </div>
+                  <div className="text-xs text-gray-300">Creative Works</div>
+                </div>
+                <div className="bg-white/20 rounded-lg p-4 text-center">
+                  <i className="fas fa-palette text-indigo-400 text-2xl mb-2"></i>
+                  <div className="text-sm text-white font-semibold">Design</div>
+                  <div className="text-xs text-gray-300">Product Design</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -196,151 +283,197 @@ const TrademarkIP = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              IP Protection <span className="text-yellow-600">Services</span>
+              Complete{" "}
+              <span className="text-yellow-600">IP Protection Services</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the right IP protection service for your business needs
+              From trademarks to patents, we provide comprehensive intellectual
+              property protection services tailored to your needs.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            {services.map((service, index) => (
+          <div className="grid md:grid-cols-2 gap-8">
+            {services.map((service) => (
               <div
                 key={service.id}
-                className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  service.popular ? "ring-2 ring-yellow-500" : ""
+                onClick={() => handleServiceClick(service.path)}
+                className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group border-2 ${
+                  service.popular
+                    ? "border-yellow-500 transform scale-105"
+                    : "border-gray-200"
                 }`}
               >
                 {service.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-yellow-500 text-gray-900 px-6 py-2 rounded-full text-sm font-semibold">
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="bg-yellow-500 text-gray-900 px-4 py-1 rounded-full text-xs font-bold">
                       MOST POPULAR
-                    </span>
+                    </div>
                   </div>
                 )}
 
-                <div className="p-8">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                      {service.name}
-                    </h3>
-                    <p className="text-yellow-600 font-semibold mb-3">
-                      {service.subtitle}
+                <div
+                  className={`h-40 bg-gradient-to-br ${
+                    service.color === "yellow"
+                      ? "from-yellow-500 to-orange-500"
+                      : service.color === "blue"
+                      ? "from-blue-500 to-blue-600"
+                      : service.color === "purple"
+                      ? "from-purple-500 to-purple-600"
+                      : "from-indigo-500 to-indigo-600"
+                  } flex items-center justify-center relative`}
+                >
+                  <div className="text-center text-white">
+                    <i className={`${service.icon} text-4xl mb-2`}></i>
+                    <p className="text-xs text-white opacity-90">
+                      {service.timeline}
                     </p>
-                    <p className="text-gray-600 mb-4">{service.description}</p>
+                  </div>
+                </div>
 
-                    <div className="mb-4">
-                      <span className="text-gray-500 line-through text-lg">
-                        {service.originalPrice}
-                      </span>
-                      <span className="ml-2 bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-semibold">
-                        {service.discount}
-                      </span>
-                    </div>
-
-                    <div className="text-4xl font-bold text-gray-900 mb-2">
+                <div className="p-6">
+                  <div className="text-center mb-4">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-600 transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                      {service.description}
+                    </p>
+                    <div className="text-2xl font-bold text-gray-900 mb-2">
                       {service.price}
                     </div>
-                    <div className="text-sm text-gray-600 mb-4">
-                      + Govt Fee (to be paid later)
-                    </div>
-
-                    <div className="bg-blue-50 p-3 rounded-lg mb-6">
-                      <div className="flex items-center justify-center">
-                        <i className="fas fa-clock text-blue-600 mr-2"></i>
-                        <span className="font-semibold text-blue-800">
-                          Timeline: {service.timeline}
-                        </span>
-                      </div>
+                    <div className="text-xs text-gray-500">
+                      + Government fees (separate)
                     </div>
                   </div>
 
+                  <div className="space-y-2 mb-6">
+                    {service.features
+                      .slice(0, 3)
+                      .map((feature, featureIndex) => (
+                        <div
+                          key={featureIndex}
+                          className="flex items-center space-x-2"
+                        >
+                          <i className="fas fa-check text-green-500 text-xs"></i>
+                          <span className="text-gray-700 text-xs">
+                            {feature}
+                          </span>
+                        </div>
+                      ))}
+                    {service.features.length > 3 && (
+                      <div className="text-xs text-gray-500">
+                        + {service.features.length - 3} more features
+                      </div>
+                    )}
+                  </div>
+
                   <button
-                    onClick={() => handleGetStarted(service)}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
+                    className={`w-full py-3 px-4 rounded-lg font-semibold text-sm transition-all duration-300 ${
                       service.popular
                         ? "bg-yellow-500 hover:bg-yellow-400 text-gray-900"
                         : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
                   >
-                    Get Started
+                    Learn More
                   </button>
-
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-900 mb-4">
-                      What's included
-                    </h4>
-                    {service.features.map((feature, featureIndex) => (
-                      <div
-                        key={featureIndex}
-                        className="flex items-start space-x-3"
-                      >
-                        <i className="fas fa-check text-green-500 mt-1 flex-shrink-0"></i>
-                        <span className="text-gray-700 text-sm">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">
-              <strong>Note:</strong> Government fees are additional and vary by
-              service type. We'll provide exact amounts before processing.
+      {/* Why Choose Us Section */}
+      <section id="why-choose-section" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+              Why Choose <span className="text-yellow-600">Kanoonwise</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              We combine legal expertise with technological innovation to
+              provide the best IP protection services.
             </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {whyChooseUs.map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
+                  <i className={`${item.icon} text-yellow-600 text-2xl`}></i>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Why IP Protection Section */}
-      <section className="py-20 bg-white">
+      {/* Process Section */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
-              Why <span className="text-yellow-600">IP Protection</span> Matters
+              How It <span className="text-yellow-600">Works</span>
             </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our streamlined process makes IP protection simple and efficient.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-shield-alt text-yellow-600 text-2xl"></i>
+          <div className="grid md:grid-cols-4 gap-8">
+            {processSteps.map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-500 text-gray-900 rounded-full mb-6">
+                  <span className="text-xl font-bold">{step.step}</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  {step.title}
+                </h3>
+                <p className="text-gray-600">{step.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Brand Protection
-              </h3>
-              <p className="text-gray-600">
-                Protect your brand identity and prevent unauthorized use by
-                competitors
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-chart-line text-yellow-600 text-2xl"></i>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Business Value
-              </h3>
-              <p className="text-gray-600">
-                Increase your business valuation with protected intellectual
-                property assets
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-gavel text-yellow-600 text-2xl"></i>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Legal Rights
-              </h3>
-              <p className="text-gray-600">
-                Gain exclusive legal rights to use and license your intellectual
-                property
-              </p>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-gray-900 to-blue-900">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">
+            Ready to Protect Your Intellectual Property?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Don't leave your innovations, brand, or creative works unprotected.
+            Get expert IP protection services today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() =>
+                document
+                  .getElementById("services-section")
+                  .scrollIntoView({ behavior: "smooth" })
+              }
+              className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
+            >
+              Explore Services
+            </button>
+            <button
+              onClick={() => {
+                const message =
+                  "Hi! I'm interested in IP protection services. Please help me understand which services I need for my business.";
+                const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
+                  message
+                )}`;
+                window.open(whatsappUrl, "_blank");
+              }}
+              className="border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"
+            >
+              Free Consultation
+            </button>
           </div>
         </div>
       </section>
