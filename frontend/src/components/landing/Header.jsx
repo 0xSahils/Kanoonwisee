@@ -49,7 +49,6 @@ const Header = () => {
   };
 
   const handleDropdownClick = (item) => {
-    // If item has a direct path, use it; otherwise use the route map
     if (item.path) {
       navigate(item.path);
       setIsMenuOpen(false);
@@ -57,17 +56,11 @@ const Header = () => {
       return;
     }
 
-    // Handle specific navigation cases for items without direct paths
     const routeMap = {
-      // Resources menu
       "Kanoonwise Academy": "/academy",
       "Legal Insights": "/legal-insights",
       "Document Templates": "/document-templates",
-
-      // Business Services menu (fallback for items without direct paths)
       "Business Services": "/business-services",
-
-      // Find a Lawyer menu - navigate to search with specialization
       "Business & Startup Law":
         "/search-lawyers?specialization=Business%20%26%20Startup%20Law",
       "Tech Law": "/search-lawyers?specialization=Tech%20Law",
@@ -79,7 +72,6 @@ const Header = () => {
     if (routeMap[item.name]) {
       navigate(routeMap[item.name]);
     } else {
-      // Default navigation for services
       const path = `/${item.name.toLowerCase().replace(/\s+/g, "-")}`;
       navigate(path);
     }
@@ -93,7 +85,6 @@ const Header = () => {
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
-      // Even if logout fails, redirect to home
       navigate("/");
     }
   };
@@ -183,7 +174,18 @@ const Header = () => {
         {
           name: "The Startup Legal Kit",
           icon: "fas fa-box",
-          path: "/startup-legal-kit",
+          subDropdown: [
+            {
+              name: "Startup Legal Kit",
+              icon: "fas fa-rocket",
+              path: "/startup-legal-kit",
+            },
+            {
+              name: "Virtual Legal Officer (VLO)",
+              icon: "fas fa-user-tie",
+              path: "/virtual-legal-officer",
+            },
+          ],
         },
         {
           name: "Compliance Package",
@@ -337,7 +339,7 @@ const Header = () => {
                   )}
                 </button>
 
-                {/* Dropdown - only show if item has dropdown */}
+                {/* Desktop Dropdown */}
                 {item.dropdown && (
                   <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
                     <div className="py-2">
@@ -360,7 +362,7 @@ const Header = () => {
                             )}
                           </button>
 
-                          {/* SubDropdown (only for Business Setup) */}
+                          {/* Desktop SubDropdown */}
                           {dropdownItem.subDropdown && (
                             <div className="absolute top-0 left-full mt-0 ml-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 transform translate-x-2 group-hover/sub:translate-x-0">
                               <div className="py-2">
@@ -530,85 +532,131 @@ const Header = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <i className={`${item.icon} text-yellow-600`}></i>
-                    <span className="text-base">{item.name}</span>
+                    <span className="text-sm">{item.name}</span>
                   </div>
                   {item.dropdown && (
                     <i
-                      className={`fas fa-chevron-down text-sm transition-transform duration-200 ${
+                      className={`fas fa-chevron-down text-xs transition-transform duration-200 ${
                         openDropdowns[index] ? "rotate-180" : ""
                       }`}
                     ></i>
                   )}
                 </button>
+
+                {/* Mobile Dropdown */}
                 {item.dropdown && (
                   <div
-                    className={`ml-6 space-y-1 mt-2 overflow-hidden transition-all duration-300 ${
+                    className={`ml-6 space-y-2 mt-2 overflow-hidden transition-all duration-300 ${
                       openDropdowns[index]
                         ? "max-h-96 opacity-100"
                         : "max-h-0 opacity-0"
                     }`}
                   >
                     {item.dropdown.map((dropdownItem, dropIndex) => (
-                      <button
-                        key={dropIndex}
-                        onClick={() => handleDropdownClick(dropdownItem)}
-                        className="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
-                      >
-                        <i
-                          className={`${dropdownItem.icon} text-sm text-yellow-500`}
-                        ></i>
-                        <span className="text-sm">{dropdownItem.name}</span>
-                      </button>
+                      <div key={dropIndex} className="ml-2">
+                        <button
+                          onClick={() =>
+                            dropdownItem.path
+                              ? handleDropdownClick(dropdownItem)
+                              : toggleDropdown(`${index}-${dropIndex}`)
+                          }
+                          className="flex items-center justify-between w-full text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 text-left min-h-[44px]"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <i
+                              className={`${dropdownItem.icon} text-sm text-yellow-500`}
+                            ></i>
+                            <span className="text-sm">{dropdownItem.name}</span>
+                          </div>
+                          {dropdownItem.subDropdown && (
+                            <i
+                              className={`fas fa-chevron-down text-xs transition-transform duration-200 ${
+                                openDropdowns[`${index}-${dropIndex}`]
+                                  ? "rotate-180"
+                                  : ""
+                              }`}
+                            ></i>
+                          )}
+                        </button>
+
+                        {/* Mobile SubDropdown */}
+                        {dropdownItem.subDropdown && (
+                          <div
+                            className={`ml-6 space-y-1 mt-2 overflow-hidden transition-all duration-300 ${
+                              openDropdowns[`${index}-${dropIndex}`]
+                                ? "max-h-96 opacity-100"
+                                : "max-h-0 opacity-0"
+                            }`}
+                          >
+                            {dropdownItem.subDropdown.map(
+                              (subItem, subIndex) => (
+                                <button
+                                  key={subIndex}
+                                  onClick={() => handleDropdownClick(subItem)}
+                                  className="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
+                                >
+                                  <i
+                                    className={`${subItem.icon} text-sm text-yellow-500`}
+                                  ></i>
+                                  <span className="text-sm">
+                                    {subItem.name}
+                                  </span>
+                                </button>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
                 )}
               </div>
             ))}
 
-            <div className="px-4 pt-4 border-t border-gray-200">
-              <div className="space-y-2">
-                {isAuthenticated ? (
-                  <>
-                    <button
-                      onClick={handleDashboardNavigation}
-                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
-                    >
-                      <i className="fas fa-tachometer-alt text-yellow-600"></i>
-                      <span>Dashboard</span>
-                    </button>
-                    <button
-                      onClick={() => handleNavigation("/my-appointments")}
-                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
-                    >
-                      <i className="fas fa-calendar-alt text-yellow-600"></i>
-                      <span>My Appointments</span>
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left text-red-600 hover:text-red-700 hover:bg-red-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 border-t border-gray-100 mt-3 pt-3 min-h-[44px]"
-                    >
-                      <i className="fas fa-sign-out-alt"></i>
-                      <span>Logout</span>
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleNavigation("/join-as-lawyer")}
-                      className="w-full text-left text-gray-700 hover:text-orange-600 hover:bg-orange-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 min-h-[44px]"
-                    >
-                      <i className="fas fa-balance-scale text-orange-600"></i>
-                      <span>Join as Advocate</span>
-                    </button>
-                    <button
-                      onClick={() => handleNavigation("/login")}
-                      className="w-full text-left text-gray-700 hover:text-primary-600 hover:bg-yellow-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 min-h-[44px]"
-                    >
-                      Login
-                    </button>
-                  </>
-                )}
-              </div>
+            {/* Mobile Auth Section */}
+            <div className="px-4 border-t border-gray-100 pt-4">
+              {isAuthenticated ? (
+                <div className="space-y-3">
+                  <button
+                    onClick={handleDashboardNavigation}
+                    className="flex items-center space-x-2 w-full text-left text-gray-700 hover:text-primary-600 py-2"
+                  >
+                    <i className="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/my-appointments")}
+                    className="flex items-center space-x-2 w-full text-left text-gray-700 hover:text-primary-600 py-2"
+                  >
+                    <i className="fas fa-calendar-alt"></i>
+                    <span>My Appointments</span>
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 w-full text-left text-red-600 hover:text-red-700 py-2 border-t border-gray-100"
+                  >
+                    <i className="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => handleNavigation("/join-as-lawyer")}
+                    className="flex items-center space-x-2 w-full text-left text-gray-700 hover:text-orange-600 py-2"
+                  >
+                    <i className="fas fa-balance-scale"></i>
+                    <span>Join as Lawyer</span>
+                  </button>
+                  <button
+                    onClick={() => handleNavigation("/login")}
+                    className="flex items-center space-x-2 w-full text-left text-gray-700 hover:text-primary-600 py-2"
+                  >
+                    <i className="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
