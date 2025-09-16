@@ -533,4 +533,3 @@ const PatentServices = () => {
 };
 
 export default PatentServices;
-

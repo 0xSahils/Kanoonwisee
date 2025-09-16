@@ -33,6 +33,8 @@ import PatentServices from "./pages/PatentServices";
 import CopyrightServices from "./pages/CopyrightServices";
 import DesignRegistration from "./pages/DesignRegistration";
 import StartupLegalKit from "./pages/StartupLegalKit";
+import NewStartupLegalKit from "./pages/NewStartupLegalKit";
+import VirtualLegalOfficer from "./pages/VirtualLegalOfficer";
 import CompliancePackage from "./pages/CompliancePackage";
 import PrivateLimitedRegistration from "./pages/PrivateLimitedRegistration";
 import LLPRegistration from "./pages/LLPRegistration";
@@ -130,7 +132,11 @@ function App() {
               path="/design-registration"
               element={<DesignRegistration />}
             />
-            <Route path="/startup-legal-kit" element={<StartupLegalKit />} />
+            <Route path="/startup-legal-kit" element={<NewStartupLegalKit />} />
+            <Route
+              path="/virtual-legal-officer"
+              element={<VirtualLegalOfficer />}
+            />
             <Route path="/compliance-package" element={<CompliancePackage />} />
             <Route
               path="/private-limited-registration"

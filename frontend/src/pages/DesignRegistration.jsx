@@ -570,4 +570,3 @@ const DesignRegistration = () => {
 };
 
 export default DesignRegistration;
-
