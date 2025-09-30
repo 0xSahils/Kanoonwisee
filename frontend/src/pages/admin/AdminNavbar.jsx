@@ -42,6 +42,11 @@ const AdminNavbar = () => {
       path: "/admin/users",
     },
     {
+      name: "Content Management",
+      icon: "fas fa-edit",
+      path: "/admin/cms",
+    },
+    {
       name: "Settings",
       icon: "fas fa-cog",
       path: "/admin/settings",

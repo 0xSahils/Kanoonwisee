@@ -82,6 +82,7 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import AdminLawyers from "./pages/admin/Lawyers";
+import { CMSManagement } from "./pages/admin";
 
 // Diagnostic Components
 import PaymentDiagnostic from "./components/PaymentDiagnostic";
@@ -358,6 +359,16 @@ function App() {
                 <AdminLayout>
                   <ProtectedRoute requiredRole="admin">
                     <AdminLawyers />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/cms"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <CMSManagement />
                   </ProtectedRoute>
                 </AdminLayout>
               }

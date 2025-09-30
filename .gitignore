@@ -108,3 +108,6 @@ IMAGE_REQUIREMENTS.md
 # Lock files (uncomment if you want to ignore them)
 # package-lock.json
 # yarn.lock
+
+# Local Netlify folder
+.netlify

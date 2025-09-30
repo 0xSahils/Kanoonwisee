@@ -1,0 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "frontend/src/content/pages"
+    create: false
+    delete: false
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "string" }
+      - { label: "Hero Title", name: "hero_title", widget: "string" }
+      - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+      - { label: "Hero Description", name: "hero_description", widget: "text" }
+      - { label: "Stats", name: "stats", widget: "list", fields: [{ label: "Value", name: "value", widget: "string" }, { label: "Label", name: "label", widget: "string" }] }
+      - { label: "Body", name: "body", widget: "markdown" }
