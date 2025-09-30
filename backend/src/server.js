@@ -79,13 +79,6 @@ app.use("/api/files", fileUploadRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/public-payment", publicPaymentRoutes);
-app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout-static-next.razorpay.com; script-src 'self' https://checkout.razorpay.com https://checkout-static-next.razorpay.com; script-src-elem 'self' https://checkout.razorpay.com; connect-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://lumberjack.razorpay.com; img-src 'self' data: https: https://checkout-static-next.razorpay.com https://checkout.razorpay.com; font-src 'self' https://fonts.gstatic.com; frame-src https://checkout.razorpay.com https://api.razorpay.com; object-src 'none';"
-  );
-  next();
-});
 
 
 // Catch-all handler: send back React's index.html file in production

@@ -17,6 +17,7 @@ const securityHeaders = helmet({
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://checkout-static-next.razorpay.com"],
       scriptSrc: ["'self'", "https://checkout.razorpay.com", "https://checkout-static-next.razorpay.com"],
+      scriptSrcElem: ["'self'", "https://checkout.razorpay.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:", "https://checkout-static-next.razorpay.com", "https://checkout.razorpay.com"],
       connectSrc: ["'self'", "https://api.razorpay.com", "https://checkout.razorpay.com", "https://lumberjack.razorpay.com"],
