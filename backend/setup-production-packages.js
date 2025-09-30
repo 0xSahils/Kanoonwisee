@@ -13,6 +13,9 @@
  * Usage: node setup-production-packages.js
  */
 
+// Load environment variables first
+require('dotenv').config();
+
 const { execSync } = require('child_process');
 const path = require('path');
 

@@ -311,16 +311,13 @@ async function insertBusinessPackages() {
 
     console.log(`✅ Successfully inserted/updated ${results.length} business service packages`);
 
-    // Verify the packages
-    const count = await Package.count({
-      where: {
-        id: {
-          [require('sequelize').Op.like]: 'b5f1c3e0%'
-        }
-      }
-    });
+    // Verify the packages using raw SQL for UUID LIKE operation
+    const [countResult] = await sequelize.query(
+      `SELECT COUNT(*) as count FROM "Packages" WHERE CAST("id" AS TEXT) LIKE 'b5f1c3e0%'`,
+      { type: sequelize.QueryTypes.SELECT }
+    );
 
-    console.log(`📊 Total business service packages in database: ${count}`);
+    console.log(`📊 Total business service packages in database: ${countResult.count}`);
 
     process.exit(0);
   } catch (error) {

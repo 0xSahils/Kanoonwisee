@@ -105,13 +105,10 @@ const searchLawyers = async (filters = {}, page = 1, limit = 10) => {
 
     andConditions.push(
       sequelize.where(
-        sequelize.cast(sequelize.json("fee_structure.consultation"), "integer"),
+        sequelize.literal('CAST("fee_structure"->>\'consultation\' AS INTEGER)'),
         feeFilter
       )
     );
-
-    // Update the whereClause with all conditions
-    whereClause[Op.and] = andConditions;
   }
 
   // First get lawyers with basic info (no aggregations)
