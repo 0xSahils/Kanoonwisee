@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
 
 const CompliancePackage = () => {
-  const navigate = useNavigate();
-  const [selectedPackage, setSelectedPackage] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,16 +96,6 @@ const CompliancePackage = () => {
       description: "Industry-specific licenses and regulatory requirements",
     },
   ];
-
-  const handleGetStarted = (pkg) => {
-    setSelectedPackage(pkg);
-    // Create WhatsApp message
-    const message = `Hi! I'm interested in the ${pkg.name} package (${pkg.price}). Please help me get started with business compliance.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -212,7 +198,7 @@ const CompliancePackage = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
+            {packages.map((pkg) => (
               <div
                 key={pkg.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
@@ -266,7 +252,11 @@ const CompliancePackage = () => {
                   </div>
 
                   <button
-                    onClick={() => handleGetStarted(pkg)}
+                    onClick={() => {
+                      const message = `Hi! I'm interested in the ${pkg.name} package (${pkg.price}). Please help me get started with business compliance.`;
+                      const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, "_blank");
+                    }}
                     className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
                       pkg.popular
                         ? "bg-yellow-500 hover:bg-yellow-400 text-gray-900"

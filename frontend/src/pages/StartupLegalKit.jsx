@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const StartupLegalKit = () => {
-  const navigate = useNavigate();
-  const [selectedKit, setSelectedKit] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,19 +12,18 @@ const StartupLegalKit = () => {
   const kits = [
     {
       id: "essential",
-      name: "Essential Startup Kit",
-      originalPrice: "₹9,999",
-      price: "₹4,999",
-      discount: "50% off",
-      description: "Everything you need to legally launch your startup",
+      name: "Essential Kit",
+      originalPrice: "₹39,999",
+      price: "₹24,999",
+      discount: "38% off",
+      description: "Getting your company incorporated and establishing a professional identity",
       features: [
-        "Company Registration (Pvt Ltd)",
-        "Founder Agreement Template",
-        "Employment Contract Templates",
-        "NDA Templates (2 types)",
-        "Privacy Policy & Terms of Service",
-        "Basic Compliance Checklist",
-        "1 Hour Legal Consultation"
+        "Private Limited Company Incorporation",
+        "Founders' Agreement (Drafting & Consultation)",
+        "1 Year of Strategic & Legal Consultation",
+        "Startup India DPIIT Recognition Assistance",
+        "Professional Domain & Business Email Setup",
+        "Essential Legal Templates (NDA)"
       ],
       timeline: "2-3 weeks",
       popular: true,
@@ -35,58 +31,43 @@ const StartupLegalKit = () => {
     },
     {
       id: "growth",
-      name: "Growth Startup Kit",
-      originalPrice: "₹19,999",
-      price: "₹9,999",
-      discount: "50% off",
-      description: "Comprehensive legal foundation for scaling startups",
+      name: "Growth Kit",
+      originalPrice: "₹84,999",
+      price: "₹59,999",
+      discount: "29% off",
+      description: "Protecting your brand and launching your online presence as you go to market",
       features: [
         "Everything in Essential Kit",
-        "Shareholder Agreement",
-        "ESOP Policy Framework",
-        "Vendor/Supplier Agreements",
-        "Customer Service Agreements",
-        "IP Assignment Agreements",
-        "Data Protection Compliance",
-        "Quarterly Legal Health Check",
-        "3 Hours Legal Consultation"
+        "Share Allotment (First Tranche)",
+        "One-Page Professional Landing Page",
+        "Trademark Registration (1 Class)",
+        "Website Legal Documents (Privacy Policy, T&C)"
       ],
       timeline: "3-4 weeks",
       popular: false,
       savings: "Save ₹25,000+ vs individual services"
     },
     {
-      id: "fundraising",
-      name: "Fundraising Ready Kit",
-      originalPrice: "₹39,999",
-      price: "₹19,999",
-      discount: "50% off",
-      description: "Complete legal preparation for investment rounds",
+      id: "scaleup",
+      name: "Scale-Up Kit",
+      originalPrice: "₹149,999",
+      price: "₹99,999",
+      discount: "33% off",
+      description: "Securing all assets and preparing for your first hires, funding, and full market launch",
       features: [
         "Everything in Growth Kit",
-        "Investment-Ready Cap Table",
-        "Due Diligence Checklist",
-        "Term Sheet Template",
-        "Investor Rights Agreement",
-        "Board Resolution Templates",
-        "Compliance Audit Report",
-        "Fundraising Legal Strategy",
-        "5 Hours Legal Consultation",
-        "Dedicated Legal Advisor"
+        "Complete 5-Page Website Development",
+        "Copyright Registration (1 Work: Code/Content)",
+        "Employment Agreement Template",
+        "Basic ESOP Policy Template",
+        "Investor Pitch Deck Review & Feedback",
+        "Access to Exclusive 'Expert Talk' Webinars"
       ],
       timeline: "4-6 weeks",
       popular: false,
       savings: "Save ₹50,000+ vs individual services"
     }
   ];
-
-  const handleGetStarted = (kit) => {
-    setSelectedKit(kit);
-    // Create WhatsApp message
-    const message = `Hi! I'm interested in the ${kit.name} (${kit.price}). Please help me get started with my startup legal foundation.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -179,7 +160,7 @@ const StartupLegalKit = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {kits.map((kit, index) => (
+            {kits.map((kit) => (
               <div
                 key={kit.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
@@ -224,16 +205,13 @@ const StartupLegalKit = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(kit)}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
-                      kit.popular
-                        ? 'bg-yellow-500 hover:bg-yellow-400 text-gray-900'
-                        : 'bg-gray-900 hover:bg-gray-800 text-white'
-                    }`}
-                  >
-                    Get Started
-                  </button>
+                  <div className="mb-6">
+                    <PublicBusinessServicePayment
+                      serviceName={kit.name}
+                      buttonText={`Get Started - ${kit.price}`}
+                      className="w-full"
+                    />
+                  </div>
 
                   <div className="space-y-4">
                     <h4 className="font-semibold text-gray-900 mb-4">What's included</h4>

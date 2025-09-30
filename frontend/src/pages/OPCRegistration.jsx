@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const OPCRegistration = () => {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -17,6 +14,7 @@ const OPCRegistration = () => {
       name: "🌱 Starter Plan",
       subtitle: "For New Companies",
       price: "₹1,799",
+      fee: 1799,
       originalPrice: "₹3,599",
       discount: "50% OFF",
       timeline: "14-21 days",
@@ -39,6 +37,7 @@ const OPCRegistration = () => {
       name: "🏆 Premium Plan",
       subtitle: "Fast Track + Annual Compliance",
       price: "₹29,999",
+      fee: 29999,
       originalPrice: "₹59,999",
       discount: "50% OFF",
       timeline: "7-14 days",
@@ -69,14 +68,6 @@ const OPCRegistration = () => {
         "Hi! I'm interested in the Premium Plan for One Person Company Registration (₹29,999). Please help me get started with complete OPC solution including compliance.",
     },
   ];
-
-  const handleGetStarted = (plan) => {
-    setSelectedPlan(plan);
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      plan.whatsappMessage
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const handleConsultation = () => {
     const message =
@@ -267,16 +258,15 @@ const OPCRegistration = () => {
                     </ul>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(plan)}
+                  <PublicBusinessServicePayment 
+                    serviceName={`OPC ${plan.name}`}
+                    buttonText={`Pay ${plan.price}`}
                     className={`w-full font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105 ${
                       plan.popular
                         ? "bg-accent-500 hover:bg-accent-400 text-primary-900"
                         : "bg-primary-900 hover:bg-primary-800 text-white"
                     }`}
-                  >
-                    Get Started - {plan.price}
-                  </button>
+                  />
                 </div>
               </div>
             ))}
@@ -711,12 +701,11 @@ const OPCRegistration = () => {
             building your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => handleGetStarted(plans[0])}
+            <PublicBusinessServicePayment 
+              serviceName="OPC Starter Plan"
+              buttonText={`Pay ${plans[0].price}`}
               className="bg-accent-500 hover:bg-accent-400 text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
-            >
-              Register Your OPC Today
-            </button>
+            />
             <button
               onClick={handleConsultation}
               className="border-2 border-white text-white hover:bg-white hover:text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"

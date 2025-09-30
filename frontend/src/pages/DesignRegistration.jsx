@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const DesignRegistration = () => {
-  const navigate = useNavigate();
-  const [selectedPackage, setSelectedPackage] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,15 +54,6 @@ const DesignRegistration = () => {
       timeline: "6-9 months",
     },
   ];
-
-  const handleGetStarted = (pkg) => {
-    setSelectedPackage(pkg);
-    const message = `Hi! I'm interested in the ${pkg.name} design registration package (${pkg.price}). Please help me protect my product design.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const whoWeHelp = [
     {
@@ -385,7 +373,7 @@ const DesignRegistration = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
+            {packages.map((pkg) => (
               <div
                 key={pkg.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
@@ -426,16 +414,17 @@ const DesignRegistration = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(pkg)}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
+                  <PublicBusinessServicePayment
+                    serviceName="Design Registration"
+                    servicePrice={pkg.price.replace('₹', '').replace(',', '')}
+                    serviceDescription={`${pkg.name} - ${pkg.description}`}
+                    buttonText="Get Started"
+                    buttonClass={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
                       pkg.popular
                         ? "bg-indigo-500 hover:bg-indigo-400 text-white"
                         : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
-                  >
-                    Get Started
-                  </button>
+                  />
 
                   <div className="space-y-4">
                     <h4 className="font-semibold text-gray-900 mb-4">

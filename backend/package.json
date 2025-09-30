@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.js",
     "debug": "node debug.js",
     "migrate": "node deploy-production.js",
+    "setup-packages": "node setup-production-packages.js",
     "deploy": "node deploy.js",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:all": "sequelize-cli db:seed:all",
@@ -40,6 +41,7 @@
     "nodemailer": "^6.9.13",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
+    "razorpay": "^2.9.6",
     "sequelize": "^6.37.1",
     "sequelize-cli": "^6.6.2",
     "uuid": "^9.0.1"

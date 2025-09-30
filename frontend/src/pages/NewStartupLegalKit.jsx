@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const NewStartupLegalKit = () => {
-  const navigate = useNavigate();
-  const [selectedKit, setSelectedKit] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,6 +14,7 @@ const NewStartupLegalKit = () => {
       id: "essential",
       name: "Essential Kit",
       price: "₹24,999",
+      fee: 24999,
       description:
         "Getting your company incorporated and establishing a professional identity",
       features: {
@@ -39,6 +37,7 @@ const NewStartupLegalKit = () => {
       id: "growth",
       name: "Growth Kit",
       price: "₹59,999",
+      fee: 59999,
       description:
         "Protecting your brand and launching your online presence as you go to market",
       features: {
@@ -64,6 +63,7 @@ const NewStartupLegalKit = () => {
       id: "scale-up",
       name: "Scale-Up Kit",
       price: "₹99,999",
+      fee: 99999,
       description:
         "Securing all assets and preparing for your first hires, funding, and full market launch",
       features: {
@@ -89,15 +89,6 @@ const NewStartupLegalKit = () => {
       savings: "Save ₹50,000+ vs individual services",
     },
   ];
-
-  const handleGetStarted = (kit) => {
-    setSelectedKit(kit);
-    const message = `Hi! I'm interested in the ${kit.name} (${kit.price}). Please help me get started with my startup legal foundation.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const whyStartupKit = [
     {
@@ -353,7 +344,7 @@ const NewStartupLegalKit = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {kits.map((kit, index) => (
+            {kits.map((kit) => (
               <div
                 key={kit.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
@@ -401,16 +392,15 @@ const NewStartupLegalKit = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(kit)}
+                  <PublicBusinessServicePayment 
+                    serviceName={kit.name}
+                    buttonText={`Get Started - ${kit.price}`}
                     className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
                       kit.popular
                         ? "bg-green-500 hover:bg-green-400 text-white"
                         : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
-                  >
-                    Get Started
-                  </button>
+                  />
 
                   <div className="space-y-6">
                     {Object.entries(kit.features).map(

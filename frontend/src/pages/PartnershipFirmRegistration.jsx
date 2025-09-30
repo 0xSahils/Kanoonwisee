@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const PartnershipFirmRegistration = () => {
-  const [selectedPlan, setSelectedPlan] = useState("starter");
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -14,6 +13,7 @@ const PartnershipFirmRegistration = () => {
       name: "Starter Plan",
       subtitle: "Basic Partnership Registration",
       price: "₹2,999",
+      fee: 2999,
       originalPrice: "₹5,999",
       discount: "50% OFF",
       timeline: "7-10 days",
@@ -31,6 +31,7 @@ const PartnershipFirmRegistration = () => {
       name: "Premium Plan",
       subtitle: "Registration + GST + Compliance",
       price: "₹5,999",
+      fee: 5999,
       originalPrice: "₹11,999",
       discount: "50% OFF",
       timeline: "7-10 days",
@@ -44,15 +45,6 @@ const PartnershipFirmRegistration = () => {
         "Special discount on Startup Package",
       ],
     },
-  };
-
-  const handleWhatsAppContact = (planType) => {
-    const plan = plans[planType];
-    const message = `Hi! I'm interested in the ${plan.name} for Partnership Firm Registration (${plan.price}). Can you help me get started?`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
   };
 
   const benefits = [
@@ -198,11 +190,7 @@ const PartnershipFirmRegistration = () => {
               {Object.entries(plans).map(([key, plan]) => (
                 <div
                   key={key}
-                  className={`bg-white rounded-2xl p-6 shadow-xl border-2 transition-all duration-300 ${
-                    selectedPlan === key
-                      ? "border-accent-500 transform scale-105"
-                      : "border-gray-200"
-                  }`}
+                  className="bg-white rounded-2xl p-6 shadow-xl border-2 border-gray-200 transition-all duration-300 hover:border-accent-500 hover:transform hover:scale-105"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -235,13 +223,11 @@ const PartnershipFirmRegistration = () => {
                     </p>
                   </div>
 
-                  <button
-                    onClick={() => handleWhatsAppContact(key)}
+                  <PublicBusinessServicePayment 
+                    serviceName="Partnership Firm Registration"
+                    buttonText={`Pay ${plan.price}`}
                     className="w-full bg-accent-500 hover:bg-accent-600 text-primary-900 font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <i className="fab fa-whatsapp mr-2"></i>
-                    Get Started Now
-                  </button>
+                  />
                 </div>
               ))}
             </div>
@@ -310,17 +296,15 @@ const PartnershipFirmRegistration = () => {
                   ))}
                 </ul>
 
-                <button
-                  onClick={() => handleWhatsAppContact(key)}
+                <PublicBusinessServicePayment 
+                  serviceName="Partnership Firm Registration"
+                  buttonText={`Pay ${plan.price}`}
                   className={`w-full font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center ${
                     key === "premium"
                       ? "bg-accent-500 hover:bg-accent-600 text-primary-900"
                       : "bg-primary-900 hover:bg-primary-800 text-white"
                   }`}
-                >
-                  <i className="fab fa-whatsapp mr-2"></i>
-                  Choose {plan.name}
-                </button>
+                />
               </div>
             ))}
           </div>
@@ -543,20 +527,16 @@ const PartnershipFirmRegistration = () => {
             partners can focus on growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => handleWhatsAppContact("starter")}
+            <PublicBusinessServicePayment 
+              serviceName="Partnership Firm Registration"
+              buttonText={`Pay ${plans.starter.price}`}
               className="bg-accent-500 hover:bg-accent-600 text-primary-900 font-bold py-4 px-8 rounded-lg transition-colors duration-300 flex items-center justify-center"
-            >
-              <i className="fab fa-whatsapp mr-2"></i>
-              Start Partnership Registration
-            </button>
-            <button
-              onClick={() => handleWhatsAppContact("premium")}
+            />
+            <PublicBusinessServicePayment 
+              serviceName="Partnership Firm Registration"
+              buttonText={`Pay ${plans.premium.price}`}
               className="bg-white hover:bg-gray-100 text-primary-900 font-bold py-4 px-8 rounded-lg transition-colors duration-300 flex items-center justify-center"
-            >
-              <i className="fas fa-comments mr-2"></i>
-              Talk to Our Experts
-            </button>
+            />
           </div>
         </div>
       </section>

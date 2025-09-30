@@ -83,6 +83,12 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import AdminLawyers from "./pages/admin/Lawyers";
 
+// Diagnostic Components
+import PaymentDiagnostic from "./components/PaymentDiagnostic";
+
+// Payment Pages
+import PublicPaymentSuccess from "./pages/public/PublicPaymentSuccess";
+
 function App() {
   return (
     <Provider store={store}>
@@ -112,6 +118,11 @@ function App() {
             <Route path="/legal-calculators" element={<LegalCalculators />} />
             <Route path="/document-templates" element={<DocumentTemplates />} />
             <Route path="/legal-faqs" element={<LegalFAQs />} />
+            
+            {/* Diagnostic Routes */}
+            <Route path="/payment-diagnostic" element={<PaymentDiagnostic />} />
+            <Route path="/payment-success" element={<PublicPaymentSuccess />} />
+            
             <Route
               path="/my-appointments"
               element={

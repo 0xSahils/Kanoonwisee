@@ -211,7 +211,7 @@ const KanoonwiseAcademy = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {featuredArticles.map((article, index) => (
+            {featuredArticles.map((article) => (
               <div key={article.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <img
                   src={article.image}

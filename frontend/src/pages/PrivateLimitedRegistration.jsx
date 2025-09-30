@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const PrivateLimitedRegistration = () => {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -60,14 +57,6 @@ const PrivateLimitedRegistration = () => {
         "Hi! I'm interested in the Pro Plan for Private Limited Company Registration (₹3,999). Please help me get started with fast-track incorporation.",
     },
   ];
-
-  const handleGetStarted = (plan) => {
-    setSelectedPlan(plan);
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      plan.whatsappMessage
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const handleConsultation = () => {
     const message =
@@ -264,16 +253,15 @@ const PrivateLimitedRegistration = () => {
                     </ul>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(plan)}
+                  <PublicBusinessServicePayment 
+                    serviceName="Private Limited Company Registration"
+                    buttonText={`Get Started - ${plan.price}`}
                     className={`w-full font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105 ${
                       plan.popular
                         ? "bg-accent-500 hover:bg-accent-400 text-primary-900"
                         : "bg-primary-900 hover:bg-primary-800 text-white"
                     }`}
-                  >
-                    Get Started - {plan.price}
-                  </button>
+                  />
                 </div>
               </div>
             ))}
@@ -649,12 +637,11 @@ const PrivateLimitedRegistration = () => {
             company registration needs
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => handleGetStarted(plans[0])}
+            <PublicBusinessServicePayment 
+              serviceName="Private Limited Company Registration"
+              buttonText={`Get Started - ${plans[0].price}`}
               className="bg-accent-500 hover:bg-accent-400 text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
-            >
-              Get Started - ₹1,199
-            </button>
+            />
             <button
               onClick={handleConsultation}
               className="border-2 border-white text-white hover:bg-white hover:text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"

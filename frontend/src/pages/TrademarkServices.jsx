@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const TrademarkServices = () => {
-  const navigate = useNavigate();
-  const [selectedPackage, setSelectedPackage] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,15 +58,6 @@ const TrademarkServices = () => {
       timeline: "8-12 months",
     },
   ];
-
-  const handleGetStarted = (pkg) => {
-    setSelectedPackage(pkg);
-    const message = `Hi! I'm interested in the ${pkg.name} trademark package (${pkg.price}). Please help me secure my brand.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const processSteps = [
     {
@@ -150,34 +138,34 @@ const TrademarkServices = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
+      <section className="relative pt-20 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 pt-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-12 sm:pt-16 lg:pt-20">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center min-h-[60vh] sm:min-h-[70vh]">
             {/* Left Content */}
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center space-x-2 bg-yellow-500/20 rounded-full px-4 py-2 border border-yellow-500/30">
-                <div className="flex items-center justify-center w-5 h-5 bg-yellow-500 rounded-full">
+              <div className="inline-flex items-center space-x-2 bg-yellow-500/20 rounded-full px-3 sm:px-4 py-2 border border-yellow-500/30">
+                <div className="flex items-center justify-center w-4 sm:w-5 h-4 sm:h-5 bg-yellow-500 rounded-full">
                   <i className="fas fa-certificate text-gray-900 text-xs"></i>
                 </div>
-                <span className="text-sm font-semibold text-yellow-400">
+                <span className="text-xs sm:text-sm font-semibold text-yellow-400">
                   🛡️ Trademark Protection
                 </span>
               </div>
 
               {/* Main Heading */}
-              <div className="space-y-6">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
+              <div className="space-y-4 sm:space-y-6">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
                   Secure Your Brand.
                   <br />
                   <span className="text-yellow-400">Own Your Identity.</span>
                 </h1>
-                <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl">
                   Your brand is your most valuable business asset. A registered
                   trademark is the legal shield that grants you exclusive
                   ownership, protects you from copycats, and builds a foundation
@@ -193,7 +181,7 @@ const TrademarkServices = () => {
                       .getElementById("packages-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
                 >
                   Get Your Free Brand Consultation
                 </button>
@@ -203,7 +191,7 @@ const TrademarkServices = () => {
                       .getElementById("why-trademark-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-xl transition-all duration-300"
                 >
                   Learn More
                 </button>
@@ -211,41 +199,41 @@ const TrademarkServices = () => {
             </div>
 
             {/* Right Content - Brand Examples */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-white mb-4">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20">
+              <div className="text-center mb-4 sm:mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                   What is a Trademark?
                 </h3>
-                <p className="text-gray-300 mb-6">
+                <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6">
                   A trademark is a unique identifier that connects a product or
                   service to a specific company.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/20 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="bg-white/20 rounded-lg p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">
                     Google
                   </div>
-                  <div className="text-sm text-gray-300">Brand Name</div>
+                  <div className="text-xs sm:text-sm text-gray-300">Brand Name</div>
                 </div>
-                <div className="bg-white/20 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">
+                <div className="bg-white/20 rounded-lg p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">
                     TATA
                   </div>
-                  <div className="text-sm text-gray-300">Brand Name</div>
+                  <div className="text-xs sm:text-sm text-gray-300">Brand Name</div>
                 </div>
-                <div className="bg-white/20 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">
+                <div className="bg-white/20 rounded-lg p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">
                     Nike
                   </div>
-                  <div className="text-sm text-gray-300">Logo & Slogan</div>
+                  <div className="text-xs sm:text-sm text-gray-300">Logo & Slogan</div>
                 </div>
-                <div className="bg-white/20 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">
+                <div className="bg-white/20 rounded-lg p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">
                     Apple
                   </div>
-                  <div className="text-sm text-gray-300">Logo Design</div>
+                  <div className="text-xs sm:text-sm text-gray-300">Logo Design</div>
                 </div>
               </div>
             </div>
@@ -254,68 +242,68 @@ const TrademarkServices = () => {
       </section>
 
       {/* Why Trademark Section */}
-      <section id="why-trademark-section" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+      <section id="why-trademark-section" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4 sm:mb-6 px-4 sm:px-0">
               Why a Trademark is a{" "}
               <span className="text-yellow-600">Non-Negotiable Asset</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4 sm:px-0">
               Registering your trademark is one of the most important
               investments you can make. It moves your brand from a vulnerable
               idea to a defensible, valuable asset.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-shield-alt text-yellow-600 text-2xl"></i>
+              <div className="inline-flex items-center justify-center w-16 sm:w-20 h-16 sm:h-20 bg-yellow-100 rounded-full mb-4 sm:mb-6">
+                <i className="fas fa-shield-alt text-yellow-600 text-xl sm:text-2xl"></i>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 🛡️ Legal Ownership & Protection
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Gain the exclusive, nationwide right to use your brand name and
                 logo. This gives you the legal power to stop competitors from
                 using a confusingly similar mark.
               </p>
             </div>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-chart-line text-yellow-600 text-2xl"></i>
+              <div className="inline-flex items-center justify-center w-16 sm:w-20 h-16 sm:h-20 bg-yellow-100 rounded-full mb-4 sm:mb-6">
+                <i className="fas fa-chart-line text-yellow-600 text-xl sm:text-2xl"></i>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 🏦 Creates a Valuable Asset
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 A registered trademark is property. It can be bought, sold,
                 licensed (like in a franchise), and used to attract investors,
                 adding significant value to your company's balance sheet.
               </p>
             </div>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-handshake text-yellow-600 text-2xl"></i>
+              <div className="inline-flex items-center justify-center w-16 sm:w-20 h-16 sm:h-20 bg-yellow-100 rounded-full mb-4 sm:mb-6">
+                <i className="fas fa-handshake text-yellow-600 text-xl sm:text-2xl"></i>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 🤝 Builds Customer Trust
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 The ® symbol is a powerful signal of authenticity and
                 legitimacy. It tells customers that you are the genuine source
                 of your products or services, building long-term brand loyalty.
               </p>
             </div>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full mb-6">
-                <i className="fas fa-globe text-yellow-600 text-2xl"></i>
+              <div className="inline-flex items-center justify-center w-16 sm:w-20 h-16 sm:h-20 bg-yellow-100 rounded-full mb-4 sm:mb-6">
+                <i className="fas fa-globe text-yellow-600 text-xl sm:text-2xl"></i>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 🌐 Prevents Cybersquatting
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 It strengthens your claim to your brand's domain name and social
                 media handles, helping you fight against online impersonators.
               </p>
@@ -325,41 +313,41 @@ const TrademarkServices = () => {
       </section>
 
       {/* Packages Section */}
-      <section id="packages-section" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+      <section id="packages-section" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4 sm:mb-6 px-4 sm:px-0">
               Choose Your{" "}
               <span className="text-yellow-600">Protection Plan</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4 sm:px-0">
               We offer three clear, fixed-fee packages designed for every stage
               of your business journey. All prices are exclusive of government
               fees.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            {packages.map((pkg) => (
               <div
                 key={pkg.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ${
                   pkg.popular
-                    ? "ring-2 ring-yellow-500 transform scale-105"
+                    ? "ring-2 ring-yellow-500 lg:transform lg:scale-105"
                     : ""
                 }`}
               >
                 {pkg.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-yellow-500 text-gray-900 px-6 py-2 rounded-full text-sm font-semibold">
+                    <span className="bg-yellow-500 text-gray-900 px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold">
                       MOST POPULAR
                     </span>
                   </div>
                 )}
 
-                <div className="p-8">
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <div className="p-6 sm:p-8">
+                  <div className="text-center mb-6 sm:mb-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                       {pkg.name}
                     </h3>
                     <p className="text-gray-600 mb-4">{pkg.description}</p>
@@ -381,16 +369,14 @@ const TrademarkServices = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(pkg)}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
-                      pkg.popular
-                        ? "bg-yellow-500 hover:bg-yellow-400 text-gray-900"
-                        : "bg-gray-900 hover:bg-gray-800 text-white"
-                    }`}
-                  >
-                    Get Started
-                  </button>
+                  {/* Public Business Service Payment Component */}
+                  <div className="mb-6">
+                    <PublicBusinessServicePayment
+                      serviceName="Trademark Registration"
+                      buttonText={`Get Started - ${pkg.price}`}
+                      className="w-full"
+                    />
+                  </div>
 
                   <div className="space-y-4">
                     <h4 className="font-semibold text-gray-900 mb-4">

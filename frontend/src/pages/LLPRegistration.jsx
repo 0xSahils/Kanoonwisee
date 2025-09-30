@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const LLPRegistration = () => {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -17,6 +14,7 @@ const LLPRegistration = () => {
       name: "⚖️ Starter Plan",
       subtitle: "For New LLPs",
       price: "₹1,799",
+      fee: 1799,
       originalPrice: "₹3,599",
       discount: "50% OFF",
       timeline: "21 days",
@@ -40,6 +38,7 @@ const LLPRegistration = () => {
       name: "💎 Premium Plan",
       subtitle: "LLP + Annual Compliance",
       price: "₹12,999",
+      fee: 12999,
       originalPrice: "₹25,999",
       discount: "50% OFF",
       timeline: "14 days",
@@ -65,14 +64,6 @@ const LLPRegistration = () => {
         "Hi! I'm interested in the Premium Plan for LLP Registration (₹12,999). Please help me get started with complete LLP solution including compliance.",
     },
   ];
-
-  const handleGetStarted = (plan) => {
-    setSelectedPlan(plan);
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      plan.whatsappMessage
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const handleConsultation = () => {
     const message =
@@ -269,16 +260,15 @@ const LLPRegistration = () => {
                     </ul>
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(plan)}
+                  <PublicBusinessServicePayment 
+                    serviceName="LLP Registration"
+                    buttonText={`Pay ${plan.price}`}
                     className={`w-full font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105 ${
                       plan.popular
                         ? "bg-accent-500 hover:bg-accent-400 text-primary-900"
                         : "bg-primary-900 hover:bg-primary-800 text-white"
                     }`}
-                  >
-                    Get Started - {plan.price}
-                  </button>
+                  />
                 </div>
               </div>
             ))}
@@ -697,12 +687,11 @@ const LLPRegistration = () => {
             stress. You bring the idea—we'll handle the rest.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => handleGetStarted(plans[0])}
+            <PublicBusinessServicePayment 
+              serviceName="LLP Registration"
+              buttonText={`Pay ${plans[0].price}`}
               className="bg-accent-500 hover:bg-accent-400 text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
-            >
-              Get Started - ₹1,799
-            </button>
+            />
             <button
               onClick={handleConsultation}
               className="border-2 border-white text-white hover:bg-white hover:text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300"

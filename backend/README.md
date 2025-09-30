@@ -69,14 +69,21 @@ A Postman collection is provided (`Kanoonwise.postman_collection.json`) to test 
 - `GET /lawyer/appointments`
 - `POST /lawyer/appointments/respond`
 
-## Production Deployment
+## Production Database Setup
 
-1.  Ensure all environment variables in the `.env` file are set for the production environment.
-2.  Build the application (if a build step is necessary).
-3.  Run database migrations: `npm run db:migrate`.
-4.  Start the server: `npm start`.
+Before deploying to production, run the comprehensive database setup script:
 
-It is recommended to use a process manager like PM2 to run the application in production.
+```bash
+node setup-production-db.js
 ```
-pm2 start src/server.js --name kanoonwise-backend
-```
+
+This script will:
+- Test database connection
+- Run all pending migrations
+- Seed essential data
+- Verify database structure
+- Check admin user setup
+- Validate payment packages
+- Perform final verification
+
+**Important:** Always run this script in your production environment before starting the application for the first time or after database schema changes.

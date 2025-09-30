@@ -29,6 +29,8 @@ const publicRoutes = require("./routes/public.routes");
 const fileUploadRoutes = require("./routes/fileUpload.routes");
 const healthRoutes = require("./routes/health.routes");
 const adminRoutes = require("./routes/admin.routes");
+const paymentRoutes = require("./routes/payment.routes");
+const publicPaymentRoutes = require("./routes/publicPayment");
 
 const app = express();
 
@@ -75,6 +77,8 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/public", publicRoutes);
 app.use("/api/files", fileUploadRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/public-payment", publicPaymentRoutes);
 
 // Catch-all handler: send back React's index.html file in production
 if (process.env.NODE_ENV === "production") {

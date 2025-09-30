@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import Header from "../components/landing/Header";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const POSHCompliance = () => {
-  const navigate = useNavigate();
-
   // Scroll to top when component mounts
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -293,20 +291,11 @@ const POSHCompliance = () => {
                     </li>
                   ))}
                 </ul>
-                <button
-                  onClick={() => {
-                    const message = encodeURIComponent(
-                      "Hi! I'm interested in POSH Compliance Services. Could you please help me make my workplace POSH compliant?"
-                    );
-                    window.open(
-                      `https://wa.me/919876543210?text=${message}`,
-                      "_blank"
-                    );
-                  }}
+                <PublicBusinessServicePayment
+                  serviceName="POSH Compliance"
+                  buttonText="Get Started - ₹14,999"
                   className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-yellow-500 hover:bg-yellow-400 text-gray-900"
-                >
-                  Get Started
-                </button>
+                />
               </div>
             </div>
           </div>

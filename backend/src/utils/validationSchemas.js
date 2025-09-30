@@ -125,3 +125,29 @@ module.exports = {
   reviewSchema,
   lawyerSearchSchema,
 };
+
+// Payment validation schemas
+const createOrderSchema = Joi.object({
+  packageId: Joi.string().uuid().required(),
+});
+
+const verifyPaymentSchema = Joi.object({
+  orderId: Joi.string().required(),
+  paymentId: Joi.string().required(),
+  signature: Joi.string().required(),
+});
+
+module.exports = {
+  requestOtpSchema,
+  verifyOtpSchema,
+  lawyerProfileSchema,
+  lawyerFileUploadSchema,
+  respondAppointmentSchema,
+  refreshTokenSchema,
+  clientProfileSchema,
+  bookAppointmentSchema,
+  reviewSchema,
+  lawyerSearchSchema,
+  createOrderSchema,
+  verifyPaymentSchema,
+};

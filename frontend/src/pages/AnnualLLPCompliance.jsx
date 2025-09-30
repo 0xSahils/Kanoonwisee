@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import Header from "../components/landing/Header";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const AnnualLLPCompliance = () => {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState("retainer");
-
   // Scroll to top when component mounts
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -301,24 +298,15 @@ const AnnualLLPCompliance = () => {
                       </li>
                     ))}
                   </ul>
-                  <button
-                    onClick={() => {
-                      const message = encodeURIComponent(
-                        "Hi! I'm interested in Annual LLP Compliance services. Could you please provide me with a free LLP compliance check?"
-                      );
-                      window.open(
-                        `https://wa.me/919876543210?text=${message}`,
-                        "_blank"
-                      );
-                    }}
+                  <PublicBusinessServicePayment
+                    serviceName={pkg.name}
+                    buttonText="Get Started"
                     className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
                       pkg.popular
                         ? "bg-yellow-500 hover:bg-yellow-400 text-gray-900"
                         : "bg-gray-900 hover:bg-gray-800 text-white"
                     }`}
-                  >
-                    Get Started
-                  </button>
+                  />
                 </div>
               </div>
             ))}

@@ -5,7 +5,6 @@ import KnowledgeBank from "../components/landing/KnowledgeBank";
 
 const JusticiaHomepage = () => {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedCity, setSelectedCity] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -13,24 +12,6 @@ const JusticiaHomepage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const heroSlides = [
-    {
-      title: "Client Focused",
-      subtitle: "The best law practices & services for all your legal needs.",
-      description: "Professional legal consultation at your fingertips",
-    },
-    {
-      title: "Law Expertise",
-      subtitle: "The best law practices & services for all your legal needs.",
-      description: "Expert lawyers ready to help with your legal matters",
-    },
-    {
-      title: "Justice Oriented",
-      subtitle: "The best law practices & services for all your legal needs.",
-      description: "Committed to delivering justice and protecting your rights",
-    },
-  ];
 
   const services = [
     {
@@ -58,65 +39,6 @@ const JusticiaHomepage = () => {
       link: "/compliance-package",
     },
   ];
-
-  const testimonials = [
-    {
-      name: "Rajesh Kumar",
-      text: "Kanoonwise helped me find the perfect property lawyer in Mumbai. The platform is amazing and all lawyers are verified!",
-      image: "/client profile 1.png",
-    },
-    {
-      name: "Priya Sharma",
-      text: "Found an excellent corporate lawyer through Kanoonwise. Easy booking, transparent fees, highly recommend this platform!",
-      image: "/client profile 2.png",
-    },
-    {
-      name: "Amit Patel",
-      text: "Best legal platform in India! Quick response, verified lawyers, and seamless consultation booking. Great experience!",
-      image: "/client profile 3.png",
-    },
-  ];
-
-  const expertise = [
-    {
-      title: "Banking Law",
-      category: "Financial Services",
-      image: "/banking law.png",
-    },
-    {
-      title: "Health Law",
-      category: "Medical Legal",
-      image: "/health law.png",
-    },
-    {
-      title: "Real Estate Law",
-      category: "Property & Transactions",
-      image: "/real estate law.png",
-    },
-    {
-      title: "Corporate Law",
-      category: "Business Legal",
-      image: "/corporate law.jpg",
-    },
-    {
-      title: "Family Law",
-      category: "Personal Legal",
-      image: "/family law.png",
-    },
-    {
-      title: "Criminal Law",
-      category: "Criminal Defense",
-      image: "/criminal law.png",
-    },
-  ];
-
-  // Auto-advance hero slider
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Search functionality
   const handleSearch = () => {

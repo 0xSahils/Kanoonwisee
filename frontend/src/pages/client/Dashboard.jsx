@@ -86,21 +86,6 @@ const ClientDashboard = () => {
     },
   ];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "pending":
-        return "warning";
-      case "accepted":
-        return "success";
-      case "completed":
-        return "secondary";
-      case "cancelled":
-        return "destructive";
-      default:
-        return "secondary";
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">

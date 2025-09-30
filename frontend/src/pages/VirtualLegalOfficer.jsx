@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
+import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
 
 const VirtualLegalOfficer = () => {
-  const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState(null);
-
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,15 +63,6 @@ const VirtualLegalOfficer = () => {
       color: "purple",
     },
   ];
-
-  const handleGetStarted = (plan) => {
-    setSelectedPlan(plan);
-    const message = `Hi! I'm interested in the ${plan.name} (${plan.price}${plan.period}). Please help me understand how a Virtual Legal Officer can benefit my business.`;
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
 
   const whyVLO = [
     {
@@ -339,7 +327,7 @@ const VirtualLegalOfficer = () => {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {plans.map((plan, index) => (
+            {plans.map((plan) => (
               <div
                 key={plan.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 ${
@@ -376,18 +364,31 @@ const VirtualLegalOfficer = () => {
                     )}
                   </div>
 
-                  <button
-                    onClick={() => handleGetStarted(plan)}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
-                      plan.popular
-                        ? "bg-green-500 hover:bg-green-400 text-white"
-                        : plan.id === "strategic"
-                        ? "bg-purple-500 hover:bg-purple-400 text-white"
-                        : "bg-gray-900 hover:bg-gray-800 text-white"
-                    }`}
-                  >
-                    {plan.id === "strategic" ? "Request Quote" : "Get Started"}
-                  </button>
+                  {/* Replace button with PublicBusinessServicePayment for non-strategic plans */}
+                  {plan.id === "strategic" ? (
+                    <button
+                      onClick={() => {
+                        const message = encodeURIComponent(
+                          `Hi! I'm interested in the ${plan.name}. Please help me understand how a Virtual Legal Officer can benefit my business with custom strategic support.`
+                        );
+                        window.open(
+                          `https://wa.me/919876543210?text=${message}`,
+                          "_blank"
+                        );
+                      }}
+                      className="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 bg-purple-500 hover:bg-purple-400 text-white"
+                    >
+                      Request Quote
+                    </button>
+                  ) : (
+                    <div className="mb-6">
+                      <PublicBusinessServicePayment
+                        serviceName="Virtual Legal Officer"
+                        buttonText={`Get Started - ${plan.price}`}
+                        className="w-full"
+                      />
+                    </div>
+                  )}
 
                   <div className="space-y-6">
                     {Object.entries(plan.features).map(

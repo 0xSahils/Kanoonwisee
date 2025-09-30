@@ -9,11 +9,12 @@
       http-equiv="Content-Security-Policy"
       content="
     default-src 'self';
-    script-src 'self';
+    script-src 'self' https://checkout.razorpay.com https://checkout-static-next.razorpay.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
     font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com;
-    img-src 'self' data:;
-    connect-src 'self';
+    img-src 'self' data: https://checkout.razorpay.com;
+    connect-src 'self' http://localhost:* https://api.razorpay.com https://lumberjack.razorpay.com;
+    frame-src https://api.razorpay.com;
   "
     />
     <title>Kanoonwise - Legal Services Platform</title>
@@ -30,6 +31,7 @@
   </head>
   <body>
     <div id="root"></div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
