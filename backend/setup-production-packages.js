@@ -116,8 +116,8 @@ async function main() {
     try {
       await runCommand('npx sequelize-cli db:migrate --name 20250919000001-create-packages.js --env production', 'Run packages table migration');
     } catch (error) {
-      if (error.message.includes('already exists')) {
-        logWarning('Packages table already exists - skipping migration');
+      if (error.message.includes('already exists') || error.message.includes('not pending') || error.stderr?.includes('not pending')) {
+        logWarning('Packages table migration already applied - skipping');
       } else {
         throw error;
       }
