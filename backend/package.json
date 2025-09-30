@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node fix-partial-migration.js && node src/server.js",
     "dev": "nodemon src/server.js",
-    "debug": "node debug.js",
     "migrate": "node deploy-production.js",
     "setup-packages": "node setup-production-packages.js",
     "deploy": "node deploy.js",
