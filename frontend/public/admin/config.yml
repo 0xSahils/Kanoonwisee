@@ -9,13 +9,113 @@ collections:
   - name: "pages"
     label: "Pages"
     folder: "frontend/src/content/pages"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "title"
     create: false
     delete: false
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Subtitle", name: "subtitle", widget: "string" }
-      - { label: "Hero Title", name: "hero_title", widget: "string" }
-      - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
-      - { label: "Hero Description", name: "hero_description", widget: "text" }
-      - { label: "Stats", name: "stats", widget: "list", fields: [{ label: "Value", name: "value", widget: "string" }, { label: "Label", name: "label", widget: "string" }] }
+      - label: "Hero Section"
+        name: "hero"
+        widget: "object"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+      - label: "Stats"
+        name: "stats"
+        widget: "list"
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "string" }
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Icon", name: "icon", widget: "string" }
+      - label: "Articles"
+        name: "articles"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "number" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Excerpt", name: "excerpt", widget: "text" }
+          - { label: "Category", name: "category", widget: "string" }
+          - { label: "Read Time", name: "readTime", widget: "string" }
+          - { label: "Image", name: "image", widget: "string" }
+          - { label: "Featured", name: "featured", widget: "boolean" }
+      - label: "Upcoming Events"
+        name: "upcomingEvents"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "number" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Date", name: "date", widget: "string" }
+          - { label: "Time", name: "time", widget: "string" }
+          - { label: "Type", name: "type", widget: "string" }
+          - { label: "Price", name: "price", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+      - label: "Templates"
+        name: "templates"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "number" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Category", name: "category", widget: "string" }
+          - { label: "Downloads", name: "downloads", widget: "string" }
+          - { label: "Rating", name: "rating", widget: "number", value_type: "float" }
+          - { label: "Price", name: "price", widget: "string" }
+          - { label: "Image", name: "image", widget: "string" }
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            field: { label: "Feature", name: "feature", widget: "string" }
+      - label: "Custom Drafting"
+        name: "customDrafting"
+        widget: "object"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Button Text", name: "buttonText", widget: "string" }
+      - label: "Filters"
+        name: "filters"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "string" }
+          - { label: "Name", name: "name", widget: "string" }
+      - label: "Insights"
+        name: "insights"
+        widget: "list"
+        fields:
+          - { label: "ID", name: "id", widget: "number" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Excerpt", name: "excerpt", widget: "text" }
+          - { label: "Author", name: "author", widget: "string" }
+          - { label: "Author Role", name: "authorRole", widget: "string" }
+          - { label: "Publish Date", name: "publishDate", widget: "string" }
+          - { label: "Read Time", name: "readTime", widget: "string" }
+          - { label: "Category", name: "category", widget: "string" }
+          - label: "Tags"
+            name: "tags"
+            widget: "list"
+            field: { label: "Tag", name: "tag", widget: "string" }
+          - { label: "Image", name: "image", widget: "string" }
+          - { label: "Type", name: "type", widget: "string" }
+          - { label: "Featured", name: "featured", widget: "boolean" }
+      - label: "Newsletter"
+        name: "newsletter"
+        widget: "object"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            field: { label: "Feature", name: "feature", widget: "string" }
+          - { label: "Disclaimer", name: "disclaimer", widget: "string" }
       - { label: "Body", name: "body", widget: "markdown" }

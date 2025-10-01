@@ -115,9 +115,8 @@ const CMSManagement = () => {
                 src="/admin/index.html"
                 className="w-full h-full border-0"
                 title="Netlify CMS Editor"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
-              />
-            </div>
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+              /></div>
           </div>
         </div>
       </AdminLayout>

@@ -9,5 +9,15 @@ export default defineConfig(({ mode }) => ({
     "import.meta.env.VITE_API_URL": JSON.stringify(
       mode === "production" ? "/api" : "http://localhost:3000/api"
     ),
+    global: "globalThis",
+  },
+  resolve: {
+    alias: {
+      buffer: "buffer",
+      process: "process/browser",
+    },
+  },
+  optimizeDeps: {
+    include: ["buffer", "process"],
   },
 }));

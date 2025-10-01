@@ -3,8 +3,15 @@ import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 
 // Cache for processed content
+// Note: Cache persists for app lifetime. Users must refresh to see content updates.
 const contentCache = new Map();
 
+// Clear cache on HMR in development
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    clearContentCache();
+  });
+}
 /**
  * Load and process markdown content from src/content/pages/
  * @param {string} slug - The page slug (filename without .md extension)

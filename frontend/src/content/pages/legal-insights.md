@@ -1,9 +1,10 @@
 ---
 title: "Legal Insights"
 subtitle: "Stay Updated"
-hero_title: "Legal Insights"
-hero_subtitle: "Stay Updated"
-hero_description: "Stay updated with the latest legal developments, court rulings, and expert analysis. Expert commentary on legal trends affecting businesses."
+hero:
+  title: "Legal Insights"
+  subtitle: "Stay Updated"
+  description: "Stay updated with the latest legal developments, court rulings, and expert analysis. Expert commentary on legal trends affecting businesses."
 stats:
   - value: "Weekly"
     label: "New Insights"
@@ -11,91 +12,96 @@ stats:
     label: "Analysis"
   - value: "Latest"
     label: "Updates"
+filters:
+  - id: "all"
+    name: "All Insights"
+  - id: "recent"
+    name: "Recent Updates"
+  - id: "trending"
+    name: "Trending"
+  - id: "expert-opinion"
+    name: "Expert Opinion"
+insights:
+  - id: 1
+    title: "New Compliance Requirements for Tech Startups in 2024"
+    excerpt: "Recent regulatory changes affecting technology companies and what startups need to know to stay compliant."
+    author: "Adv. Priya Sharma"
+    authorRole: "Tech Law Expert"
+    publishDate: "March 10, 2024"
+    readTime: "5 min read"
+    category: "Regulatory Update"
+    tags: ["Tech Law", "Compliance", "Startups"]
+    image: "/insights-tech-compliance.jpg"
+    type: "recent"
+    featured: true
+  - id: 2
+    title: "Supreme Court Ruling on Digital Privacy: Impact on Businesses"
+    excerpt: "Analysis of the recent Supreme Court judgment on digital privacy and its implications for business operations."
+    author: "Adv. Rajesh Kumar"
+    authorRole: "Privacy Law Specialist"
+    publishDate: "March 8, 2024"
+    readTime: "7 min read"
+    category: "Court Ruling"
+    tags: ["Privacy Law", "Digital Rights", "Business Impact"]
+    image: "/insights-privacy-ruling.jpg"
+    type: "trending"
+    featured: false
+  - id: 3
+    title: "GST Amendment Act 2024: Key Changes for Businesses"
+    excerpt: "Comprehensive breakdown of the latest GST amendments and how they affect different types of businesses."
+    author: "Adv. Meera Patel"
+    authorRole: "Tax Law Expert"
+    publishDate: "March 5, 2024"
+    readTime: "6 min read"
+    category: "Tax Update"
+    tags: ["GST", "Tax Law", "Business Compliance"]
+    image: "/insights-gst-amendment.jpg"
+    type: "recent"
+    featured: false
+  - id: 4
+    title: "Intellectual Property Trends in the AI Era"
+    excerpt: "Expert analysis on how artificial intelligence is reshaping intellectual property law and protection strategies."
+    author: "Adv. Arjun Singh"
+    authorRole: "IP Law Specialist"
+    publishDate: "March 3, 2024"
+    readTime: "8 min read"
+    category: "Expert Analysis"
+    tags: ["IP Law", "AI", "Technology"]
+    image: "/insights-ai-ip.jpg"
+    type: "expert-opinion"
+    featured: false
+  - id: 5
+    title: "Employment Law Changes: Remote Work Regulations"
+    excerpt: "New guidelines for remote work arrangements and their legal implications for employers and employees."
+    author: "Adv. Sneha Gupta"
+    authorRole: "Employment Law Expert"
+    publishDate: "February 28, 2024"
+    readTime: "4 min read"
+    category: "Employment Law"
+    tags: ["Employment", "Remote Work", "Labor Law"]
+    image: "/insights-remote-work.jpg"
+    type: "trending"
+    featured: false
+  - id: 6
+    title: "Startup Funding: Legal Considerations for Series A"
+    excerpt: "Essential legal aspects that startups must consider when raising Series A funding rounds."
+    author: "Adv. Vikram Joshi"
+    authorRole: "Corporate Law Expert"
+    publishDate: "February 25, 2024"
+    readTime: "9 min read"
+    category: "Startup Law"
+    tags: ["Startup", "Funding", "Corporate Law"]
+    image: "/insights-series-a.jpg"
+    type: "expert-opinion"
+    featured: false
+newsletter:
+  title: "Stay Updated with Legal Insights"
+  description: "Get the latest legal updates, expert analysis, and industry insights delivered to your inbox weekly."
+  features:
+    - "Weekly legal updates"
+    - "Expert analysis"
+    - "Industry insights"
+    - "Court ruling summaries"
+    - "Regulatory changes"
+  disclaimer: "No spam. Unsubscribe anytime. Read our privacy policy."
 ---
-
-## Featured Insight
-
-### New Compliance Requirements for Tech Startups in 2024
-
-Recent regulatory changes affecting technology companies and what startups need to know to stay compliant.
-
-**Author:** Adv. Priya Sharma  
-**Role:** Tech Law Expert  
-**Published:** March 10, 2024  
-**Read Time:** 5 min read  
-**Category:** Regulatory Update
-
-This comprehensive analysis covers the latest compliance requirements for technology startups in 2024. From data protection regulations to cybersecurity mandates, learn what your startup needs to know to stay legally compliant.
-
-[Read Full Analysis →](/insights/tech-compliance-2024)
-
-## Latest Insights
-
-### Recent Updates
-
-#### Supreme Court Ruling on Digital Privacy: Impact on Businesses
-Analysis of the recent Supreme Court judgment on digital privacy and its implications for business operations.
-
-**Author:** Adv. Rajesh Kumar  
-**Tags:** Privacy Law, Digital Rights, Business Impact  
-**Published:** March 8, 2024  
-**Read Time:** 7 min read
-
-[Read Analysis →](/insights/digital-privacy-ruling)
-
-#### GST Amendment Act 2024: Key Changes for Businesses
-Comprehensive breakdown of the latest GST amendments and how they affect different types of businesses.
-
-**Author:** Adv. Meera Patel  
-**Tags:** GST, Tax Law, Business Compliance  
-**Published:** March 5, 2024  
-**Read Time:** 6 min read
-
-[Read Analysis →](/insights/gst-amendment-2024)
-
-### Trending Topics
-
-#### Employment Law Changes: Remote Work Regulations
-New guidelines for remote work arrangements and their legal implications for employers and employees.
-
-**Author:** Adv. Sneha Gupta  
-**Tags:** Employment, Remote Work, Labor Law  
-**Published:** February 28, 2024  
-**Read Time:** 4 min read
-
-[Read Analysis →](/insights/remote-work-regulations)
-
-### Expert Opinion
-
-#### Intellectual Property Trends in the AI Era
-Expert analysis on how artificial intelligence is reshaping intellectual property law and protection strategies.
-
-**Author:** Adv. Arjun Singh  
-**Tags:** IP Law, AI, Technology  
-**Published:** March 3, 2024  
-**Read Time:** 8 min read
-
-[Read Analysis →](/insights/ai-ip-trends)
-
-#### Startup Funding: Legal Considerations for Series A
-Essential legal aspects that startups must consider when raising Series A funding rounds.
-
-**Author:** Adv. Vikram Joshi  
-**Tags:** Startup, Funding, Corporate Law  
-**Published:** February 25, 2024  
-**Read Time:** 9 min read
-
-[Read Analysis →](/insights/series-a-funding)
-
-## Newsletter Subscription
-
-Stay updated with the latest legal insights and expert analysis delivered to your inbox weekly.
-
-Subscribe to our newsletter for:
-- Weekly legal updates
-- Expert analysis
-- Industry insights
-- Court ruling summaries
-- Regulatory changes
-
-**No spam. Unsubscribe anytime.**

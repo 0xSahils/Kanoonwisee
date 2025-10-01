@@ -1,107 +1,102 @@
 ---
 title: "Kanoonwise Academy"
-subtitle: "Legal Knowledge"
-hero_title: "Kanoonwise Academy"
-hero_subtitle: "Legal Knowledge"
-hero_description: "Your comprehensive resource for business legal knowledge and startup guidance. Free articles, expert insights, and premium workshops."
+subtitle: "Legal Knowledge Hub"
+hero:
+  title: "Kanoonwise Academy"
+  subtitle: "Your comprehensive resource for business legal knowledge and startup guidance"
+  description: "Free articles, expert insights, and premium workshops to help you navigate the legal landscape."
 stats:
-  - value: "100+"
-    label: "Free Articles"
-  - value: "50+"
-    label: "Expert Guides"
-  - value: "Weekly"
-    label: "New Content"
+  - label: "Free Articles"
+    value: "100+"
+  - label: "Expert Guides" 
+    value: "50+"
+  - label: "New Content"
+    value: "Weekly"
+
+categories:
+  - id: "all"
+    name: "All Topics"
+    icon: "fas fa-th-large"
+  - id: "business-law"
+    name: "Business Law"
+    icon: "fas fa-briefcase"
+  - id: "startup-guide"
+    name: "Startup Guide"
+    icon: "fas fa-rocket"
+  - id: "compliance"
+    name: "Compliance"
+    icon: "fas fa-shield-alt"
+  - id: "ip-law"
+    name: "IP Law"
+    icon: "fas fa-lightbulb"
+  - id: "tech-law"
+    name: "Tech Law"
+    icon: "fas fa-laptop-code"
+
+articles:
+  - id: 1
+    title: "Complete Guide to Private Limited Company Registration in India"
+    excerpt: "Everything you need to know about registering a private limited company, from documentation to timeline and costs."
+    category: "business-law"
+    readTime: "8 min read"
+    image: "/academy-business-registration.jpg"
+    featured: true
+  - id: 2
+    title: "Startup Legal Checklist: 10 Essential Steps Before Launch"
+    excerpt: "Critical legal steps every startup founder must complete before launching their business to avoid future complications."
+    category: "startup-guide"
+    readTime: "6 min read"
+    image: "/academy-startup-checklist.jpg"
+    featured: true
+  - id: 3
+    title: "Trademark Registration: Protecting Your Brand Identity"
+    excerpt: "Step-by-step guide to trademark registration, including costs, timeline, and common mistakes to avoid."
+    category: "ip-law"
+    readTime: "7 min read"
+    image: "/academy-trademark.jpg"
+    featured: true
+  - id: 4
+    title: "GST Compliance for New Businesses: A Beginner's Guide"
+    excerpt: "Understanding GST registration, filing requirements, and compliance obligations for new business owners."
+    category: "compliance"
+    readTime: "5 min read"
+    image: "/academy-gst-compliance.jpg"
+    featured: false
+  - id: 5
+    title: "Data Protection Laws for Tech Startups"
+    excerpt: "Navigate data protection regulations and privacy laws that affect technology companies and startups."
+    category: "tech-law"
+    readTime: "9 min read"
+    image: "/academy-data-protection.jpg"
+    featured: false
+  - id: 6
+    title: "Employment Law Basics for Growing Companies"
+    excerpt: "Essential employment law knowledge for companies hiring their first employees and scaling teams."
+    category: "business-law"
+    readTime: "6 min read"
+    image: "/academy-employment-law.jpg"
+    featured: false
+
+upcomingEvents:
+  - id: 1
+    title: "Startup Legal Workshop: From Idea to Incorporation"
+    date: "March 15, 2024"
+    time: "2:00 PM - 4:00 PM IST"
+    type: "Workshop"
+    price: "₹999"
+    description: "Interactive workshop covering legal essentials for startup founders"
+  - id: 2
+    title: "IP Protection Masterclass for Tech Companies"
+    date: "March 22, 2024"
+    time: "3:00 PM - 5:00 PM IST"
+    type: "Masterclass"
+    price: "₹1,499"
+    description: "Deep dive into intellectual property protection strategies"
+  - id: 3
+    title: "Compliance Automation: Tools and Best Practices"
+    date: "March 29, 2024"
+    time: "11:00 AM - 12:30 PM IST"
+    type: "Webinar"
+    price: "Free"
+    description: "Learn about tools and systems to automate business compliance"
 ---
-
-## Featured Articles
-
-### Complete Guide to Private Limited Company Registration in India
-
-Everything you need to know about registering a private limited company, from documentation to timeline and costs.
-
-**Category:** Business Law  
-**Read Time:** 8 min read
-
-[Read More →](/articles/private-limited-company-registration)
-
-### Startup Legal Checklist: 10 Essential Steps Before Launch
-
-Critical legal steps every startup founder must complete before launching their business to avoid future complications.
-
-**Category:** Startup Guide  
-**Read Time:** 6 min read
-
-[Read More →](/articles/startup-legal-checklist)
-
-### Trademark Registration: Protecting Your Brand Identity
-
-Step-by-step guide to trademark registration, including costs, timeline, and common mistakes to avoid.
-
-**Category:** IP Law  
-**Read Time:** 7 min read
-
-[Read More →](/articles/trademark-registration)
-
-## Knowledge Library
-
-### Business Law Articles
-
-#### Employment Law Basics for Growing Companies
-Essential employment law knowledge for companies hiring their first employees and scaling teams.
-
-**Read Time:** 6 min read
-
-#### Partnership Deed Essentials
-Complete partnership deed template for business partnerships with comprehensive documentation.
-
-**Read Time:** 5 min read
-
-### Startup Guide Articles
-
-#### Funding Your Startup: Legal Considerations
-Essential legal aspects that startups must consider when raising Series A funding rounds.
-
-**Read Time:** 9 min read
-
-#### Intellectual Property for Tech Startups
-Navigate IP protection strategies and legal considerations for technology companies.
-
-**Read Time:** 7 min read
-
-### Compliance Articles
-
-#### GST Compliance for New Businesses
-Understanding GST registration, filing requirements, and compliance obligations for new business owners.
-
-**Read Time:** 5 min read
-
-#### Data Protection Laws for Tech Startups
-Navigate data protection regulations and privacy laws that affect technology companies and startups.
-
-**Read Time:** 9 min read
-
-## Upcoming Events
-
-### Startup Legal Workshop: From Idea to Incorporation
-**Date:** March 15, 2024  
-**Time:** 2:00 PM - 4:00 PM IST  
-**Type:** Workshop  
-**Price:** ₹999
-
-Interactive workshop covering legal essentials for startup founders.
-
-### IP Protection Masterclass for Tech Companies
-**Date:** March 22, 2024  
-**Time:** 3:00 PM - 5:00 PM IST  
-**Type:** Masterclass  
-**Price:** ₹1,499
-
-Deep dive into intellectual property protection strategies.
-
-### Compliance Automation: Tools and Best Practices
-**Date:** March 29, 2024  
-**Time:** 11:00 AM - 12:30 PM IST  
-**Type:** Webinar  
-**Price:** Free
-
-Learn about tools and systems to automate business compliance.
