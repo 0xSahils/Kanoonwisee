@@ -20,8 +20,8 @@ const LegalInsights = () => {
   ];
 
   // Get filters from CMS or use fallback
-  const filters = (pageContent?.frontmatter?.filters && !loadError && Array.isArray(pageContent.frontmatter.filters)) 
-    ? pageContent.frontmatter.filters 
+  const filters = (pageContent?.frontmatter?.filters && !loadError && Array.isArray(pageContent.frontmatter.filters))
+    ? pageContent.frontmatter.filters
     : fallbackFilters;
 
   // Fallback data for insights
@@ -119,8 +119,8 @@ const LegalInsights = () => {
   ];
 
   // Get insights from CMS or use fallback
-  const insights = (pageContent?.frontmatter?.insights && !loadError && Array.isArray(pageContent.frontmatter.insights)) 
-    ? pageContent.frontmatter.insights 
+  const insights = (pageContent?.frontmatter?.insights && !loadError && Array.isArray(pageContent.frontmatter.insights))
+    ? pageContent.frontmatter.insights
     : fallbackInsights;
 
   const filteredInsights =
@@ -129,8 +129,20 @@ const LegalInsights = () => {
       : insights.filter((insight) => insight.type === selectedFilter);
 
   // Get featured insight - either the one marked as featured or the first one
-  const featuredInsight = insights.find(insight => insight.featured) || insights[0];
-
+  // Line 132: ensure we always have a featuredInsight object
+  const featuredInsight = insights.find(insight => insight.featured)
+    || insights[0]
+    || {
+    id: null,
+    title: 'No insights available',
+    excerpt: 'Check back soon for legal insights',
+    image: '/placeholder.jpg',
+    category: 'General',
+    author: 'Kanoonwise Team',
+    authorRole: 'Legal Team',
+    publishDate: 'TBD',
+    readTime: 'N/A'
+  };
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -195,23 +207,29 @@ const LegalInsights = () => {
               {/* Main Heading */}
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
-                  {(pageContent?.frontmatter?.hero?.title && !loadError && typeof pageContent.frontmatter.hero.title === 'string') 
-                    ? pageContent.frontmatter.hero.title.split(' ')[0]
-                    : 'Legal'}
-                  <span className="text-yellow-400">
-                    {' '}{(pageContent?.frontmatter?.hero?.title && !loadError && typeof pageContent.frontmatter.hero.title === 'string') 
-                      ? pageContent.frontmatter.hero.title.split(' ').slice(1).join(' ')
-                      : 'Insights'}
-                  </span>
-                  <br />
-                  <span className="text-orange-400">
-                    {(pageContent?.frontmatter?.hero?.subtitle && !loadError && typeof pageContent.frontmatter.hero.subtitle === 'string') 
-                      ? pageContent.frontmatter.hero.subtitle
-                      : 'Stay Updated'}
-                  </span>
-                </h1>
+<h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
+  {(pageContent?.frontmatter?.hero?.title && !loadError && typeof pageContent.frontmatter.hero.title === 'string')
+    ? (() => {
+        const words = pageContent.frontmatter.hero.title.split(' ');
+        return (
+          <>
+            {words[0] || 'Legal'}
+            <span className="text-yellow-400">
+              {' '}{words.slice(1).join(' ') || 'Insights'}
+            </span>
+          </>
+        );
+      })()
+    : <>Legal<span className="text-yellow-400"> Insights</span></>}
+  <br />
+  <span className="text-orange-400">
+    {(pageContent?.frontmatter?.hero?.subtitle && !loadError && typeof pageContent.frontmatter.hero.subtitle === 'string')
+      ? pageContent.frontmatter.hero.subtitle
+      : 'Stay Updated'}
+  </span>
+</h1>                </h1>
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  {(pageContent?.frontmatter?.hero?.description && !loadError && typeof pageContent.frontmatter.hero.description === 'string') 
+                  {(pageContent?.frontmatter?.hero?.description && !loadError && typeof pageContent.frontmatter.hero.description === 'string')
                     ? pageContent.frontmatter.hero.description
                     : 'Stay updated with the latest legal developments, court rulings, and expert analysis. Expert commentary on legal trends affecting businesses.'}
                 </p>
@@ -219,13 +237,13 @@ const LegalInsights = () => {
 
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                {(pageContent?.frontmatter?.stats && !loadError && Array.isArray(pageContent.frontmatter.stats) 
-                  ? pageContent.frontmatter.stats 
+                {(pageContent?.frontmatter?.stats && !loadError && Array.isArray(pageContent.frontmatter.stats)
+                  ? pageContent.frontmatter.stats
                   : [
-                      { value: "Weekly", label: "New Insights" },
-                      { value: "Expert", label: "Analysis" },
-                      { value: "Latest", label: "Updates" }
-                    ]
+                    { value: "Weekly", label: "New Insights" },
+                    { value: "Expert", label: "Analysis" },
+                    { value: "Latest", label: "Updates" }
+                  ]
                 ).map((stat, index) => (
                   <div key={index} className="text-center">
                     <div className="text-2xl font-bold text-yellow-400">
@@ -343,11 +361,10 @@ const LegalInsights = () => {
               <button
                 key={filter.id}
                 onClick={() => setSelectedFilter(filter.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  selectedFilter === filter.id
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${selectedFilter === filter.id
                     ? "bg-yellow-500 text-gray-900"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 {filter.name}
               </button>
@@ -421,16 +438,16 @@ const LegalInsights = () => {
           <div className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-6"></div>
             <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-6">
-              {(pageContent?.frontmatter?.newsletter?.title && !loadError && typeof pageContent.frontmatter.newsletter.title === 'string') 
+              {(pageContent?.frontmatter?.newsletter?.title && !loadError && typeof pageContent.frontmatter.newsletter.title === 'string')
                 ? pageContent.frontmatter.newsletter.title
                 : <>Stay Updated with <span className="text-yellow-600">Legal Insights</span></>}
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              {(pageContent?.frontmatter?.newsletter?.description && !loadError && typeof pageContent.frontmatter.newsletter.description === 'string') 
+              {(pageContent?.frontmatter?.newsletter?.description && !loadError && typeof pageContent.frontmatter.newsletter.description === 'string')
                 ? pageContent.frontmatter.newsletter.description
                 : 'Get the latest legal updates, expert analysis, and industry insights delivered to your inbox weekly.'}
             </p>
-            
+
             {/* Newsletter Features */}
             {pageContent?.frontmatter?.newsletter?.features && !loadError && Array.isArray(pageContent.frontmatter.newsletter.features) && (
               <div className="mb-8">
@@ -445,7 +462,7 @@ const LegalInsights = () => {
                 </ul>
               </div>
             )}
-            
+
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
@@ -457,7 +474,7 @@ const LegalInsights = () => {
               </button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
-              {(pageContent?.frontmatter?.newsletter?.disclaimer && !loadError && typeof pageContent.frontmatter.newsletter.disclaimer === 'string') 
+              {(pageContent?.frontmatter?.newsletter?.disclaimer && !loadError && typeof pageContent.frontmatter.newsletter.disclaimer === 'string')
                 ? pageContent.frontmatter.newsletter.disclaimer
                 : 'No spam. Unsubscribe anytime. Read our privacy policy.'}
             </p>
