@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import AdminLayout from './AdminLayout'
-import { FileText, Edit, ExternalLink, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react'
+import { FileText, Edit, ExternalLink, RefreshCw, CheckCircle, AlertCircle, Maximize, Minimize } from 'lucide-react'
 
 const CMSManagement = () => {
   const [cmsStatus, setCmsStatus] = useState('checking')
   const [showCMSEditor, setShowCMSEditor] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [cmsUrl] = useState(() => {
+    // Determine CMS URL based on environment and cache it
+    const isProduction = window.location.hostname !== 'localhost'
+    if (isProduction) {
+      return '/admin/'
+    } else {
+      // In development, use the deployed Netlify CMS
+      return 'https://endearing-selkie-06bf74.netlify.app/admin/'
+    }
+  })
+
+  // Create a single iframe reference to prevent reloading
+  const cmsIframe = (
+    <iframe
+      src={cmsUrl}
+      className="w-full h-full border-0"
+      title="Decap CMS Editor"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+    />
+  )
 
   useEffect(() => {
     checkCMSStatus()
@@ -31,6 +52,11 @@ const CMSManagement = () => {
 
   const closeCMSAdmin = () => {
     setShowCMSEditor(false)
+    setIsFullscreen(false)
+  }
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen)
   }
 
   const pages = [
@@ -80,6 +106,44 @@ const CMSManagement = () => {
   }
 
   if (showCMSEditor) {
+    if (isFullscreen) {
+      return (
+        <div className="fixed inset-0 z-50 bg-white w-screen h-screen">
+          <div className="flex flex-col h-full">
+            {/* Minimal header for fullscreen */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+              <h2 className="text-lg font-medium text-gray-900">Netlify CMS Editor</h2>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                    Secure Admin Access
+                  </div>
+                </div>
+                <button
+                  onClick={closeCMSAdmin}
+                  className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors mr-2"
+                >
+                  ← Back
+                </button>
+                <button
+                  onClick={toggleFullscreen}
+                  className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                  title="Exit Fullscreen"
+                >
+                  <Minimize className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+            {/* Full screen iframe */}
+            <div className="flex-1 w-full h-full">
+              {cmsIframe}
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <AdminLayout>
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -102,21 +166,26 @@ const CMSManagement = () => {
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-medium text-gray-900">Netlify CMS Editor</h2>
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                    Secure Admin Access
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 text-sm text-gray-500">
+                    <div className="flex items-center">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                      Secure Admin Access
+                    </div>
                   </div>
+                  <button
+                    onClick={toggleFullscreen}
+                    className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                    title="Enter Fullscreen"
+                  >
+                    <Maximize className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             </div>
             <div className="h-[calc(100vh-300px)]">
-              <iframe
-                src="/admin/index.html"
-                className="w-full h-full border-0"
-                title="Decap CMS Editor"                
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-              /></div>
+              {cmsIframe}
+            </div>
           </div>
         </div>
       </AdminLayout>
