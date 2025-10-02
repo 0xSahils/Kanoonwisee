@@ -300,11 +300,13 @@ const Header = () => {
           {/* Logo */}
           <a href="/" className="flex items-center space-x-3">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary-900 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-xl">K</span>
+              <div className="w-10 h-10 bg-primary-900 rounded-lg flex items-center justify-center shadow-md">
+                <span className="text-white font-bold text-xl font-sans">
+                  K
+                </span>
               </div>
               <span
-                className={`text-2xl font-light tracking-wide ${
+                className={`text-2xl font-semibold tracking-tight font-sans ${
                   isHomepage
                     ? isScrolled
                       ? "text-gray-900"
@@ -325,7 +327,7 @@ const Header = () => {
                   onClick={() =>
                     item.path ? handleNavigation(item.path) : null
                   }
-                  className={`flex items-center space-x-1 font-medium transition-colors duration-200 ${
+                  className={`flex items-center space-x-1 font-semibold text-sm transition-colors duration-200 ${
                     isHomepage
                       ? isScrolled
                         ? "text-gray-700 hover:text-primary-600"
@@ -333,7 +335,7 @@ const Header = () => {
                       : "text-gray-700 hover:text-primary-600"
                   }`}
                 >
-                  <span>{item.name}</span>
+                  <span className="font-sans">{item.name}</span>
                   {item.dropdown && (
                     <i className="fas fa-chevron-down text-xs group-hover:rotate-180 transition-transform duration-200"></i>
                   )}
@@ -347,12 +349,14 @@ const Header = () => {
                         <div key={dropIndex} className="relative group/sub">
                           <button
                             onClick={() => handleDropdownClick(dropdownItem)}
-                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left"
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left font-medium"
                           >
                             <i
                               className={`${dropdownItem.icon} text-yellow-500 w-4`}
                             ></i>
-                            <span>{dropdownItem.name}</span>
+                            <span className="font-sans">
+                              {dropdownItem.name}
+                            </span>
                             {dropdownItem.subDropdown && (
                               <i className="fas fa-chevron-right ml-auto text-xs"></i>
                             )}
@@ -369,12 +373,14 @@ const Header = () => {
                                       onClick={() =>
                                         handleDropdownClick(subItem)
                                       }
-                                      className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left"
+                                      className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-yellow-50 hover:text-primary-600 transition-colors duration-200 w-full text-left font-medium"
                                     >
                                       <i
                                         className={`${subItem.icon} text-yellow-500 w-4`}
                                       ></i>
-                                      <span>{subItem.name}</span>
+                                      <span className="font-sans">
+                                        {subItem.name}
+                                      </span>
                                     </button>
                                   )
                                 )}
@@ -524,11 +530,11 @@ const Header = () => {
                       ? handleNavigation(item.path)
                       : toggleDropdown(index)
                   }
-                  className="flex items-center justify-between w-full text-gray-700 font-medium py-3 border-b border-gray-100 hover:text-primary-600 transition-colors duration-200"
+                  className="flex items-center justify-between w-full text-gray-700 font-semibold py-3 border-b border-gray-100 hover:text-primary-600 transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-3">
                     <i className={`${item.icon} text-yellow-600`}></i>
-                    <span className="text-sm">{item.name}</span>
+                    <span className="text-sm font-sans">{item.name}</span>
                   </div>
                   {item.dropdown && (
                     <i
@@ -556,13 +562,15 @@ const Header = () => {
                               ? handleDropdownClick(dropdownItem)
                               : toggleDropdown(`${index}-${dropIndex}`)
                           }
-                          className="flex items-center justify-between w-full text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 text-left min-h-[44px]"
+                          className="flex items-center justify-between w-full text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 text-left min-h-[44px] font-medium"
                         >
                           <div className="flex items-center space-x-3">
                             <i
                               className={`${dropdownItem.icon} text-sm text-yellow-500`}
                             ></i>
-                            <span className="text-sm">{dropdownItem.name}</span>
+                            <span className="text-sm font-sans">
+                              {dropdownItem.name}
+                            </span>
                           </div>
                           {dropdownItem.subDropdown && (
                             <i
@@ -589,12 +597,12 @@ const Header = () => {
                                 <button
                                   key={subIndex}
                                   onClick={() => handleDropdownClick(subItem)}
-                                  className="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px]"
+                                  className="flex items-center space-x-3 text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 w-full text-left min-h-[44px] font-medium"
                                 >
                                   <i
                                     className={`${subItem.icon} text-sm text-yellow-500`}
                                   ></i>
-                                  <span className="text-sm">
+                                  <span className="text-sm font-sans">
                                     {subItem.name}
                                   </span>
                                 </button>

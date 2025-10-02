@@ -145,7 +145,7 @@ const PartnershipFirmRegistration = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
+      <section className="relative my-28 py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -223,7 +223,7 @@ const PartnershipFirmRegistration = () => {
                     </p>
                   </div>
 
-                  <PublicBusinessServicePayment 
+                  <PublicBusinessServicePayment
                     serviceName="Partnership Firm Registration"
                     buttonText={`Pay ${plan.price}`}
                     className="w-full bg-accent-500 hover:bg-accent-600 text-primary-900 font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center"
@@ -296,7 +296,7 @@ const PartnershipFirmRegistration = () => {
                   ))}
                 </ul>
 
-                <PublicBusinessServicePayment 
+                <PublicBusinessServicePayment
                   serviceName="Partnership Firm Registration"
                   buttonText={`Pay ${plan.price}`}
                   className={`w-full font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center ${
@@ -527,12 +527,12 @@ const PartnershipFirmRegistration = () => {
             partners can focus on growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <PublicBusinessServicePayment 
+            <PublicBusinessServicePayment
               serviceName="Partnership Firm Registration"
               buttonText={`Pay ${plans.starter.price}`}
               className="bg-accent-500 hover:bg-accent-600 text-primary-900 font-bold py-4 px-8 rounded-lg transition-colors duration-300 flex items-center justify-center"
             />
-            <PublicBusinessServicePayment 
+            <PublicBusinessServicePayment
               serviceName="Partnership Firm Registration"
               buttonText={`Pay ${plans.premium.price}`}
               className="bg-white hover:bg-gray-100 text-primary-900 font-bold py-4 px-8 rounded-lg transition-colors duration-300 flex items-center justify-center"

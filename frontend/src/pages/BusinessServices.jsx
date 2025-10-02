@@ -162,13 +162,13 @@ const BusinessServices = () => {
                   Business Services
                 </span>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight font-sans">
                 Complete Business
                 <span className="text-yellow-400"> Solutions</span>
                 <br />
                 <span className="text-orange-400">Expert Guidance</span>
               </h1>
-              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed font-sans">
                 Comprehensive business services for startups and established
                 companies. From business setup to compliance management - get
                 expert assistance with transparent pricing.
@@ -213,11 +213,11 @@ const BusinessServices = () => {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-primary-900 mb-4">
+            <h2 className="text-4xl font-bold text-primary-900 mb-4 font-sans">
               Company Registration Services
             </h2>
             <div className="w-24 h-1 bg-accent-500 mx-auto mb-6"></div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-sans">
               Choose the perfect business structure for your venture with
               transparent pricing, expert legal guidance, and comprehensive
               support

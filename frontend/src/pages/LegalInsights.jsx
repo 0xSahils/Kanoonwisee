@@ -20,9 +20,12 @@ const LegalInsights = () => {
   ];
 
   // Get filters from CMS or use fallback
-  const filters = (pageContent?.frontmatter?.filters && !loadError && Array.isArray(pageContent.frontmatter.filters))
-    ? pageContent.frontmatter.filters
-    : fallbackFilters;
+  const filters =
+    pageContent?.frontmatter?.filters &&
+    !loadError &&
+    Array.isArray(pageContent.frontmatter.filters)
+      ? pageContent.frontmatter.filters
+      : fallbackFilters;
 
   // Fallback data for insights
   const fallbackInsights = [
@@ -119,9 +122,12 @@ const LegalInsights = () => {
   ];
 
   // Get insights from CMS or use fallback
-  const insights = (pageContent?.frontmatter?.insights && !loadError && Array.isArray(pageContent.frontmatter.insights))
-    ? pageContent.frontmatter.insights
-    : fallbackInsights;
+  const insights =
+    pageContent?.frontmatter?.insights &&
+    !loadError &&
+    Array.isArray(pageContent.frontmatter.insights)
+      ? pageContent.frontmatter.insights
+      : fallbackInsights;
 
   const filteredInsights =
     selectedFilter === "all"
@@ -130,19 +136,18 @@ const LegalInsights = () => {
 
   // Get featured insight - either the one marked as featured or the first one
   // Line 132: ensure we always have a featuredInsight object
-  const featuredInsight = insights.find(insight => insight.featured)
-    || insights[0]
-    || {
-    id: null,
-    title: 'No insights available',
-    excerpt: 'Check back soon for legal insights',
-    image: '/placeholder.jpg',
-    category: 'General',
-    author: 'Kanoonwise Team',
-    authorRole: 'Legal Team',
-    publishDate: 'TBD',
-    readTime: 'N/A'
-  };
+  const featuredInsight = insights.find((insight) => insight.featured) ||
+    insights[0] || {
+      id: null,
+      title: "No insights available",
+      excerpt: "Check back soon for legal insights",
+      image: "/placeholder.jpg",
+      category: "General",
+      author: "Kanoonwise Team",
+      authorRole: "Legal Team",
+      publishDate: "TBD",
+      readTime: "N/A",
+    };
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -153,12 +158,12 @@ const LegalInsights = () => {
     const loadContent = async () => {
       try {
         setIsLoading(true);
-        const content = await getPageContent('legal-insights');
-        console.log('Legal Insights CMS data:', content);
+        const content = await getPageContent("legal-insights");
+        console.log("Legal Insights CMS data:", content);
         setPageContent(content);
         setLoadError(null);
       } catch (error) {
-        console.error('Failed to load page content:', error);
+        console.error("Failed to load page content:", error);
         setLoadError(error.message);
       } finally {
         setIsLoading(false);
@@ -207,43 +212,58 @@ const LegalInsights = () => {
               {/* Main Heading */}
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
-<h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
-  {(pageContent?.frontmatter?.hero?.title && !loadError && typeof pageContent.frontmatter.hero.title === 'string')
-    ? (() => {
-        const words = pageContent.frontmatter.hero.title.split(' ');
-        return (
-          <>
-            {words[0] || 'Legal'}
-            <span className="text-yellow-400">
-              {' '}{words.slice(1).join(' ') || 'Insights'}
-            </span>
-          </>
-        );
-      })()
-    : <>Legal<span className="text-yellow-400"> Insights</span></>}
-  <br />
-  <span className="text-orange-400">
-    {(pageContent?.frontmatter?.hero?.subtitle && !loadError && typeof pageContent.frontmatter.hero.subtitle === 'string')
-      ? pageContent.frontmatter.hero.subtitle
-      : 'Stay Updated'}
-  </span>
-</h1>                </h1>
+                  <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
+                    {pageContent?.frontmatter?.hero?.title &&
+                    !loadError &&
+                    typeof pageContent.frontmatter.hero.title === "string" ? (
+                      (() => {
+                        const words =
+                          pageContent.frontmatter.hero.title.split(" ");
+                        return (
+                          <>
+                            {words[0] || "Legal"}
+                            <span className="text-yellow-400">
+                              {" "}
+                              {words.slice(1).join(" ") || "Insights"}
+                            </span>
+                          </>
+                        );
+                      })()
+                    ) : (
+                      <>
+                        Legal<span className="text-yellow-400"> Insights</span>
+                      </>
+                    )}
+                    <br />
+                    <span className="text-orange-400">
+                      {pageContent?.frontmatter?.hero?.subtitle &&
+                      !loadError &&
+                      typeof pageContent.frontmatter.hero.subtitle === "string"
+                        ? pageContent.frontmatter.hero.subtitle
+                        : "Stay Updated"}
+                    </span>
+                  </h1>{" "}
+                </h1>
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  {(pageContent?.frontmatter?.hero?.description && !loadError && typeof pageContent.frontmatter.hero.description === 'string')
+                  {pageContent?.frontmatter?.hero?.description &&
+                  !loadError &&
+                  typeof pageContent.frontmatter.hero.description === "string"
                     ? pageContent.frontmatter.hero.description
-                    : 'Stay updated with the latest legal developments, court rulings, and expert analysis. Expert commentary on legal trends affecting businesses.'}
+                    : "Stay updated with the latest legal developments, court rulings, and expert analysis. Expert commentary on legal trends affecting businesses."}
                 </p>
               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                {(pageContent?.frontmatter?.stats && !loadError && Array.isArray(pageContent.frontmatter.stats)
+                {(pageContent?.frontmatter?.stats &&
+                !loadError &&
+                Array.isArray(pageContent.frontmatter.stats)
                   ? pageContent.frontmatter.stats
                   : [
-                    { value: "Weekly", label: "New Insights" },
-                    { value: "Expert", label: "Analysis" },
-                    { value: "Latest", label: "Updates" }
-                  ]
+                      { value: "Weekly", label: "New Insights" },
+                      { value: "Expert", label: "Analysis" },
+                      { value: "Latest", label: "Updates" },
+                    ]
                 ).map((stat, index) => (
                   <div key={index} className="text-center">
                     <div className="text-2xl font-bold text-yellow-400">
@@ -331,7 +351,10 @@ const LegalInsights = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => featuredInsight?.id && navigate(`/insights/${featuredInsight.id}`)}
+                  onClick={() =>
+                    featuredInsight?.id &&
+                    navigate(`/insights/${featuredInsight.id}`)
+                  }
                   className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-8 rounded-xl transition-all duration-300 self-start"
                 >
                   Read Full Analysis
@@ -361,10 +384,11 @@ const LegalInsights = () => {
               <button
                 key={filter.id}
                 onClick={() => setSelectedFilter(filter.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${selectedFilter === filter.id
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                  selectedFilter === filter.id
                     ? "bg-yellow-500 text-gray-900"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                }`}
               >
                 {filter.name}
               </button>
@@ -410,17 +434,21 @@ const LegalInsights = () => {
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {(Array.isArray(insight.tags) ? insight.tags : []).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {(Array.isArray(insight.tags) ? insight.tags : []).map(
+                      (tag, index) => (
+                        <span
+                          key={index}
+                          className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs"
+                        >
+                          {tag}
+                        </span>
+                      )
+                    )}
                   </div>
                   <button
-                    onClick={() => insight?.id && navigate(`/insights/${insight.id}`)}
+                    onClick={() =>
+                      insight?.id && navigate(`/insights/${insight.id}`)
+                    }
                     className="text-yellow-600 hover:text-yellow-700 font-semibold transition-colors duration-300"
                   >
                     Read Analysis →
@@ -438,30 +466,48 @@ const LegalInsights = () => {
           <div className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-6"></div>
             <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-6">
-              {(pageContent?.frontmatter?.newsletter?.title && !loadError && typeof pageContent.frontmatter.newsletter.title === 'string')
-                ? pageContent.frontmatter.newsletter.title
-                : <>Stay Updated with <span className="text-yellow-600">Legal Insights</span></>}
+              {pageContent?.frontmatter?.newsletter?.title &&
+              !loadError &&
+              typeof pageContent.frontmatter.newsletter.title === "string" ? (
+                pageContent.frontmatter.newsletter.title
+              ) : (
+                <>
+                  Stay Updated with{" "}
+                  <span className="text-yellow-600">Legal Insights</span>
+                </>
+              )}
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              {(pageContent?.frontmatter?.newsletter?.description && !loadError && typeof pageContent.frontmatter.newsletter.description === 'string')
+              {pageContent?.frontmatter?.newsletter?.description &&
+              !loadError &&
+              typeof pageContent.frontmatter.newsletter.description === "string"
                 ? pageContent.frontmatter.newsletter.description
-                : 'Get the latest legal updates, expert analysis, and industry insights delivered to your inbox weekly.'}
+                : "Get the latest legal updates, expert analysis, and industry insights delivered to your inbox weekly."}
             </p>
 
             {/* Newsletter Features */}
-            {pageContent?.frontmatter?.newsletter?.features && !loadError && Array.isArray(pageContent.frontmatter.newsletter.features) && (
-              <div className="mb-8">
-                <p className="text-lg text-gray-700 mb-4">Subscribe to our newsletter for:</p>
-                <ul className="text-gray-600 space-y-2 max-w-lg mx-auto">
-                  {pageContent.frontmatter.newsletter.features.map((feature, index) => (
-                    <li key={index} className="flex items-center justify-center">
-                      <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {pageContent?.frontmatter?.newsletter?.features &&
+              !loadError &&
+              Array.isArray(pageContent.frontmatter.newsletter.features) && (
+                <div className="mb-8">
+                  <p className="text-lg text-gray-700 mb-4">
+                    Subscribe to our newsletter for:
+                  </p>
+                  <ul className="text-gray-600 space-y-2 max-w-lg mx-auto">
+                    {pageContent.frontmatter.newsletter.features.map(
+                      (feature, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center justify-center"
+                        >
+                          <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                          {feature}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              )}
 
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
@@ -474,9 +520,11 @@ const LegalInsights = () => {
               </button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
-              {(pageContent?.frontmatter?.newsletter?.disclaimer && !loadError && typeof pageContent.frontmatter.newsletter.disclaimer === 'string')
+              {pageContent?.frontmatter?.newsletter?.disclaimer &&
+              !loadError &&
+              typeof pageContent.frontmatter.newsletter.disclaimer === "string"
                 ? pageContent.frontmatter.newsletter.disclaimer
-                : 'No spam. Unsubscribe anytime. Read our privacy policy.'}
+                : "No spam. Unsubscribe anytime. Read our privacy policy."}
             </p>
           </div>
         </div>
@@ -491,7 +539,8 @@ const LegalInsights = () => {
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                <strong>Notice:</strong> Using fallback content. CMS data could not be loaded: {loadError}
+                <strong>Notice:</strong> Using fallback content. CMS data could
+                not be loaded: {loadError}
               </p>
             </div>
           </div>

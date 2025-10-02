@@ -101,7 +101,7 @@ const SoleProprietorshipRegistration = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative py-12 sm:py-16 lg:py-20 xl:py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
+      <section className="relative my-28 py-12 sm:py-16 lg:py-20 xl:py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
@@ -124,19 +124,27 @@ const SoleProprietorshipRegistration = () => {
               <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <div className="flex items-center">
                   <i className="fas fa-check-circle text-accent-400 mr-3 text-sm sm:text-base"></i>
-                  <span className="text-sm sm:text-base">Easy setup – minimal paperwork</span>
+                  <span className="text-sm sm:text-base">
+                    Easy setup – minimal paperwork
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <i className="fas fa-check-circle text-accent-400 mr-3 text-sm sm:text-base"></i>
-                  <span className="text-sm sm:text-base">Complete business control</span>
+                  <span className="text-sm sm:text-base">
+                    Complete business control
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <i className="fas fa-check-circle text-accent-400 mr-3 text-sm sm:text-base"></i>
-                  <span className="text-sm sm:text-base">Transparent pricing</span>
+                  <span className="text-sm sm:text-base">
+                    Transparent pricing
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <i className="fas fa-check-circle text-accent-400 mr-3 text-sm sm:text-base"></i>
-                  <span className="text-sm sm:text-base">Expert legal guidance</span>
+                  <span className="text-sm sm:text-base">
+                    Expert legal guidance
+                  </span>
                 </div>
               </div>
             </div>
@@ -153,7 +161,9 @@ const SoleProprietorshipRegistration = () => {
                       <h3 className="text-lg sm:text-xl font-bold text-primary-900">
                         {plan.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-gray-600">{plan.subtitle}</p>
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        {plan.subtitle}
+                      </p>
                     </div>
                     <div className="text-left sm:text-right">
                       <div className="flex items-center sm:justify-end space-x-2">
@@ -228,7 +238,9 @@ const SoleProprietorshipRegistration = () => {
                   <h3 className="text-xl sm:text-2xl font-bold text-primary-900 mb-2">
                     {plan.name}
                   </h3>
-                  <p className="text-gray-600 mb-4 text-sm sm:text-base">{plan.subtitle}</p>
+                  <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                    {plan.subtitle}
+                  </p>
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <span className="text-2xl sm:text-3xl font-bold text-primary-900">
                       {plan.price}
@@ -249,7 +261,9 @@ const SoleProprietorshipRegistration = () => {
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
                       <i className="fas fa-check text-green-500 mr-3 mt-1 flex-shrink-0 text-sm"></i>
-                      <span className="text-gray-700 text-sm sm:text-base">{feature}</span>
+                      <span className="text-gray-700 text-sm sm:text-base">
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>

@@ -40,7 +40,7 @@ const AboutUs = () => {
 
   const values = [
     {
-      icon: "fas fa-shield-check",
+      icon: "fas fa-shield-alt",
       title: "Trust & Transparency",
       description:
         "We believe in complete transparency in our processes, pricing, and lawyer verification.",

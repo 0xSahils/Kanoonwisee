@@ -1,17 +1,86 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/landing/Header";
+import Lottie from "lottie-react";
 import KnowledgeBank from "../components/landing/KnowledgeBank";
+
+const HOW_IT_WORKS_STEPS = [
+  {
+    step: 1,
+    title: "Search & Discover",
+    description:
+      "Browse through thousands of verified lawyers by city, specialization, experience, and ratings to find the perfect match for your legal needs.",
+    animationPath: "/animations/search.json",
+    alt: "Search and discover lawyers",
+    fallbackIcon: "fa-search",
+  },
+  {
+    step: 2,
+    title: "Compare & Choose",
+    description:
+      "Review detailed profiles, client reviews, fee structures, and success rates. Make informed decisions with transparent information.",
+    animationPath: "/animations/profile.json",
+    alt: "Compare and choose lawyers",
+    fallbackIcon: "fa-balance-scale",
+  },
+  {
+    step: 3,
+    title: "Book & Connect",
+    description:
+      "Schedule consultations instantly, manage appointments, and get expert legal advice from India's most trusted lawyers.",
+    animationPath: "/animations/connect.json",
+    alt: "Book consultation and connect with lawyers",
+    fallbackIcon: "fa-handshake",
+  },
+];
 
 const JusticiaHomepage = () => {
   const navigate = useNavigate();
   const [selectedCity, setSelectedCity] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+   const [animationDataMap, setAnimationDataMap] = useState({});
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Load Lottie animations from public folder
+   useEffect(() => {
+    let isMounted = true;
+
+    const loadAnimations = async () => {
+      const animationEntries = await Promise.all(
+        HOW_IT_WORKS_STEPS.map(async ({ animationPath }) => {
+          try {
+            const response = await fetch(animationPath);
+            if (!response.ok) {
+              throw new Error(
+                `Failed to load ${animationPath}: ${response.status}`
+              );
+            }
+
+            const jsonData = await response.json();
+            return [animationPath, jsonData];
+          } catch (error) {
+            console.error("Error loading animation", error);
+            return [animationPath, null];
+          }
+        })
+      );
+
+      if (isMounted) {
+        setAnimationDataMap(Object.fromEntries(animationEntries));
+      }
+    };
+
+    loadAnimations();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
 
   const services = [
     {
@@ -245,7 +314,7 @@ const JusticiaHomepage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
@@ -253,79 +322,48 @@ const JusticiaHomepage = () => {
               How Kanoonwise Works
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Connect with India's top lawyers in just 3 simple steps. Find,
-              compare, and book consultations seamlessly.
+              Connect with India's top lawyers in just 3 simple steps. Find, compare, and book consultations seamlessly.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="relative mb-8">
-                <div className="w-48 h-48 mx-auto rounded-2xl overflow-hidden shadow-lg">
-                  <img
-                    src="/search discover.png"
-                    alt="Search and discover lawyers"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="absolute -top-3 -right-3 bg-yellow-500 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-lg">
-                  1
-                </div>
+          <div className="grid gap-12 md:grid-cols-3">
+            {HOW_IT_WORKS_STEPS.map(
+              ({
+                step,
+                title,
+                description,
+                animationPath,
+                alt,
+                fallbackIcon,
+              }) => (
+                <div key={step} className="text-center">
+                  <div className="relative mx-auto mb-8 flex h-56 w-56 max-w-full items-center justify-center sm:h-64 sm:w-64">
+                    <div className="absolute inset-0 -z-10 rounded-3xl bg-white shadow-xl shadow-gray-200/60" />
+                    <div className="flex h-full w-full items-center justify-center rounded-3xl bg-white p-4">
+                      {animationDataMap[animationPath] ? (
+                        <Lottie
+                          animationData={animationDataMap[animationPath]}
+                          loop
+                          className="h-full w-full"
+                          title={alt}
+                        />
+                      ) : (
+                        <i
+                          className={`fas ${fallbackIcon} text-5xl text-yellow-500`}
+                          aria-label={alt}
+                        ></i>
+                      )}
+                    </div>
+                    <div className="absolute -top-3 -right-3 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500 text-lg font-bold text-gray-900 shadow-lg">
+                      {step}
+                    </div>
+                  </div>
+                  <h3 className="mb-4 text-2xl font-semibold text-gray-900">
+                    {title}
+                  </h3>
+                  <p className="leading-relaxed text-gray-600">{description}</p>
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-                Search & Discover
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Browse through thousands of verified lawyers by city,
-                specialization, experience, and ratings to find the perfect
-                match for your legal needs.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="relative mb-8">
-                <div className="w-48 h-48 mx-auto rounded-2xl overflow-hidden shadow-lg">
-                  <img
-                    src="/compare choose.png"
-                    alt="Compare and choose lawyers"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="absolute -top-3 -right-3 bg-yellow-500 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-lg">
-                  2
-                </div>
-              </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-                Compare & Choose
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Review detailed profiles, client reviews, fee structures, and
-                success rates. Make informed decisions with transparent
-                information.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="relative mb-8">
-                <div className="w-48 h-48 mx-auto rounded-2xl overflow-hidden shadow-lg">
-                  <img
-                    src="/book connect.png"
-                    alt="Book consultation and connect with lawyers"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="absolute -top-3 -right-3 bg-yellow-500 text-gray-900 font-bold rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-lg">
-                  3
-                </div>
-              </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-                Book & Connect
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Schedule consultations instantly, manage appointments, and get
-                expert legal advice from India's most trusted lawyers.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

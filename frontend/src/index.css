@@ -56,18 +56,26 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     @apply bg-background text-foreground;
     font-family: "Manrope", Inter, system-ui, -apple-system, sans-serif;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
   h1, h2 {
     @apply font-display tracking-tight;
+    font-weight: 700;
   }
   h1 { @apply text-4xl sm:text-5xl lg:text-6xl; }
   h2 { @apply text-3xl sm:text-4xl lg:text-5xl; }
   h3 { @apply text-xl sm:text-2xl font-semibold; }
+  h4, h5, h6 { @apply font-semibold; }
   p  { @apply leading-relaxed; }
+  button, a { 
+    font-family: "Manrope", Inter, system-ui, -apple-system, sans-serif;
+  }
 }
 
 /* Calendar styles */

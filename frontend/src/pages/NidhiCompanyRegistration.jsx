@@ -130,7 +130,7 @@ const NidhiCompanyRegistration = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
+      <section className="relative my-28 py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
