@@ -34,10 +34,45 @@ const HOW_IT_WORKS_STEPS = [
   },
 ];
 
+const STATE_CITY_MAP = {
+  "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore"],
+  "Arunachal Pradesh": ["Itanagar", "Naharlagun", "Pasighat"],
+  Assam: ["Guwahati", "Silchar", "Dibrugarh", "Jorhat"],
+  Bihar: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+  Chhattisgarh: ["Raipur", "Bhilai", "Bilaspur"],
+  Goa: ["Panaji", "Margao", "Vasco da Gama"],
+  Gujarat: ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+  Haryana: ["Gurugram", "Faridabad", "Panipat", "Ambala"],
+  "Himachal Pradesh": ["Shimla", "Dharamshala", "Solan"],
+  Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad"],
+  Karnataka: ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru"],
+  Kerala: ["Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur"],
+  "Madhya Pradesh": ["Indore", "Bhopal", "Gwalior", "Jabalpur"],
+  Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik"],
+  Manipur: ["Imphal", "Churachandpur"],
+  Meghalaya: ["Shillong", "Tura"],
+  Mizoram: ["Aizawl", "Lunglei"],
+  Nagaland: ["Kohima", "Dimapur"],
+  Odisha: ["Bhubaneswar", "Cuttack", "Rourkela", "Sambalpur"],
+  Punjab: ["Chandigarh", "Ludhiana", "Amritsar", "Jalandhar"],
+  Rajasthan: ["Jaipur", "Udaipur", "Jodhpur", "Kota"],
+  Sikkim: ["Gangtok", "Namchi"],
+  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"],
+  Telangana: ["Hyderabad", "Warangal", "Nizamabad"],
+  Tripura: ["Agartala", "Dharmanagar"],
+  "Uttar Pradesh": ["Lucknow", "Noida", "Kanpur", "Varanasi", "Delhi"],
+  Uttarakhand: ["Dehradun", "Haridwar", "Haldwani"],
+  "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Siliguri"],
+};
+
 const JusticiaHomepage = () => {
   const navigate = useNavigate();
+  const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const citiesForSelectedState = selectedState
+    ? STATE_CITY_MAP[selectedState] ?? []
+    : [];
   const [animationDataMap, setAnimationDataMap] = useState({});
 
   // Scroll to top when component mounts
@@ -108,11 +143,21 @@ const JusticiaHomepage = () => {
     },
   ];
 
+  useEffect(() => {
+    if (!selectedState) {
+      setSelectedCity("");
+    }
+  }, [selectedState]);
+
   // Search functionality
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (selectedCity) params.append("city", selectedCity);
-    if (searchQuery) params.append("specialization", searchQuery);
+    if (selectedCity) {
+      params.append("city", selectedCity);
+    }
+    if (searchQuery) {
+      params.append("specialization", searchQuery);
+    }
     navigate(`/search-lawyers?${params.toString()}`);
   };
 
@@ -120,36 +165,7 @@ const JusticiaHomepage = () => {
     navigate(`/search-lawyers?specialization=${encodeURIComponent(tag)}`);
   };
 
-  const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-  ];
+  const states = Object.keys(STATE_CITY_MAP);
 
   const popularSearches = [
     "Corporate Lawyer",
@@ -195,27 +211,53 @@ const JusticiaHomepage = () => {
 
               {/* Enhanced Search Section */}
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 border border-white/20">
-                <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  {/* City Selector */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                  {/* State Selector */}
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <i className="fas fa-map-marker-alt text-yellow-500"></i>
                     </div>
                     <select
-                      value={selectedCity}
-                      onChange={(e) => setSelectedCity(e.target.value)}
+                      value={selectedState}
+                      onChange={(e) => setSelectedState(e.target.value)}
                       className="w-full pl-12 pr-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
                     >
                       <option value="" className="text-gray-900">
                         Select State
                       </option>
-                      {states.map((state, index) => (
+                      {states.map((state) => (
                         <option
-                          key={index}
+                          key={state}
                           value={state}
                           className="text-gray-900"
                         >
                           {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* City Selector */}
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <i className="fas fa-city text-yellow-500"></i>
+                    </div>
+                    <select
+                      value={selectedCity}
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                      disabled={!selectedState}
+                      className="w-full pl-12 pr-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-gray-300 focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="" className="text-gray-900">
+                        {selectedState ? "Select City" : "Select State First"}
+                      </option>
+                      {citiesForSelectedState.map((city) => (
+                        <option
+                          key={city}
+                          value={city}
+                          className="text-gray-900"
+                        >
+                          {city}
                         </option>
                       ))}
                     </select>
