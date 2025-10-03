@@ -38,7 +38,7 @@ const JusticiaHomepage = () => {
   const navigate = useNavigate();
   const [selectedCity, setSelectedCity] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-   const [animationDataMap, setAnimationDataMap] = useState({});
+  const [animationDataMap, setAnimationDataMap] = useState({});
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -46,7 +46,7 @@ const JusticiaHomepage = () => {
   }, []);
 
   // Load Lottie animations from public folder
-   useEffect(() => {
+  useEffect(() => {
     let isMounted = true;
 
     const loadAnimations = async () => {
@@ -80,7 +80,6 @@ const JusticiaHomepage = () => {
       isMounted = false;
     };
   }, []);
-
 
   const services = [
     {
@@ -166,7 +165,7 @@ const JusticiaHomepage = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80"></div>
         </div>
 
-        <div className="relative z-10 flex items-center justify-center h-full pt-32">
+        <div className="relative md:my-0 my-28 z-10 flex items-center justify-center h-full pt-32">
           <div className="text-center max-w-5xl px-4">
             <div className="mb-12">
               <div className="inline-block w-16 h-1 bg-yellow-500 mb-6"></div>
@@ -314,7 +313,7 @@ const JusticiaHomepage = () => {
       </section>
 
       {/* How It Works Section */}
-        <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
@@ -322,7 +321,8 @@ const JusticiaHomepage = () => {
               How Kanoonwise Works
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Connect with India's top lawyers in just 3 simple steps. Find, compare, and book consultations seamlessly.
+              Connect with India's top lawyers in just 3 simple steps. Find,
+              compare, and book consultations seamlessly.
             </p>
           </div>
 
@@ -362,8 +362,9 @@ const JusticiaHomepage = () => {
                     {title}
                   </h3>
                   <p className="leading-relaxed text-gray-600">{description}</p>
-              </div>
-            ))}
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>

@@ -124,37 +124,50 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
-      {/* Background Graphics */}
-      <div className="absolute inset-0 opacity-10">
-        <img
-          src="/login-bg-pattern.jpg"
-          alt="Legal Background Pattern"
-          className="w-full h-full object-cover"
-        />
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 relative overflow-hidden">
+      {/* Background Pattern - CSS-based instead of missing image */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334e68' fill-opacity='0.1'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: "60px 60px",
+          }}
+        ></div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-20 w-32 h-32 bg-yellow-500/20 rounded-full blur-xl"></div>
-      <div className="absolute bottom-20 right-20 w-40 h-40 bg-orange-500/20 rounded-full blur-xl"></div>
-      <div className="absolute top-1/2 left-10 w-24 h-24 bg-blue-500/20 rounded-full blur-lg"></div>
+      <div className="absolute top-20 left-20 w-32 h-32 bg-primary-200/30 rounded-full blur-xl"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-accent-200/30 rounded-full blur-xl"></div>
+      <div className="absolute top-1/2 left-10 w-24 h-24 bg-primary-300/20 rounded-full blur-lg"></div>
 
       <div className="min-h-screen flex items-center justify-center px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl w-full">
           {/* Left Side - Graphics and Info */}
           <div className="hidden lg:block space-y-8">
             <div className="text-center">
-              <img
-                src="/login-hero-graphic.jpg"
-                alt="Legal Services Illustration"
-                className="w-full max-w-md mx-auto rounded-2xl shadow-2xl"
-              />
+              {/* Replace missing image with CSS-based legal illustration */}
+              <div className="w-full max-w-md mx-auto rounded-2xl shadow-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-12 text-white relative overflow-hidden">
+                {/* Legal scales icon as main graphic */}
+                <div className="relative z-10">
+                  <div className="w-32 h-32 mx-auto mb-6 bg-white/10 rounded-full flex items-center justify-center">
+                    <i className="fas fa-balance-scale text-6xl text-accent-400"></i>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">Legal Excellence</h3>
+                  <p className="text-primary-100">
+                    Professional Legal Services Platform
+                  </p>
+                </div>
+                {/* Decorative elements */}
+                <div className="absolute top-4 right-4 w-16 h-16 bg-accent-400/20 rounded-full"></div>
+                <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full"></div>
+              </div>
             </div>
             <div className="text-center text-gray-900 space-y-4">
               <h2 className="text-3xl font-bold">
                 Join India's Trusted Legal Platform
               </h2>
-              <p className="text-gray-300 text-lg">
+              <p className="text-gray-600 text-lg">
                 Connect with verified legal experts and grow your practice with
                 KanoonWise
               </p>
@@ -183,15 +196,15 @@ const Login = () => {
 
           {/* Right Side - Login Form */}
           <div className="w-full max-w-md mx-auto">
-            <Card className="bg-white border shadow-md">
+            <Card className="bg-white border border-gray-200 shadow-xl">
               <CardHeader className="text-center">
-                <div className="mx-auto mb-4 w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
+                <div className="mx-auto mb-4 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl font-bold text-white">
+                <CardTitle className="text-2xl font-bold text-primary-800">
                   Welcome to KanoonWise
                 </CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-gray-600">
                   {step === "email"
                     ? "Enter your email to get started"
                     : "Enter the OTP sent to your email"}
