@@ -120,25 +120,35 @@ const JusticiaHomepage = () => {
     navigate(`/search-lawyers?specialization=${encodeURIComponent(tag)}`);
   };
 
-  const cities = [
-    "Mumbai",
-    "Delhi",
-    "Bangalore",
-    "Chennai",
-    "Kolkata",
-    "Hyderabad",
-    "Pune",
-    "Ahmedabad",
-    "Jaipur",
-    "Lucknow",
-    "Surat",
-    "Kanpur",
-    "Nagpur",
-    "Indore",
-    "Thane",
-    "Bhopal",
-    "Visakhapatnam",
-    "Patna",
+  const states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
   ];
 
   const popularSearches = [
@@ -199,13 +209,13 @@ const JusticiaHomepage = () => {
                       <option value="" className="text-gray-900">
                         Select State
                       </option>
-                      {cities.map((city, index) => (
+                      {states.map((state, index) => (
                         <option
                           key={index}
-                          value={city}
+                          value={state}
                           className="text-gray-900"
                         >
-                          {city}
+                          {state}
                         </option>
                       ))}
                     </select>
