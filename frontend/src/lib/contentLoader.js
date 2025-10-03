@@ -26,7 +26,8 @@ export function getPageContent(slug) {
   try {
     // Use Vite's import.meta.glob to load all markdown files
     const modules = import.meta.glob('../content/pages/*.md', {
-      as: 'raw',
+      query: '?raw',
+      import: 'default',
       eager: true
     });
 

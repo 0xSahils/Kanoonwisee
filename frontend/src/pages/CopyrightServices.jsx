@@ -437,6 +437,13 @@ const CopyrightServices = () => {
                   <div className="mb-6">
                     <PublicBusinessServicePayment
                       serviceName="Copyright Registration"
+                      packageData={{
+                        id: pkg.id,
+                        name: pkg.name,
+                        price: pkg.price.replace('₹', '').replace(',', ''),
+                        description: pkg.description,
+                        features: pkg.features
+                      }}
                       buttonText={`Get Started - ${pkg.price}`}
                       className="w-full"
                     />

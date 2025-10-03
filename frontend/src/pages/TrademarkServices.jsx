@@ -372,7 +372,14 @@ const TrademarkServices = () => {
                   {/* Public Business Service Payment Component */}
                   <div className="mb-6">
                     <PublicBusinessServicePayment
-                      serviceName="Trademark Registration"
+                      serviceName="Trademark Services"
+                      packageData={{
+                        id: pkg.id,
+                        name: pkg.name,
+                        price: pkg.price.replace('₹', '').replace(',', ''),
+                        description: pkg.description,
+                        features: pkg.features
+                      }}
                       buttonText={`Get Started - ${pkg.price}`}
                       className="w-full"
                     />

@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node fix-partial-migration.js && node src/server.js",
     "dev": "nodemon src/server.js",
-    "migrate": "node deploy-production.js",
-    "setup-packages": "node setup-production-packages.js",
-    "deploy": "node deploy.js",
+    "migrate": "node migrate.js",
+    "setup-packages": "node deploy-fresh-production-packages.js",
+    "verify-packages": "node verify-production-deployment.js",
+    "verify-dev": "node verify-all-packages.js",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:all": "sequelize-cli db:seed:all",
     "test:s3": "node test-s3-connection.js",

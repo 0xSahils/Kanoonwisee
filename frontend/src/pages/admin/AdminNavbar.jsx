@@ -12,10 +12,27 @@ const AdminNavbar = () => {
 
   const handleLogout = async () => {
     try {
+      // Show loading state if needed
+      setIsMenuOpen(false); // Close mobile menu if open
+      
+      // Dispatch logout action
       await dispatch(logoutUser()).unwrap();
+      
+      // Clear any admin-specific data
+      sessionStorage.clear();
+      
+      // Navigate to home page
       navigate("/");
+      
+      // Show success message (optional - can be removed if causing issues)
+      console.log("Admin logout successful");
+      
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Admin logout failed:", error);
+      
+      // Even if logout fails, clear local state and navigate
+      dispatch({ type: 'auth/logout' });
+      sessionStorage.clear();
       navigate("/");
     }
   };
@@ -112,6 +129,8 @@ const AdminNavbar = () => {
                   <button
                     onClick={handleLogout}
                     className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 w-full text-left border-t border-gray-100"
+                    type="button"
+                    aria-label="Logout from admin panel"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>
@@ -171,6 +190,8 @@ const AdminNavbar = () => {
                 <button
                   onClick={handleLogout}
                   className="w-full text-left text-red-600 hover:text-red-700 hover:bg-red-50 font-medium py-3 px-3 rounded-lg transition-all duration-200 flex items-center space-x-3 border-t border-gray-100 mt-3 pt-3"
+                  type="button"
+                  aria-label="Logout from admin panel"
                 >
                   <LogOut className="h-5 w-5" />
                   <span>Logout</span>

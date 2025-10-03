@@ -416,10 +416,15 @@ const DesignRegistration = () => {
 
                   <PublicBusinessServicePayment
                     serviceName="Design Registration"
-                    servicePrice={pkg.price.replace('₹', '').replace(',', '')}
-                    serviceDescription={`${pkg.name} - ${pkg.description}`}
+                    packageData={{
+                      id: pkg.id,
+                      name: pkg.name,
+                      price: pkg.price.replace('₹', '').replace(',', ''),
+                      description: pkg.description,
+                      features: pkg.features
+                    }}
                     buttonText="Get Started"
-                    buttonClass={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
+                    className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 mb-6 ${
                       pkg.popular
                         ? "bg-indigo-500 hover:bg-indigo-400 text-white"
                         : "bg-gray-900 hover:bg-gray-800 text-white"

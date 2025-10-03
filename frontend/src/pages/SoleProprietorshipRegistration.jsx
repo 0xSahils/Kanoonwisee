@@ -192,6 +192,13 @@ const SoleProprietorshipRegistration = () => {
                   <div className="mb-4">
                     <PublicBusinessServicePayment
                       serviceName={`Sole Proprietorship ${plan.name}`}
+                      packageData={{
+                        id: plan.id,
+                        name: `Sole Proprietorship ${plan.name}`,
+                        price: plan.price.replace('₹', '').replace(',', ''),
+                        description: plan.description,
+                        features: plan.features
+                      }}
                       buttonText={`Get Started - ${plan.price}`}
                       className="w-full bg-accent-500 hover:bg-accent-600 text-primary-900 font-semibold py-2.5 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-300"
                     />
@@ -271,6 +278,13 @@ const SoleProprietorshipRegistration = () => {
                 <div className="mb-4">
                   <PublicBusinessServicePayment
                     serviceName={`Sole Proprietorship ${plan.name}`}
+                    packageData={{
+                      id: plan.id || key,
+                      name: `Sole Proprietorship ${plan.name}`,
+                      price: plan.price.replace('₹', '').replace(',', ''),
+                      description: plan.description,
+                      features: plan.features
+                    }}
                     buttonText={`Choose ${plan.name} - ${plan.price}`}
                     className={`w-full font-semibold py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-300 ${
                       key === "premium"
@@ -457,6 +471,13 @@ const SoleProprietorshipRegistration = () => {
             <div className="w-full sm:flex-1 sm:max-w-xs">
               <PublicBusinessServicePayment
                 serviceName="Sole Proprietorship Starter Plan"
+                packageData={{
+                  id: "sole-proprietorship-starter",
+                  name: "Sole Proprietorship Starter Plan",
+                  price: "1199",
+                  description: "Basic sole proprietorship registration",
+                  features: ["Business registration", "PAN card assistance", "Bank account guidance"]
+                }}
                 buttonText="Start Registration - ₹1,199"
                 className="w-full bg-accent-500 hover:bg-accent-400 text-primary-900 font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               />

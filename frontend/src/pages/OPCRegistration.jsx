@@ -260,6 +260,13 @@ const OPCRegistration = () => {
 
                   <PublicBusinessServicePayment 
                     serviceName={`OPC ${plan.name}`}
+                    packageData={{
+                      id: plan.id,
+                      name: `OPC ${plan.name}`,
+                      price: plan.price.replace('₹', '').replace(',', ''),
+                      description: plan.subtitle,
+                      features: plan.features
+                    }}
                     buttonText={`Pay ${plan.price}`}
                     className={`w-full font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105 ${
                       plan.popular
@@ -703,6 +710,13 @@ const OPCRegistration = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <PublicBusinessServicePayment 
               serviceName="OPC Starter Plan"
+              packageData={{
+                id: plans[0].id,
+                name: `OPC ${plans[0].name}`,
+                price: plans[0].price.replace('₹', '').replace(',', ''),
+                description: plans[0].subtitle,
+                features: plans[0].features
+              }}
               buttonText={`Pay ${plans[0].price}`}
               className="bg-accent-500 hover:bg-accent-400 text-primary-900 font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-300 transform hover:scale-105"
             />

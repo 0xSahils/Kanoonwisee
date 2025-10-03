@@ -384,6 +384,13 @@ const VirtualLegalOfficer = () => {
                     <div className="mb-6">
                       <PublicBusinessServicePayment
                         serviceName="Virtual Legal Officer"
+                        packageData={{
+                          id: plan.id,
+                          name: plan.name,
+                          price: plan.price.replace('₹', '').replace(',', ''),
+                          description: plan.description,
+                          features: Object.values(plan.features).flat()
+                        }}
                         buttonText={`Get Started - ${plan.price}`}
                         className="w-full"
                       />

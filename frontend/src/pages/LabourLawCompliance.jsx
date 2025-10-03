@@ -330,6 +330,13 @@ const LabourLawCompliance = () => {
                   {pkg.price !== "Custom Pricing" ? (
                     <PublicBusinessServicePayment
                       serviceName="Labour Law Compliance"
+                      packageData={{
+                        id: pkg.id,
+                        name: pkg.name,
+                        price: pkg.price.replace('₹', '').replace(',', ''),
+                        description: pkg.bestFor,
+                        features: pkg.features
+                      }}
                       buttonText={`Get Started - ${pkg.price}`}
                       className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
                         pkg.popular

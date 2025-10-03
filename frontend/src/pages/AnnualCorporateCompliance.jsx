@@ -328,7 +328,8 @@ const AnnualCorporateCompliance = () => {
                   {/* Public Business Service Payment Component */}
                   <div className="mb-4 sm:mb-6">
                     <PublicBusinessServicePayment
-                      serviceName="Compliance Package"
+                      serviceName={pkg.name}
+                      packageData={pkg}
                       buttonText={`Get Started - ${pkg.price}`}
                       className="w-full"
                     />

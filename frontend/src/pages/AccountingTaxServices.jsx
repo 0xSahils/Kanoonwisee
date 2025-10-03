@@ -340,11 +340,35 @@ const AccountingTaxServices = () => {
 
                   {/* Public Business Service Payment Component */}
                   <div className="mb-4 sm:mb-6">
-                    <PublicBusinessServicePayment
-                      serviceName="Virtual Legal Officer"
-                      buttonText={`Get Started - ${pkg.price}`}
-                      className="w-full"
-                    />
+                    {pkg.price === "Custom Pricing" ? (
+                      <button
+                        onClick={() => {
+                          const message = encodeURIComponent(
+                            `Hi! I'm interested in the ${pkg.name} for Accounting & Tax Services. Could you please provide me with a custom quote?`
+                          );
+                          window.open(
+                            `https://wa.me/919876543210?text=${message}`,
+                            "_blank"
+                          );
+                        }}
+                        className="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        Get Custom Quote
+                      </button>
+                    ) : (
+                      <PublicBusinessServicePayment
+                        serviceName="Accounting Tax Services"
+                        packageData={{
+                          id: pkg.id,
+                          name: pkg.name,
+                          price: pkg.price.replace('₹', '').replace(',', ''),
+                          description: pkg.description,
+                          features: pkg.features
+                        }}
+                        buttonText={`Get Started - ${pkg.price}`}
+                        className="w-full"
+                      />
+                    )}
                   </div>
                 </div>
               </div>

@@ -85,13 +85,13 @@ router.get('/packages', async (req, res) => {
  */
 router.post('/create-order', async (req, res) => {
   try {
-    const { packageId, customerDetails } = req.body;
+    const { packageId, packageData, customerDetails } = req.body;
 
-    // Validate input
-    if (!packageId || !customerDetails) {
+    // Validate input - either packageId or packageData is required
+    if ((!packageId && !packageData) || !customerDetails) {
       return res.status(400).json({
         success: false,
-        message: 'Package ID and customer details are required'
+        message: 'Package information and customer details are required'
       });
     }
 
@@ -121,26 +121,44 @@ router.post('/create-order', async (req, res) => {
       });
     }
 
-    // Get package details
-    const package = await Package.findByPk(packageId);
-    if (!package || !package.is_active) {
-      return res.status(404).json({
-        success: false,
-        message: 'Package not found or inactive'
-      });
+    let packageInfo;
+
+    if (packageId) {
+      // Get package details from database
+      const package = await Package.findByPk(packageId);
+      if (!package || !package.is_active) {
+        return res.status(404).json({
+          success: false,
+          message: 'Package not found or inactive'
+        });
+      }
+      packageInfo = {
+        id: package.id,
+        name: package.name,
+        price: package.price,
+        description: package.description
+      };
+    } else {
+      // Use provided package data for local packages
+      packageInfo = {
+        id: `local_${Date.now()}`,
+        name: packageData.name,
+        price: packageData.price,
+        description: packageData.description || ''
+      };
     }
 
     // Create Razorpay order
     const orderOptions = {
-      amount: Math.round(package.price * 100), // Convert to paise
+      amount: Math.round(packageInfo.price * 100), // Convert to paise
       currency: 'INR',
       receipt: `receipt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       notes: {
         customer_name: name,
         customer_email: email,
         customer_phone: phone,
-        package_id: packageId,
-        package_name: package.name,
+        package_id: packageInfo.id,
+        package_name: packageInfo.name,
         service_type: 'business_service',
         payment_type: 'public_purchase'
       }
@@ -157,12 +175,7 @@ router.post('/create-order', async (req, res) => {
         currency: order.currency,
         receipt: order.receipt
       },
-      package: {
-        id: package.id,
-        name: package.name,
-        price: package.price,
-        description: package.description
-      },
+      package: packageInfo,
       razorpayKeyId: razorpayConfig.keyId
     });
 

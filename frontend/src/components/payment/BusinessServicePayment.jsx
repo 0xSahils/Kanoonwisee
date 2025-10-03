@@ -30,24 +30,27 @@ const BusinessServicePayment = ({
   
   const [matchedPackage, setMatchedPackage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
 
   // Fetch packages on component mount
   useEffect(() => {
     const loadPackages = async () => {
       try {
-        if (!packages || packages.length === 0) {
+        if ((!packages || packages.length === 0) && !hasFetched) {
+          setHasFetched(true);
           await dispatch(fetchPackages()).unwrap();
         }
       } catch (error) {
         console.error('Failed to fetch packages:', error);
         toast.error('Failed to load service packages');
+        setHasFetched(false); // Reset on error to allow retry
       } finally {
         setIsLoading(false);
       }
     };
 
     loadPackages();
-  }, [dispatch, packages]);
+  }, [dispatch, packages, hasFetched]);
 
   // Match service to package when packages are loaded
   useEffect(() => {
@@ -143,7 +146,7 @@ const BusinessServicePayment = ({
   };
 
   // Show loading state
-  if (isLoading || loading.fetchPackages) {
+  if (isLoading || loading.packages) {
     return (
       <div className={`flex items-center justify-center p-4 ${className}`}>
         <div className="flex items-center space-x-2">

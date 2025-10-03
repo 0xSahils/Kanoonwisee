@@ -16,8 +16,21 @@ export const fetchPackages = createAsyncThunk(
 
 export const fetchPublicPackages = createAsyncThunk(
   'payment/fetchPublicPackages',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
+      // Check if packages are already loaded and not stale
+      const state = getState();
+      const existingPackages = state.payment?.packages;
+      const packagesFetched = state.payment?.packagesFetched;
+      const isLoading = state.payment?.loading?.packages;
+      
+      // If we already have packages and have fetched before, return them
+      if (packagesFetched && existingPackages && existingPackages.length > 0 && !isLoading) {
+        console.log('Using cached packages, skipping API call');
+        return { data: existingPackages, fromCache: true };
+      }
+      
+      console.log('Making API call for public packages');
       const response = await paymentAPI.getPublicPackages();
       return response.data;
     } catch (error) {
@@ -76,6 +89,7 @@ export const fetchOrderDetails = createAsyncThunk(
 
 const initialState = {
   packages: [],
+  packagesFetched: false, // Flag to track if packages have been fetched
   currentOrder: null,
   userOrders: [],
   selectedPackage: null,
@@ -121,6 +135,10 @@ const paymentSlice = createSlice({
     setPaymentState: (state, action) => {
       state.paymentState = action.payload;
     },
+    clearPackages: (state) => {
+      state.packages = [];
+      state.packagesFetched = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -132,6 +150,7 @@ const paymentSlice = createSlice({
       .addCase(fetchPackages.fulfilled, (state, action) => {
         state.loading.packages = false;
         state.packages = action.payload.data || action.payload;
+        state.packagesFetched = true;
       })
       .addCase(fetchPackages.rejected, (state, action) => {
         state.loading.packages = false;
@@ -145,7 +164,16 @@ const paymentSlice = createSlice({
       })
       .addCase(fetchPublicPackages.fulfilled, (state, action) => {
         state.loading.packages = false;
-        state.packages = action.payload.data || action.payload;
+        // Handle both fresh API responses and cached responses
+        if (action.payload.fromCache) {
+          // Data is from cache, packages already set
+          console.log('Packages loaded from cache');
+        } else {
+          // Fresh API response
+          state.packages = action.payload.data || action.payload;
+          state.packagesFetched = true;
+          console.log('Packages loaded from API:', state.packages.length);
+        }
       })
       .addCase(fetchPublicPackages.rejected, (state, action) => {
         state.loading.packages = false;
@@ -229,6 +257,7 @@ export const {
   setSelectedPackage,
   resetPaymentState,
   setPaymentState,
+  clearPackages,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

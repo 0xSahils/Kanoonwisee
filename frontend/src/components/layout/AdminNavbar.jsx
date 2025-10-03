@@ -26,13 +26,31 @@ const AdminNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      await dispatch(logoutUser()).unwrap()
-      navigate('/')
-      toast.success('Logged out successfully')
-    } catch {
-      toast.error('Logout failed')
+      // Close mobile menu if open
+      setIsOpen(false);
+      
+      // Dispatch logout action
+      await dispatch(logoutUser()).unwrap();
+      
+      // Clear any admin-specific data
+      sessionStorage.clear();
+      
+      // Navigate to home page
+      navigate('/');
+      
+      // Show success toast
+      toast.success('Logged out successfully');
+      
+    } catch (error) {
+      console.error("Admin logout failed:", error);
+      
+      // Even if logout API fails, clear local state and navigate
+      dispatch({ type: 'auth/logout' });
+      sessionStorage.clear();
+      navigate('/');
+      toast.error('Logout completed (with errors)');
     }
-  }
+  };
 
   const toggleTheme = () => {
     setIsDark(!isDark)
@@ -102,6 +120,8 @@ const AdminNavbar = () => {
                   size="sm"
                   onClick={handleLogout}
                   className="flex items-center text-white hover:bg-white/10"
+                  type="button"
+                  aria-label="Logout from admin panel"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
@@ -151,6 +171,8 @@ const AdminNavbar = () => {
             <button
               onClick={handleLogout}
               className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+              type="button"
+              aria-label="Logout from admin panel"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Logout
