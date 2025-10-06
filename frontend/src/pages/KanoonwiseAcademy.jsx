@@ -258,14 +258,14 @@ const KanoonwiseAcademy = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              {/* <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {(pageContent?.frontmatter?.stats &&
                 !loadError &&
                 Array.isArray(pageContent.frontmatter.stats)
                   ? pageContent.frontmatter.stats
                   : [
-                      { label: "Free Articles", value: "100+" },
-                      { label: "Expert Guides", value: "50+" },
+                      // { label: "Free Articles", value: "100+" },
+                      // { label: "Expert Guides", value: "50+" },
                       { label: "New Content", value: "Weekly" },
                     ]
                 ).map((stat, index) => (
@@ -276,7 +276,7 @@ const KanoonwiseAcademy = () => {
                     <div className="text-sm text-gray-300">{stat.label}</div>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Right Content - CTA */}

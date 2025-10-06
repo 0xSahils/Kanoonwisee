@@ -156,7 +156,7 @@ const Hero = () => {
                     className="flex-1 bg-primary-900 hover:bg-primary-800 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-colors duration-200 text-base sm:text-lg min-h-[44px]"
                   >
                     <i className="fas fa-balance-scale mr-2"></i>
-                    Join as Advocate
+                    Join as Lawyer
                   </button>
                 </div>
               </div>

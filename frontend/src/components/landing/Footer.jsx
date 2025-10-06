@@ -226,7 +226,7 @@ const Footer = () => {
                   className="bg-white text-orange-600 hover:bg-gray-100 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl text-base sm:text-lg inline-flex items-center w-full sm:w-auto justify-center min-h-[44px]"
                 >
                   <i className="fas fa-balance-scale mr-2 sm:mr-3"></i>
-                  Join as Advocate
+                  Join as Lawyer
                   <i className="fas fa-arrow-right ml-2 sm:ml-3"></i>
                 </button>
                 <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row justify-center lg:justify-end gap-3 sm:gap-6 text-orange-100">

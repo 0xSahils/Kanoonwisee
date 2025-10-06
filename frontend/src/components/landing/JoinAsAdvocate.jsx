@@ -47,12 +47,12 @@ const JoinAsAdvocate = () => {
     },
   ];
 
-  const stats = [
-    { number: "5,000+", label: "Active Advocates" },
-    { number: "₹2.5L+", label: "Average Monthly Earnings" },
-    { number: "25,000+", label: "Cases Handled" },
-    { number: "4.8/5", label: "Advocate Rating" },
-  ];
+  // const stats = [
+  //   { number: "5,000+", label: "Active Advocates" },
+  //   { number: "₹2.5L+", label: "Average Monthly Earnings" },
+  //   { number: "25,000+", label: "Cases Handled" },
+  //   { number: "4.8/5", label: "Advocate Rating" },
+  // ];
 
   return (
     <section className="section-padding bg-white relative overflow-hidden">
@@ -90,7 +90,7 @@ const JoinAsAdvocate = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        {/* <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {stats.map((stat, index) => (
             <div
               key={index}
@@ -102,7 +102,7 @@ const JoinAsAdvocate = () => {
               <div className="text-gray-600 font-medium">{stat.label}</div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Benefits Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
@@ -146,7 +146,7 @@ const JoinAsAdvocate = () => {
                 className="btn-primary text-lg py-4 px-8 rounded-xl"
               >
                 <i className="fas fa-balance-scale mr-3 group-hover:scale-110 transition-transform duration-300"></i>
-                Join as Advocate
+                Join as Lawyer
                 <i className="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
               </button>
 

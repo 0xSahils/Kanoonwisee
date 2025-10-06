@@ -131,7 +131,7 @@ const AboutUs = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              {/* <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-yellow-400">500+</div>
                   <div className="text-sm text-gray-300">Verified Experts</div>
@@ -146,7 +146,7 @@ const AboutUs = () => {
                   <div className="text-2xl font-bold text-yellow-400">2024</div>
                   <div className="text-sm text-gray-300">Founded</div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Right Content - CTA */}

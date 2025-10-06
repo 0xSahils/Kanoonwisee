@@ -171,26 +171,26 @@ const Login = () => {
                 Connect with verified legal experts and grow your practice with
                 KanoonWise
               </p>
-              <div className="grid grid-cols-3 gap-4 mt-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary-700">
-                    500+
+                {/* <div className="grid grid-cols-3 gap-4 mt-8">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-700">
+                      500+
+                    </div>
+                    <div className="text-sm text-gray-500">Verified Lawyers</div>
                   </div>
-                  <div className="text-sm text-gray-500">Verified Lawyers</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary-700">
-                    1000+
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-700">
+                      1000+
+                    </div>
+                    <div className="text-sm text-gray-500">Happy Clients</div>
                   </div>
-                  <div className="text-sm text-gray-500">Happy Clients</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary-700">
-                    24/7
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary-700">
+                      24/7
+                    </div>
+                    <div className="text-sm text-gray-500">Support</div>
                   </div>
-                  <div className="text-sm text-gray-500">Support</div>
-                </div>
-              </div>
+                </div> */}
             </div>
           </div>
 
