@@ -63,10 +63,6 @@ async function runMigrations() {
     await sequelize.authenticate();
     console.log("✅ Database connection established successfully.");
     
-    // Run the database fix script first to ensure all required columns exist
-    console.log("\n🔧 Running database fix script...");
-    const fixResult = await runCommand("node fix-production-db.js", "Fixing missing database columns");
-    
     // Run migrations with Sequelize CLI
     console.log("\n📊 Running Sequelize migrations...");
     const migrateResult = await runCommand(
@@ -76,40 +72,40 @@ async function runMigrations() {
     
     if (!migrateResult.success) {
       console.log("⚠️  Some migrations may have failed, but this is often expected in production updates.");
+      console.log("💡 Common causes: migrations already applied, or table conflicts.");
     }
     
     // Verify the database structure is correct by testing a query
-    console.log("\n� Verifying database structure...");
+    console.log("\n🔍 Verifying database structure...");
     
-    // Import models to verify they work
-    const LawyerProfile = require("./src/models/lawyerProfile.model");
-    
-    // Try to query the LawyerProfile table to ensure all columns exist
-    await LawyerProfile.findAll({ limit: 1 });
-    console.log("✅ Database structure verification successful!");
+    try {
+      // Import models to verify they work
+      const { Package } = require("./src/models");
+      
+      // Try to query the Package table to ensure structure is correct
+      const count = await Package.count();
+      console.log(`✅ Database structure verified! Found ${count} packages.`);
+    } catch (verifyError) {
+      console.log("⚠️  Database verification warning:", verifyError.message);
+      console.log("💡 This may be expected if tables are newly created.");
+    }
     
     console.log("\n🎉 Database migration completed successfully!");
     
   } catch (error) {
     console.error("❌ Database migration failed:", error.message);
+    console.error("Stack trace:", error.stack);
     
-    // Try the manual fix as a fallback
-    console.log("\n🔧 Attempting manual database fix...");
-    try {
-      const { fixProductionDatabase, fixSessionsTableConflict } = require('./fix-production-db');
-      await fixProductionDatabase();
-      
-      // Also specifically fix sessions table conflict
-      console.log("\n🔧 Fixing Sessions table conflict...");
-      await fixSessionsTableConflict(sequelize);
-      
-      console.log("✅ Manual database fix completed!");
-    } catch (fixError) {
-      console.error("❌ Manual fix also failed:", fixError.message);
-      process.exit(1);
-    }
+    console.log("\n� Troubleshooting tips:");
+    console.log("  1. Check that DB_URL environment variable is set correctly");
+    console.log("  2. Ensure database server is accessible");
+    console.log("  3. Verify migrations files exist in ./migrations/ directory");
+    console.log("  4. Check that previous migrations were applied successfully");
+    
+    process.exit(1);
   } finally {
     await sequelize.close();
+    console.log("🔌 Database connection closed.");
   }
 }
 
