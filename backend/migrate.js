@@ -96,7 +96,7 @@ async function runMigrations() {
     console.error("❌ Database migration failed:", error.message);
     console.error("Stack trace:", error.stack);
     
-    console.log("\n� Troubleshooting tips:");
+    console.log("\nTroubleshooting tips:");
     console.log("  1. Check that DB_URL environment variable is set correctly");
     console.log("  2. Ensure database server is accessible");
     console.log("  3. Verify migrations files exist in ./migrations/ directory");
