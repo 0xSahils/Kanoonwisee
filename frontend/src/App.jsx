@@ -89,6 +89,7 @@ import PaymentDiagnostic from "./components/PaymentDiagnostic";
 // Payment Pages
 import PublicPaymentSuccess from "./pages/public/PublicPaymentSuccess";
 import GrievanceBanner from "./components/landing/GrievanceBanner";
+import DisclaimerBlocked from "./pages/DisclaimerBlocked";
 
 // Global disclaimer modal behavior
 const GlobalDisclaimer = ({ children }) => {
@@ -96,22 +97,38 @@ const GlobalDisclaimer = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
-    if (!disclaimerAccepted) {
-      // show modal on first load
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const forceShow = params.get("showDisclaimer") === "1" || params.get("forceDisclaimer") === "1";
+      const disclaimerAccepted = localStorage.getItem("disclaimerAccepted");
+
+      if (!disclaimerAccepted || forceShow) {
+        // show modal on first load or when forced via query param
+        setShowDisclaimerModal(true);
+      }
+    } catch {
+      // fallback: if anything goes wrong, show the modal
       setShowDisclaimerModal(true);
     }
+
     setInitialized(true);
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('disclaimerAccepted', 'true');
+    localStorage.setItem("disclaimerAccepted", "true");
     setShowDisclaimerModal(false);
   };
 
   const handleDecline = () => {
-    // On decline navigate to home or hide modal — we'll hide and not block navigation
+    // Persist decline and navigate to blocking page
+    try {
+      localStorage.setItem("disclaimerDeclined", "true");
+    } catch {
+      // ignore storage errors
+    }
     setShowDisclaimerModal(false);
+    // navigate to blocking route
+    window.location.href = "/disclaimer-blocked";
   };
 
   // Only render children after initialization to avoid layout shift
@@ -121,20 +138,10 @@ const GlobalDisclaimer = ({ children }) => {
     <>
       {children}
       {/* Render modal on top of app when needed */}
-      <Routes>
-        <Route
-          path="*"
-          element={<></>}
-        />
-      </Routes>
       {showDisclaimerModal && (
         // import the modal lazily to avoid circular imports
         <React.Suspense fallback={null}>
-          <React.Fragment>
-            {/* use the same modal component used by the site pages */}
-            {/** We'll import dynamically to avoid top-level circular refs */}
-            <LazyDisclaimerModal isOpen={showDisclaimerModal} onAccept={handleAccept} onDecline={handleDecline} centerAt={0.75} />
-          </React.Fragment>
+          <LazyDisclaimerModal isOpen={showDisclaimerModal} onAccept={handleAccept} onDecline={handleDecline} centerAt={0.5} />
         </React.Suspense>
       )}
     </>
@@ -150,6 +157,7 @@ function App() {
       <AuthProvider>
         <Router>
           <GrievanceBanner />
+          <GlobalDisclaimer>
           <Routes>
             {/* Legal Pages */}
           <Route path="/disclaimer" element={<Disclaimer />} />
@@ -158,7 +166,7 @@ function App() {
           <Route path="/cookie-policy" element={<CookiePolicy />} />
             
             {/* Landing Page */}
-            <Route path="/" element={<GlobalDisclaimer><JusticiaHomepage /></GlobalDisclaimer>} />
+            <Route path="/" element={<JusticiaHomepage />} />
             <Route path="/old-landing" element={<Landing />} />
 
             {/* Public Routes */}
@@ -438,6 +446,7 @@ function App() {
             {/* Catch all route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </GlobalDisclaimer>
           <Toaster
             position="top-right"
             toastOptions={{

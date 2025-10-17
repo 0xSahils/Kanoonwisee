@@ -1,25 +1,39 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
-const DisclaimerModal = ({ isOpen, onAccept, onDecline, centerAt = 0.75 }) => {
+const DisclaimerModal = ({ isOpen, onAccept, onDecline, centerAt = 0.5 }) => {
+  const acceptRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (acceptRef.current) {
+      acceptRef.current.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   // centerAt: fraction of viewport height where modal center should be (0..1)
   const topPercent = Math.max(0.5, Math.min(0.9, centerAt)) * 100;
 
   return (
-    <div className="fixed inset-0 z-50 my-10 flex items-start justify-center">
+    <div className="fixed inset-0 z-[90]">
       {/* Backdrop with subtle blur */}
-      <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm" />
+
+      {/* Modal container positioned at centerAt vh; keep modal height constrained */}
       <div
-        className="relative w-full max-w-2xl p-6 mx-auto bg-white rounded-lg shadow-xl"
-        style={{ marginTop: `${topPercent}vh`, transform: "translateY(-50%)" }}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site disclaimer"
+        className="absolute left-1/2 w-full max-w-2xl bg-white rounded-lg shadow-xl overflow-hidden"
+        style={{ top: `${topPercent}vh`, transform: "translate(-50%, -50%)", maxHeight: '80vh' }}
       >
         <div className="mb-4 text-center">
           <h2 className="text-2xl font-serif font-bold text-gray-800">Disclaimer</h2>
           <div className="w-16 h-1 mx-auto mt-2 bg-blue-600"></div>
         </div>
         
-        <div className="max-h-[60vh] overflow-y-auto pr-2 font-sans text-gray-700 leading-relaxed">
+  <div className="px-6 pt-4 font-sans text-gray-700 leading-relaxed overflow-y-auto" style={{ maxHeight: 'calc(80vh - 96px)' }}>
           <p className="mb-3">
             Welcome to Kanoonwise. Before you proceed, please read and acknowledge the following disclaimer:
           </p>
@@ -50,8 +64,10 @@ const DisclaimerModal = ({ isOpen, onAccept, onDecline, centerAt = 0.75 }) => {
           </p>
         </div>
         
-  <div className="flex justify-center gap-4 mt-6">
+        {/* Sticky action footer so buttons are always visible */}
+        <div className="border-t border-gray-100 bg-white/90 sticky bottom-0 px-6 py-4 flex justify-center gap-4">
           <button
+            ref={acceptRef}
             onClick={onAccept}
             className="px-6 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors font-medium"
           >
