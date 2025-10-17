@@ -362,85 +362,221 @@ const LawyerInvitation = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative navbar-spacing-simple pb-16 bg-primary-900 text-white overflow-hidden">
+      <section className="relative navbar-spacing-simple pb-16 bg-gradient-to-br from-primary-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
+        {/* Invitation Banner */}
         {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-transparent"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/legal-pattern.svg')] opacity-5"></div>
+          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-yellow-500 rounded-full filter blur-[150px] opacity-10"></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500 rounded-full filter blur-[100px] opacity-10"></div>
         </div>
 
-        <div className="container-custom relative z-10 pt-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
-            {/* Left Content */}
-            <div className="space-y-8">
-              {/* Badge */}
-              <div className="inline-flex items-center space-x-2 bg-yellow-500/20 rounded-full px-4 py-2 border border-yellow-500/30">
-                <div className="flex items-center justify-center w-5 h-5 bg-yellow-500 rounded-full">
-                  <i className="fas fa-check text-gray-900 text-xs"></i>
-                </div>
-                <span className="text-sm font-semibold text-yellow-400">
-                  🇮🇳 Join India's Legal Network
-                </span>
+        <div className="container-custom relative z-10 pt-16">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <div className="inline-flex items-center space-x-2 bg-yellow-500/20 rounded-full px-4 py-2 border border-yellow-500/30 mb-6">
+              <div className="flex items-center justify-center w-5 h-5 bg-yellow-500 rounded-full">
+                <i className="fas fa-check text-gray-900 text-xs"></i>
               </div>
-
+              <span className="text-sm font-semibold text-yellow-400">
+                🇮🇳 Join India's Premier Legal Network
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              An Invitation to India's <span className="text-gradient bg-gradient-to-r from-yellow-400 via-orange-300 to-yellow-200 bg-clip-text text-transparent">Leading Legal Professionals</span>
+            </h1>
+            <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+              Join our platform to enhance your professional visibility and connect with clients seeking expert legal representation
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[60vh]">
+            {/* Left Content */}
+            <div className="space-y-8 bg-blue-900/30 p-8 rounded-2xl border border-blue-500/20 backdrop-blur-sm shadow-xl">
               {/* Main Heading */}
               <div className="space-y-6">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
-                  Expand Your
-                  <span className="text-yellow-400"> Legal Practice</span>
-                  <br />
-                  <span className="text-orange-400">Connect with Clients</span>
+                <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                  An Invitation to
+                  <span className="text-yellow-400"> Legal Professionals</span>
                 </h1>
-                <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  Join India's most trusted legal platform. Connect with clients
-                  seeking expert legal representation across constitutional,
-                  civil, criminal, and corporate matters nationwide.
-                </p>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    5,000+
+                <div className="space-y-6 mt-8">
+                  <div className="bg-blue-900/30 p-6 rounded-xl border border-blue-500/30 shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-blue-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-eye text-blue-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-blue-300 mb-2">Enhance Your Professional Visibility</h3>
+                      <p className="text-gray-300">Our platform provides a professional space where your verified credentials, experience, and areas of specialization are clearly presented to potential clients seeking legal expertise.</p>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-300">Active Advocates</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    25,000+
+                  
+                  <div className="bg-indigo-900/30 p-6 rounded-xl border border-indigo-500/30 shadow-lg hover:shadow-indigo-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-indigo-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-book text-indigo-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-indigo-300 mb-2">Become a Thought Leader</h3>
+                      <p className="text-gray-300">Publish scholarly articles in our "Legal Insights" library and gain opportunities to host paid workshops and webinars, establishing your authority on a national stage.</p>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-300">Cases Handled</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">50+</div>
-                  <div className="text-sm text-gray-300">Cities</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-400">
-                    4.8/5
+                  
+                  <div className="bg-cyan-900/30 p-6 rounded-xl border border-cyan-500/30 shadow-lg hover:shadow-cyan-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-cyan-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-tools text-cyan-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-cyan-300 mb-2">Access Powerful Practice Tools</h3>
+                      <p className="text-gray-300">Utilize our secure platform to manage your professional profile and streamline consultations. We also provide a comprehensive library of bilingual (English & Hindi) legal templates to enhance your efficiency.</p>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-300">Rating</div>
+                  
+                  <div className="bg-purple-900/30 p-6 rounded-xl border border-purple-500/30 shadow-lg hover:shadow-purple-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-purple-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-chart-line text-purple-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-purple-300 mb-2">A Commitment to Your Growth</h3>
+                      <p className="text-gray-300">We are invested in your success. Our partners receive assistance in building their professional social media presence and support for their academic activities. Our future roadmap includes providing our partners with access to leading legal databases to support their practice.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-900/30 p-6 rounded-xl border border-blue-500/30 shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-blue-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-balance-scale text-blue-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-blue-300 mb-2">An Ethical Framework</h3>
+                      <p className="text-gray-300">Our platform operates on a transparent, BCI-compliant subscription model for its technology services. We do not engage in fee-splitting and will never take a commission on your professional fees.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-yellow-900/40 to-orange-900/40 p-6 rounded-xl border border-yellow-500/30 shadow-lg hover:shadow-yellow-500/10 transition-all duration-300 flex items-start">
+                    <div className="bg-yellow-500/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <i className="fas fa-crown text-yellow-300 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-yellow-300 mb-2">The Founding Member Invitation</h3>
+                      <p className="text-gray-300">We invite the first 100 verified legal professionals to join as founding members. As a founding member, you will receive a full five-year waiver of all platform technology fees and will be given priority opportunities to be a part of the Kanoonwise Academy as an instructor.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Right Content - Professional Lawyers Image */}
             <div className="relative">
-              <div className="rounded-2xl overflow-hidden h-96 border border-yellow-500/30">
+              <div className="rounded-2xl overflow-hidden h-[450px] border-2 border-yellow-500/30 shadow-[0_0_25px_rgba(234,179,8,0.2)] transform hover:scale-[1.02] transition-all duration-300">
                 <img
                   src="/lawyer-invitation.jpg"
                   alt="Professional Advocates in Indian Courtroom"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black/30"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-lg font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                
+                {/* Floating Stats */}
+                <div className="absolute top-6 right-6 bg-blue-900/80 backdrop-blur-sm p-3 rounded-lg border border-blue-500/30 shadow-lg">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-yellow-400">100</div>
+                    <div className="text-xs text-gray-300">Founding Member Spots</div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+                  <p className="text-xl font-semibold text-white mb-2">
                     Join India's Premier Legal Network
                   </p>
-                  <p className="text-sm opacity-90">
-                    Connect with clients nationwide
+                  <p className="text-sm text-gray-200 mb-4">
+                    Submit your credentials for our verification process and become part of India's most trusted legal platform.
                   </p>
+                  <div className="flex items-center space-x-2 text-xs text-gray-300">
+                    <span className="flex items-center"><i className="fas fa-check-circle text-green-400 mr-1"></i> Verified Credentials</span>
+                    <span className="flex items-center"><i className="fas fa-check-circle text-green-400 mr-1"></i> BCI Compliant</span>
+                    <span className="flex items-center"><i className="fas fa-check-circle text-green-400 mr-1"></i> Nationwide Reach</span>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Benefits Section */}
+      <section className="py-16 bg-gray-900">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Why Join <span className="text-yellow-400">Kanoonwise</span>?</h2>
+            <p className="text-gray-300 max-w-3xl mx-auto">Our platform offers unique advantages for legal professionals looking to expand their practice and establish their expertise.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-blue-500/30 transition-all duration-300 group">
+              <div className="h-48 bg-gradient-to-r from-blue-600 to-indigo-600 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <i className="fas fa-users text-6xl text-white opacity-20 group-hover:opacity-30 transition-opacity duration-300"></i>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent">
+                  <h3 className="text-xl font-bold text-white">Expanded Client Reach</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-300">Connect with clients across India seeking specialized legal expertise in your practice areas.</p>
+                <div className="mt-4 flex items-center text-blue-400">
+                  <span className="text-sm font-medium">Learn more</span>
+                  <i className="fas fa-arrow-right ml-2 text-xs group-hover:ml-3 transition-all duration-300"></i>
+                </div>
+              </div>
+            </div>
+            
+            {/* Card 2 */}
+            <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-purple-500/30 transition-all duration-300 group">
+              <div className="h-48 bg-gradient-to-r from-purple-600 to-pink-600 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <i className="fas fa-laptop text-6xl text-white opacity-20 group-hover:opacity-30 transition-opacity duration-300"></i>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent">
+                  <h3 className="text-xl font-bold text-white">Digital Presence</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-300">Establish a professional online profile that showcases your expertise and builds credibility with potential clients.</p>
+                <div className="mt-4 flex items-center text-purple-400">
+                  <span className="text-sm font-medium">Learn more</span>
+                  <i className="fas fa-arrow-right ml-2 text-xs group-hover:ml-3 transition-all duration-300"></i>
+                </div>
+              </div>
+            </div>
+            
+            {/* Card 3 */}
+            <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-yellow-500/30 transition-all duration-300 group">
+              <div className="h-48 bg-gradient-to-r from-yellow-600 to-orange-600 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <i className="fas fa-certificate text-6xl text-white opacity-20 group-hover:opacity-30 transition-opacity duration-300"></i>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent">
+                  <h3 className="text-xl font-bold text-white">Professional Growth</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-300">Access resources, networking opportunities, and tools to enhance your practice and professional development.</p>
+                <div className="mt-4 flex items-center text-yellow-400">
+                  <span className="text-sm font-medium">Learn more</span>
+                  <i className="fas fa-arrow-right ml-2 text-xs group-hover:ml-3 transition-all duration-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* CTA Banner */}
+          <div className="mt-16 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-8 shadow-xl border border-blue-700/30">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="mb-6 md:mb-0">
+                <h3 className="text-2xl font-bold text-white mb-2">Ready to Join India's Premier Legal Network?</h3>
+                <p className="text-blue-200">Complete the registration form below to begin the verification process.</p>
+              </div>
+              <div className="flex-shrink-0">
+                <button className="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center">
+                  <span>Register Now</span>
+                  <i className="fas fa-arrow-right ml-2"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -635,7 +771,7 @@ const LawyerInvitation = () => {
                     name="experience"
                     value={formData.experience}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     required
                   >
                     <option value="">Select Experience</option>
@@ -656,7 +792,7 @@ const LawyerInvitation = () => {
                     name="specialization"
                     value={formData.specialization}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 border text-black  border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     required
                   >
                     <option value="">Select Specialization</option>
@@ -676,7 +812,7 @@ const LawyerInvitation = () => {
                     name="secondarySpecialization"
                     value={formData.secondarySpecialization}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 border text-black border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   >
                     <option value="">Select Secondary Specialization</option>
                     {specializations.map((spec) => (
@@ -735,7 +871,7 @@ const LawyerInvitation = () => {
 
                     {/* Dropdown */}
                     {showLanguageDropdown && filteredLanguages.length > 0 && (
-                      <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-48 overflow-auto">
+                      <div className="absolute z-20 mt-1 w-full bg-white border text-black border-gray-200 rounded-xl shadow-lg max-h-48 overflow-auto">
                         {filteredLanguages.map((lang) => (
                           <button
                             key={lang}
@@ -775,7 +911,7 @@ const LawyerInvitation = () => {
                     name="courtPractice"
                     value={formData.courtPractice}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     required
                   >
                     <option value="">Select Primary Court</option>

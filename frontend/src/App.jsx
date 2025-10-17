@@ -1,10 +1,5 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { store } from "./store";
@@ -56,6 +51,10 @@ import BusinessChangesUpdates from "./pages/BusinessChangesUpdates";
 import KanoonwiseAcademy from "./pages/KanoonwiseAcademy";
 import LegalInsights from "./pages/LegalInsights";
 import AboutUs from "./pages/AboutUs";
+import Disclaimer from "./pages/Disclaimer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
 
 // Auth Pages
 import Login from "./features/auth/Login";
@@ -89,15 +88,77 @@ import PaymentDiagnostic from "./components/PaymentDiagnostic";
 
 // Payment Pages
 import PublicPaymentSuccess from "./pages/public/PublicPaymentSuccess";
+import GrievanceBanner from "./components/landing/GrievanceBanner";
+
+// Global disclaimer modal behavior
+const GlobalDisclaimer = ({ children }) => {
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
+    if (!disclaimerAccepted) {
+      // show modal on first load
+      setShowDisclaimerModal(true);
+    }
+    setInitialized(true);
+  }, []);
+
+  const handleAccept = () => {
+    localStorage.setItem('disclaimerAccepted', 'true');
+    setShowDisclaimerModal(false);
+  };
+
+  const handleDecline = () => {
+    // On decline navigate to home or hide modal — we'll hide and not block navigation
+    setShowDisclaimerModal(false);
+  };
+
+  // Only render children after initialization to avoid layout shift
+  if (!initialized) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+
+  return (
+    <>
+      {children}
+      {/* Render modal on top of app when needed */}
+      <Routes>
+        <Route
+          path="*"
+          element={<></>}
+        />
+      </Routes>
+      {showDisclaimerModal && (
+        // import the modal lazily to avoid circular imports
+        <React.Suspense fallback={null}>
+          <React.Fragment>
+            {/* use the same modal component used by the site pages */}
+            {/** We'll import dynamically to avoid top-level circular refs */}
+            <LazyDisclaimerModal isOpen={showDisclaimerModal} onAccept={handleAccept} onDecline={handleDecline} centerAt={0.75} />
+          </React.Fragment>
+        </React.Suspense>
+      )}
+    </>
+  );
+};
+
+// Lazy import disclaimer modal to prevent circular dependency risks
+const LazyDisclaimerModal = React.lazy(() => import('./components/modals/DisclaimerModal'));
 
 function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
         <Router>
+          <GrievanceBanner />
           <Routes>
+            {/* Legal Pages */}
+          <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+            
             {/* Landing Page */}
-            <Route path="/" element={<JusticiaHomepage />} />
+            <Route path="/" element={<GlobalDisclaimer><JusticiaHomepage /></GlobalDisclaimer>} />
             <Route path="/old-landing" element={<Landing />} />
 
             {/* Public Routes */}

@@ -140,11 +140,23 @@ const PublicLawyerProfile = () => {
                   <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
                     {lawyer.full_name}
                   </h1>
-                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-500 text-gray-900 font-semibold text-sm mb-4">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-500 text-gray-900 font-semibold text-sm">
                     <Shield className="w-4 h-4 mr-2" />
                     Verified Legal Expert
                   </div>
-                  <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+                  <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 justify-center lg:justify-start">
+                    <div className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+                      ₹
+                      {Number(
+                        lawyer.fee_structure?.consultation || 0
+                      ).toLocaleString()}
+                      <span className="text-lg font-semibold text-gray-700"> / hour</span>
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold tracking-wide text-gray-600 uppercase">
+                      Consultation Fee
+                    </span>
+                  </div>
+                  <p className="mt-5 text-lg text-gray-600 leading-relaxed max-w-2xl">
                     Experienced lawyer with {lawyer.years_experience || 0} years
                     of practice, specializing in providing comprehensive legal
                     solutions.
@@ -189,8 +201,9 @@ const PublicLawyerProfile = () => {
                       {Number(
                         lawyer.fee_structure?.consultation || 0
                       ).toLocaleString()}
+                      <span className="text-base font-semibold text-gray-700"> / hour</span>
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-xs font-semibold text-gray-600 uppercase">
                       Consultation Fee
                     </div>
                   </div>
@@ -363,9 +376,10 @@ const PublicLawyerProfile = () => {
                       {Number(
                         lawyer.fee_structure?.consultation || 0
                       ).toLocaleString()}
+                      <span className="text-base font-semibold text-gray-700"> / hour</span>
                     </div>
-                    <div className="text-sm text-gray-600">
-                      Initial Consultation Fee
+                    <div className="text-xs font-semibold text-gray-600 uppercase">
+                      Consultation Fee
                     </div>
                   </div>
                   <button

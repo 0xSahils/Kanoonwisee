@@ -75,7 +75,8 @@ const LawyerSearch = () => {
             }?w=150&h=150&fit=crop&crop=face`,
             languages: lawyer.languages || ["English"],
             courtPractice: lawyer.court_practice || ["District Court"],
-            consultationFee: lawyer.fee_structure?.consultation || 2000,
+            consultationFee:
+              Number(lawyer.fee_structure?.consultation) || 2000,
             verified: true,
             description:
               lawyer.bio ||
@@ -336,16 +337,6 @@ const LawyerSearch = () => {
                             {lawyer.description}
                           </p>
                         </div>
-                        <div className="text-center lg:text-right">
-                          <div className="bg-yellow-50 rounded-xl p-4 border border-yellow-200">
-                            <div className="text-3xl font-bold text-gray-900">
-                              ₹{lawyer.consultationFee.toLocaleString()}
-                            </div>
-                            <div className="text-sm text-gray-600 mt-1">
-                              Consultation Fee
-                            </div>
-                          </div>
-                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -403,42 +394,49 @@ const LawyerSearch = () => {
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between pt-6 border-t border-gray-100">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center text-gray-600">
-                            <i className="fas fa-clock text-yellow-500 mr-2"></i>
-                            <span className="text-sm">
-                              Usually responds in 1-2 hours
-                            </span>
-                          </div>
+                      <div className="flex flex-col lg:flex-row gap-4 items-center justify-between pt-6 border-t border-gray-100">
+                        <div className="flex items-center text-gray-600">
+                          <i className="fas fa-clock text-yellow-500 mr-2"></i>
+                          <span className="text-sm">Usually responds in 1-2 hours</span>
                         </div>
-                        <div className="flex space-x-3">
-                          <button
-                            onClick={() =>
-                              navigate(`/lawyer-profile/${lawyer.id}`)
-                            }
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-all"
-                          >
-                            View Profile
-                          </button>
-                          <a
-                            href={`https://wa.me/919898989898?text=${encodeURIComponent(
-                              `Instant enquiry: I want to connect regarding ${lawyer.name}`
-                            )}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg flex items-center"
-                          >
-                            <i className="fab fa-whatsapp mr-2"></i>
-                            Instant Enquiry
-                          </a>
-                          <button
-                            onClick={() => handleBookConsultation(lawyer)}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg"
-                          >
-                            <i className="fas fa-calendar-check mr-2"></i>
-                            Book Consultation
-                          </button>
+                        <div className="flex flex-col sm:flex-row items-center gap-4">
+                          <div className="text-center sm:text-right">
+                            <div className="text-2xl font-extrabold text-gray-900">
+                              ₹{lawyer.consultationFee.toLocaleString()}
+                              <span className="text-base font-semibold text-gray-700"> / hour</span>
+                            </div>
+                            <div className="text-xs font-semibold tracking-wide text-gray-600 mt-1 uppercase">
+                              Consultation Fee
+                            </div>
+                          </div>
+                          <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3 sm:items-center">
+                            <button
+                              onClick={() =>
+                                navigate(`/lawyer-profile/${lawyer.id}`)
+                              }
+                              className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-all"
+                            >
+                              View Profile
+                            </button>
+                            <a
+                              href={`https://wa.me/919898989898?text=${encodeURIComponent(
+                                `Instant enquiry: I want to connect regarding ${lawyer.name}`
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg flex items-center justify-center"
+                            >
+                              <i className="fab fa-whatsapp mr-2"></i>
+                              Instant Enquiry
+                            </a>
+                            <button
+                              onClick={() => handleBookConsultation(lawyer)}
+                              className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold px-8 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg"
+                            >
+                              <i className="fas fa-calendar-check mr-2"></i>
+                              Book Consultation
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

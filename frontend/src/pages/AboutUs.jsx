@@ -13,11 +13,11 @@ const AboutUs = () => {
 
   const teamMembers = [
     {
-      name: "[Founder Name]",
+      name: "Furquan Ali",
       role: "Founder & CEO",
       image: "/team-founder.jpg",
       description:
-        "Legal tech entrepreneur with 10+ years of experience in business law and startup ecosystem.",
+        "As Founder & CEO, Furquan Ali is a legal-domain expert and technology entrepreneur. He is not a practicing advocate and does not provide legal advice through Kanoonwise.",
       linkedin: "#",
     },
     {
@@ -65,32 +65,32 @@ const AboutUs = () => {
     },
   ];
 
-  const milestones = [
-    {
-      year: "2023",
-      title: "Kanoonwise Founded",
-      description:
-        "Started with a vision to connect businesses with verified legal experts",
-    },
-    {
-      year: "2023",
-      title: "First 100 Lawyers",
-      description:
-        "Onboarded our first 100 verified lawyers across business and tech law",
-    },
-    {
-      year: "2024",
-      title: "Business Services Launch",
-      description:
-        "Launched comprehensive business setup and compliance services",
-    },
-    {
-      year: "2024",
-      title: "Kanoonwise Academy",
-      description:
-        "Introduced educational platform for legal knowledge and insights",
-    },
-  ];
+  // const milestones = [
+  //   {
+  //     year: "2023",
+  //     title: "Kanoonwise Founded",
+  //     description:
+  //       "Started with a vision to connect businesses with verified legal experts",
+  //   },
+  //   {
+  //     year: "2023",
+  //     title: "First 100 Lawyers",
+  //     description:
+  //       "Onboarded our first 100 verified lawyers across business and tech law",
+  //   },
+  //   {
+  //     year: "2024",
+  //     title: "Business Services Launch",
+  //     description:
+  //       "Launched comprehensive business setup and compliance services",
+  //   },
+  //   {
+  //     year: "2024",
+  //     title: "Kanoonwise Academy",
+  //     description:
+  //       "Introduced educational platform for legal knowledge and insights",
+  //   },
+  // ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -119,7 +119,7 @@ const AboutUs = () => {
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
                   About
-                  <span className="text-yellow-400"> Kanoonwise</span>
+                  <span className="text-yellow-400 mx-2">Kanoonwise</span>
                   <br />
                   <span className="text-orange-400">Trusted Platform</span>
                 </h1>
@@ -347,7 +347,7 @@ const AboutUs = () => {
       </section>
 
       {/* Milestones Section */}
-      <section className="py-20 bg-white">
+     {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
@@ -393,7 +393,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>*/}
 
       {/* CTA Section */}
       <section className="py-20 bg-yellow-500">

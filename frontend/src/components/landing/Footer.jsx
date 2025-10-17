@@ -6,10 +6,41 @@ const Footer = () => {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
-  // Footer link handler
-  const handleFooterLinkClick = (linkName) => {
-    const path = `/${linkName.toLowerCase().replace(/\s+/g, "-")}`;
-    navigate(path);
+  // Footer link handler: accepts either a link object or a string name
+  const handleFooterLinkClick = (link) => {
+    // If caller passed just a string name, normalize to object
+    const linkObj = typeof link === "string" ? { name: link } : link || {};
+
+    // If an href is provided and it's an absolute url, open in new tab
+    if (linkObj.href && /^https?:\/\//i.test(linkObj.href)) {
+      window.open(linkObj.href, "_blank");
+      return;
+    }
+
+    // If an href is provided (relative path), navigate to it and scroll to top
+    if (linkObj.href && linkObj.href.startsWith("/")) {
+      navigate(linkObj.href);
+      // Ensure the new page is scrolled to top
+      try {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch {
+        // ignore if window not available
+      }
+      return;
+    }
+
+    // Otherwise derive a path from the name
+    if (linkObj.name) {
+      const path = `/${linkObj.name.toLowerCase().replace(/\s+/g, "-")}`;
+      navigate(path);
+      // Scroll to top after navigation so the legal page starts at the top
+      try {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch {
+        // ignore if window not available
+      }
+      return;
+    }
   };
 
   // Newsletter subscription handler
@@ -38,12 +69,21 @@ const Footer = () => {
     {
       title: "Services",
       links: [
-        { name: "Find Lawyers", href: "#" },
-        { name: "Company Registration", href: "#" },
-        { name: "Legal Documentation", href: "#" },
-        { name: "Trademark Registration", href: "#" },
-        { name: "Tax Services", href: "#" },
-        { name: "Property Legal", href: "#" },
+        { name: "Find Lawyers", href: "/lawyer-search" },
+        { name: "Company Registration", href: "/business-setup" },
+        { name: "Legal Documentation", href: "/document-templates" },
+        { name: "Trademark Registration", href: "/trademark-services" },
+        { name: "Tax Services", href: "/accounting-tax-services" },
+        { name: "Property Legal", href: "/legal-services" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { name: "Disclaimer", href: "/disclaimer" },
+        { name: "Privacy Policy", href: "/privacy-policy" },
+        { name: "Terms of Service", href: "/terms-of-service" },
+        { name: "Cookie Policy", href: "/cookie-policy" },
       ],
     },
     {
@@ -68,17 +108,17 @@ const Footer = () => {
         { name: "Case Studies", href: "#" },
       ],
     },
-    {
-      title: "Company",
-      links: [
-        { name: "Legal Services", href: "/services" },
-        { name: "Contact", href: "#" },
-        { name: "Careers", href: "#" },
-        { name: "Press", href: "#" },
-        { name: "Partners", href: "#" },
-        { name: "Investors", href: "#" },
-      ],
-    },
+    // {
+    //   title: "Company",
+    //   links: [
+    //     { name: "Legal Services", href: "/services" },
+    //     { name: "Contact", href: "#" },
+    //     { name: "Careers", href: "#" },
+    //     { name: "Press", href: "#" },
+    //     { name: "Partners", href: "#" },
+    //     { name: "Investors", href: "#" },
+    //   ],
+    // },
   ];
 
   const socialLinks = [
@@ -114,11 +154,12 @@ const Footer = () => {
     },
   ];
 
+  // Make legal links point to the actual routes used by the app so footer navigation is reliable
   const legalLinks = [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "Disclaimer", href: "#" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Service", href: "/terms-of-service" },
+    { name: "Cookie Policy", href: "/cookie-policy" },
+    { name: "Disclaimer", href: "/disclaimer" },
   ];
 
   return (
@@ -320,7 +361,7 @@ const Footer = () => {
               {legalLinks.map((link, index) => (
                 <button
                   key={index}
-                  onClick={() => handleFooterLinkClick(link.name)}
+                  onClick={() => handleFooterLinkClick(link)}
                   className="text-gray-400 hover:text-primary-400 transition-colors duration-300 text-sm"
                 >
                   {link.name}

@@ -47,12 +47,6 @@ const JoinAsAdvocate = () => {
     },
   ];
 
-  // const stats = [
-  //   { number: "5,000+", label: "Active Advocates" },
-  //   { number: "₹2.5L+", label: "Average Monthly Earnings" },
-  //   { number: "25,000+", label: "Cases Handled" },
-  //   { number: "4.8/5", label: "Advocate Rating" },
-  // ];
 
   return (
     <section className="section-padding bg-white relative overflow-hidden">
@@ -89,20 +83,7 @@ const JoinAsAdvocate = () => {
           </p>
         </div>
 
-        {/* Stats Section */}
-        {/* <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-            >
-              <div className="text-3xl lg:text-4xl font-bold text-orange-600 mb-2">
-                {stat.number}
-              </div>
-              <div className="text-gray-600 font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div> */}
+        
 
         {/* Benefits Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">

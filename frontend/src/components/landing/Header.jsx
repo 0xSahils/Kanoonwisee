@@ -258,7 +258,7 @@ const Header = () => {
       style={{ height: "auto" }}
     >
       {/* Top Contact Bar */}
-      {!isScrolled && (
+      {/* {!isScrolled && (
         <div className="bg-gray-900 text-white py-2 hidden lg:block">
           <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
             <div className="flex items-center space-x-8">
@@ -293,7 +293,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <nav className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">

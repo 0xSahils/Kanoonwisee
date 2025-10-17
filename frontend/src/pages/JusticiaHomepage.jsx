@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/landing/Header";
+import Footer from "../components/landing/Footer";
 import Lottie from "lottie-react";
 import KnowledgeBank from "../components/landing/KnowledgeBank";
 
@@ -492,11 +493,14 @@ const JusticiaHomepage = () => {
                   partner in building a legally sound business foundation."
                 </p>
                 <div className="pt-4">
-                  <p className="font-semibold text-gray-900">
-                    - [Founder Name]
-                  </p>
+                  <p className="font-semibold text-gray-900">- Furquan Ali</p>
                   <p className="text-sm text-gray-600">
                     Founder & CEO, Kanoonwise
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    As Founder & CEO, Furquan Ali is a legal-domain expert and
+                    technology entrepreneur. He is not a practicing advocate
+                    and does not provide legal advice through Kanoonwise.
                   </p>
                 </div>
               </div>
@@ -691,7 +695,7 @@ const JusticiaHomepage = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4">
+        {/* <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block w-12 h-1 bg-yellow-500 mb-4"></div>
             <h2 className="text-4xl md:text-5xl font-light mb-6">Contact Us</h2>
@@ -844,14 +848,9 @@ const JusticiaHomepage = () => {
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-16 pt-8 text-center text-gray-400">
-            <p>
-              &copy; 2024 Kanoonwise. All rights reserved. | Professional Legal
-              Services
-            </p>
-          </div>
-        </div>
+        </div> */}
       </section>
+      <Footer />
     </div>
   );
 };
