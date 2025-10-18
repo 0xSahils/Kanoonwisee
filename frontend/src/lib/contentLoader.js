@@ -12,6 +12,16 @@ if (import.meta.hot) {
     clearContentCache();
   });
 }
+// Expose a dev helper to clear content cache from browser console
+if (import.meta.env && import.meta.env.DEV) {
+  try {
+    if (typeof window !== "undefined") {
+      window.__clearContentCache = clearContentCache;
+    }
+  } catch {
+    // ignore
+  }
+}
 /**
  * Load and process markdown content from src/content/pages/
  * @param {string} slug - The page slug (filename without .md extension)

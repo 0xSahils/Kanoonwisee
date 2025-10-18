@@ -140,8 +140,8 @@ const KanoonwiseAcademy = () => {
           {
             id: 1,
             title: "Startup Legal Workshop: From Idea to Incorporation",
-            date: "March 15, 2024",
-            time: "2:00 PM - 4:00 PM IST",
+            date: "Coming Soon",
+            time: "Coming Soon",
             type: "Workshop",
             price: "₹999",
             description:
@@ -150,8 +150,8 @@ const KanoonwiseAcademy = () => {
           {
             id: 2,
             title: "IP Protection Masterclass for Tech Companies",
-            date: "March 22, 2024",
-            time: "3:00 PM - 5:00 PM IST",
+            date: "Coming Soon",
+            time: "Coming Soon",
             type: "Masterclass",
             price: "₹1,499",
             description:
@@ -160,8 +160,8 @@ const KanoonwiseAcademy = () => {
           {
             id: 3,
             title: "Compliance Automation: Tools and Best Practices",
-            date: "March 29, 2024",
-            time: "11:00 AM - 12:30 PM IST",
+            date: "Coming Soon",
+            time: "Coming Soon",
             type: "Webinar",
             price: "Free",
             description:
