@@ -248,7 +248,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+      className={`fixed w-full top-0 z-[80] transition-all duration-300 ${
         isHomepage
           ? isScrolled
             ? "bg-white shadow-lg"
@@ -343,7 +343,7 @@ const Header = () => {
 
                 {/* Desktop Dropdown */}
                 {item.dropdown && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-[90]">
                     <div className="py-2">
                       {item.dropdown.map((dropdownItem, dropIndex) => (
                         <div key={dropIndex} className="relative group/sub">
@@ -364,7 +364,7 @@ const Header = () => {
 
                           {/* Desktop SubDropdown */}
                           {dropdownItem.subDropdown && (
-                            <div className="absolute top-0 left-full mt-0 ml-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 transform translate-x-2 group-hover/sub:translate-x-0">
+                            <div className="absolute top-0 left-full mt-0 ml-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 transform translate-x-2 group-hover/sub:translate-x-0 z-[70]">
                               <div className="py-2">
                                 {dropdownItem.subDropdown.map(
                                   (subItem, subIndex) => (
@@ -427,7 +427,7 @@ const Header = () => {
                     <span>{user?.email?.split("@")[0] || "User"}</span>
                     <i className="fas fa-chevron-down text-xs"></i>
                   </button>
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[70]">
                     <div className="py-2">
                       <button
                         onClick={handleDashboardNavigation}
@@ -519,9 +519,9 @@ const Header = () => {
         <div
           className={`lg:hidden transition-all duration-300 ${
             isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-          } overflow-hidden`}
+          } overflow-hidden z-[70]`}
         >
-          <div className="py-4 space-y-4 bg-white rounded-lg shadow-lg mt-2 border border-gray-100 mx-4">
+          <div className="py-4 space-y-4 bg-white rounded-lg shadow-lg mt-2 border border-gray-100 mx-4 z-[70]">
             {navItems.map((item, index) => (
               <div key={index} className="px-4">
                 <button

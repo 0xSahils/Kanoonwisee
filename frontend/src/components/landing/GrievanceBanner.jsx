@@ -24,8 +24,7 @@ const GrievanceBanner = () => {
     // Fixed banner beneath the header (header uses top-0 and h-16/h-20)
     <div
       id="grievance-officer"
-      className="fixed inset-x-0 z-[60] bg-yellow-50 border-b border-yellow-200 text-yellow-900 shadow-md"
-      style={{ top: '4rem' }}
+      className="fixed inset-x-0 top-16 lg:top-20 z-[60] bg-yellow-50 border-b border-yellow-200 text-yellow-900 shadow-md"
       role="region"
       aria-label="Grievance Officer Contact"
     >
