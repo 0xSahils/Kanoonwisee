@@ -234,9 +234,9 @@ const Header = () => {
       name: "Resources",
       icon: "fas fa-book",
       dropdown: [
-        { name: "Kanoonwise Academy", icon: "fas fa-graduation-cap" },
-        { name: "Legal Insights", icon: "fas fa-lightbulb" },
-        { name: "Document Templates", icon: "fas fa-file-alt" },
+        { name: "Kanoonwise Academy", icon: "fas fa-graduation-cap", path: "/academy" },
+        { name: "Legal Insights", icon: "fas fa-lightbulb", path: "/legal-insights" },
+        { name: "Document Templates", icon: "fas fa-file-alt", path: "/document-templates" },
       ],
     },
     {
@@ -557,11 +557,15 @@ const Header = () => {
                     {item.dropdown.map((dropdownItem, dropIndex) => (
                       <div key={dropIndex} className="ml-2">
                         <button
-                          onClick={() =>
-                            dropdownItem.path
-                              ? handleDropdownClick(dropdownItem)
-                              : toggleDropdown(`${index}-${dropIndex}`)
-                          }
+                          onClick={() => {
+                            // If this dropdown item has nested subDropdown, toggle it.
+                            // Otherwise treat it as a navigable item (routeMap/name-based or path).
+                            if (dropdownItem.subDropdown) {
+                              toggleDropdown(`${index}-${dropIndex}`);
+                            } else {
+                              handleDropdownClick(dropdownItem);
+                            }
+                          }}
                           className="flex items-center justify-between w-full text-gray-600 hover:text-primary-600 hover:bg-yellow-50 py-3 px-2 rounded-lg transition-all duration-200 text-left min-h-[44px] font-medium"
                         >
                           <div className="flex items-center space-x-3">
