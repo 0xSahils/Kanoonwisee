@@ -3,7 +3,7 @@ const clientController = require("../controllers/clientController");
 const { authMiddleware } = require("../middlewares/authMiddleware");
 const { verifyCsrfToken } = require("../middlewares/csrfMiddleware");
 const roleMiddleware = require("../middlewares/roleMiddleware");
-const validateRequest = require("../middlewares/validateRequest");
+const { validateRequest } = require("../middlewares/validateRequest");
 const {
   clientProfileSchema,
   bookAppointmentSchema,

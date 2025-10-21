@@ -244,6 +244,11 @@ const Header = () => {
       icon: "fas fa-info-circle",
       path: "/about-us",
     },
+    {
+      name: "Stamp Paper",
+      icon: "fas fa-stamp",
+      path: "/stamps",
+    },
   ];
 
   return (

@@ -2,7 +2,7 @@ const express = require('express');
 const appointmentController = require('../controllers/appointmentController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { verifyCsrfToken } = require('../middlewares/csrfMiddleware');
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../middlewares/validateRequest');
 const { respondAppointmentSchema } = require('../utils/validationSchemas');
 
 const router = express.Router();

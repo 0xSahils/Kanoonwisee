@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Star, MapPin, Calendar, Clock, Shield, Award } from "lucide-react";
+import { Star, MapPin, Calendar, Clock, Shield, Award, CheckCircle } from "lucide-react";
 import Header from "../components/landing/Header";
 import Footer from "../components/landing/Footer";
 
@@ -402,10 +402,10 @@ const PublicLawyerProfile = () => {
                       Verified & Trusted
                     </h4>
                     <ul className="text-sm text-green-700 space-y-1">
-                      <li>✓ Identity Verified</li>
-                      <li>✓ Bar Registration Confirmed</li>
-                      <li>✓ Background Checked</li>
-                      <li>✓ Client Reviews Verified</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Identity Verified</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Bar Registration Confirmed</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Background Checked</li>
+                      <li className="flex items-center gap-1"><CheckCircle className="w-4 h-4" /> Client Reviews Verified</li>
                     </ul>
                   </div>
                 </div>

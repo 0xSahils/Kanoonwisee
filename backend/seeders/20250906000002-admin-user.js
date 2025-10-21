@@ -8,13 +8,13 @@ module.exports = {
     // Create an admin user
     await queryInterface.bulkInsert('Users', [{
       id: adminUserId,
-      email: 'admin@kanoonwise.com',
+      email: 'kanoonwise@gmail.com',
       role: 'admin',
       created_at: new Date(),
     }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Users', { email: 'admin@kanoonwise.com' }, {});
+    await queryInterface.bulkDelete('Users', { email: 'kanoonwise@gmail.com' }, {});
   }
 };

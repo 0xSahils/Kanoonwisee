@@ -2,7 +2,7 @@ const express = require('express');
 const authController = require('../controllers/authController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { csrfTokenProvider, verifyCsrfToken } = require('../middlewares/csrfMiddleware');
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../middlewares/validateRequest');
 const { requestOtpSchema, verifyOtpSchema, refreshTokenSchema } = require('../utils/validationSchemas');
 const { authRateLimit, refreshRateLimit } = require('../config/security');
 

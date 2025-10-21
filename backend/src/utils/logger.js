@@ -17,20 +17,6 @@ const LOG_COLORS = {
   RESET: '\x1b[0m'
 };
 
-const LOG_EMOJIS = {
-  ERROR: '❌',
-  WARN: '⚠️',
-  INFO: 'ℹ️',
-  DEBUG: '🔍',
-  SUCCESS: '✅',
-  UPLOAD: '📤',
-  DOWNLOAD: '📥',
-  DELETE: '🗑️',
-  CONNECT: '🔗',
-  FILE: '📁',
-  S3: '☁️'
-};
-
 class Logger {
   constructor(module = 'APP') {
     this.module = module;
@@ -40,9 +26,8 @@ class Logger {
   _log(level, message, data = null) {
     const timestamp = new Date().toISOString();
     const color = LOG_COLORS[level] || LOG_COLORS.INFO;
-    const emoji = LOG_EMOJIS[level] || LOG_EMOJIS.INFO;
     
-    let logMessage = `${color}${emoji} [${timestamp}] [${this.module}] ${message}${LOG_COLORS.RESET}`;
+    let logMessage = `${color} [${timestamp}] [${this.module}] ${message}${LOG_COLORS.RESET}`;
     
     if (data) {
       logMessage += `\n${JSON.stringify(data, null, 2)}`;
@@ -72,9 +57,8 @@ class Logger {
   success(message, data = null) {
     const timestamp = new Date().toISOString();
     const color = LOG_COLORS.INFO;
-    const emoji = LOG_EMOJIS.SUCCESS;
     
-    let logMessage = `${color}${emoji} [${timestamp}] [${this.module}] ${message}${LOG_COLORS.RESET}`;
+    let logMessage = `${color} [${timestamp}] [${this.module}] ${message}${LOG_COLORS.RESET}`;
     
     if (data) {
       logMessage += `\n${JSON.stringify(data, null, 2)}`;
@@ -86,9 +70,8 @@ class Logger {
   s3(action, message, data = null) {
     const timestamp = new Date().toISOString();
     const color = LOG_COLORS.INFO;
-    const emoji = LOG_EMOJIS.S3;
     
-    let logMessage = `${color}${emoji} [${timestamp}] [${this.module}] S3 ${action}: ${message}${LOG_COLORS.RESET}`;
+    let logMessage = `${color} [${timestamp}] [${this.module}] S3 ${action}: ${message}${LOG_COLORS.RESET}`;
     
     if (data) {
       logMessage += `\n${JSON.stringify(data, null, 2)}`;
@@ -100,9 +83,8 @@ class Logger {
   file(action, filename, size = null) {
     const timestamp = new Date().toISOString();
     const color = LOG_COLORS.INFO;
-    const emoji = LOG_EMOJIS.FILE;
     
-    let message = `${color}${emoji} [${timestamp}] [${this.module}] File ${action}: ${filename}`;
+    let message = `${color} [${timestamp}] [${this.module}] File ${action}: ${filename}`;
     if (size) {
       message += ` (${this._formatBytes(size)})`;
     }
@@ -135,6 +117,5 @@ module.exports = {
   s3Logger,
   uploadLogger,
   authLogger,
-  apiLogger,
-  LOG_EMOJIS
+  apiLogger
 };

@@ -9,8 +9,6 @@ import {
   Settings,
   BarChart3,
   LogOut,
-  Sun,
-  Moon,
   Home
 } from 'lucide-react'
 import { Button } from '../ui/button'
@@ -19,7 +17,6 @@ import toast from 'react-hot-toast'
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const { user, isAuthenticated } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -51,11 +48,6 @@ const AdminNavbar = () => {
       toast.error('Logout completed (with errors)');
     }
   };
-
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-    document.documentElement.classList.toggle('dark')
-  }
 
   const adminLinks = [
     { to: '/admin/panel', icon: Shield, label: 'Dashboard' },
@@ -98,15 +90,6 @@ const AdminNavbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="h-9 w-9 text-white hover:bg-white/10"
-            >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-
             {isAuthenticated && user?.role === 'admin' ? (
               <div className="hidden md:flex items-center space-x-4">
                 <div className="flex items-center space-x-2 text-white/90">

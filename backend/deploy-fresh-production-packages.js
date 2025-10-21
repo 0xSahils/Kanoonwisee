@@ -1,18 +1,25 @@
 #!/usr/bin/env node
 
 /**
- * Fresh Production Packages Deployment Script
+ * Fresh Production Deployment Script - Packages & Stamps
  *
- * This script creates all required packages for the KanoonWise platform in production.
- * It handles the complete package ecosystem with proper pricing and features.
+ * This script creates all required packages and stamp templates for the KanoonWise platform in production.
+ * It handles the complete ecosystem with proper pricing and features.
  *
  * Features:
- * - Comprehensive package creation for all 13 service categories
- * - UUID generation for all packages
+ * - Comprehensive package creation for all 14 service categories
+ * - 435 stamp templates (15 document types × 29 Indian states)
+ * - 3 promotional codes for stamp services
+ * - UUID generation for all records
  * - Proper feature formatting for database storage
  * - Upsert operation (update if exists, insert if new)
  * - Production environment validation
  * - Comprehensive logging and verification
+ *
+ * Deploys:
+ * - 40+ service packages across 14 categories
+ * - 435 stamp templates covering all states and document types
+ * - 3 promo codes (SUPER, WELCOME10, FESTIVE20)
  *
  * Usage: NODE_ENV=production node deploy-fresh-production-packages.js
  */
@@ -719,12 +726,128 @@ const allPackages = [
   }
 ];
 
+// Stamp Templates Data
+const documentTypes = [
+  'Affidavit',
+  'Agreement',
+  'Power of Attorney',
+  'Lease Agreement',
+  'Sale Deed',
+  'Partnership Deed',
+  'Memorandum of Understanding (MOU)',
+  'Rental Agreement',
+  'Gift Deed',
+  'Indemnity Bond',
+  'Declaration',
+  'Employment Contract',
+  'Non-Disclosure Agreement (NDA)',
+  'Loan Agreement',
+  'Trust Deed',
+];
+
+const indianStates = [
+  'ANDHRA PRADESH',
+  'ARUNACHAL PRADESH',
+  'ASSAM',
+  'BIHAR',
+  'CHHATTISGARH',
+  'GOA',
+  'GUJARAT',
+  'HARYANA',
+  'HIMACHAL PRADESH',
+  'JHARKHAND',
+  'KARNATAKA',
+  'KERALA',
+  'MADHYA PRADESH',
+  'MAHARASHTRA',
+  'MANIPUR',
+  'MEGHALAYA',
+  'MIZORAM',
+  'NAGALAND',
+  'ODISHA',
+  'PUNJAB',
+  'RAJASTHAN',
+  'SIKKIM',
+  'TAMIL NADU',
+  'TELANGANA',
+  'TRIPURA',
+  'UTTAR PRADESH',
+  'UTTARAKHAND',
+  'WEST BENGAL',
+  'DELHI',
+];
+
+// Generate all stamp templates
+const allStampTemplates = [];
+indianStates.forEach((state) => {
+  documentTypes.forEach((docType) => {
+    allStampTemplates.push({
+      id: uuidv4(),
+      state,
+      documentType: docType,
+      basePrice: 10100, // ₹101 default
+      convenienceFee: 7697, // ₹76.97 after discount
+      description: `Non-judicial stamp paper for ${docType} in ${state}`,
+      metadata: {
+        originalConvenienceFee: 9197, // ₹91.97 before discount
+        platformDiscount: 1500, // ₹15 automatic discount
+      },
+      isActive: true,
+    });
+  });
+});
+
+// Stamp Promo Codes
+const allStampPromoCodes = [
+  {
+    id: uuidv4(),
+    code: 'SUPER',
+    discountType: 'fixed',
+    discountValue: 1500, // ₹15 off
+    maxDiscount: null,
+    minOrderAmount: 10000, // ₹100 minimum
+    validFrom: new Date('2025-01-01'),
+    validUntil: new Date('2025-12-31'),
+    usageLimit: 1000,
+    usageCount: 0,
+    isActive: true,
+  },
+  {
+    id: uuidv4(),
+    code: 'WELCOME10',
+    discountType: 'percentage',
+    discountValue: 10, // 10% off
+    maxDiscount: 5000, // Max ₹50 discount
+    minOrderAmount: 15000, // ₹150 minimum
+    validFrom: new Date('2025-01-01'),
+    validUntil: new Date('2025-12-31'),
+    usageLimit: 500,
+    usageCount: 0,
+    isActive: true,
+  },
+  {
+    id: uuidv4(),
+    code: 'FESTIVE20',
+    discountType: 'percentage',
+    discountValue: 20, // 20% off
+    maxDiscount: 10000, // Max ₹100 discount
+    minOrderAmount: 20000, // ₹200 minimum
+    validFrom: new Date('2025-10-01'),
+    validUntil: new Date('2025-11-30'),
+    usageLimit: 100,
+    usageCount: 0,
+    isActive: true,
+  },
+];
+
 async function deployProductionPackages() {
   const env = process.env.NODE_ENV || 'development';
 
-  log(`🚀 Fresh Production Packages Deployment`, 'bright');
+  log(`🚀 Fresh Production Deployment - Packages & Stamps`, 'bright');
   log(`Environment: ${env.toUpperCase()}`, 'yellow');
   log(`Total packages to deploy: ${allPackages.length}`, 'cyan');
+  log(`Total stamp templates to deploy: ${allStampTemplates.length}`, 'cyan');
+  log(`Total promo codes to deploy: ${allStampPromoCodes.length}`, 'cyan');
   console.log('');
 
   // Environment validation
@@ -737,12 +860,14 @@ async function deployProductionPackages() {
 
   let sequelize;
   let Package;
+  let StampTemplate;
+  let StampPromoCode;
 
   try {
     // Initialize database connection
     logStep(1, 'Initializing database connection');
     sequelize = require('./src/config/database');
-    ({ Package } = require('./src/models'));
+    ({ Package, StampTemplate, StampPromoCode } = require('./src/models'));
 
     await sequelize.authenticate();
     logSuccess('Database connection established');
@@ -811,12 +936,105 @@ async function deployProductionPackages() {
       log(`📂 ${category}: ${dbCount}/${categoryPackages.length} packages`, 'blue');
     }
 
-    if (errorCount === 0) {
+    // Deploy Stamp Templates
+    logStep(6, 'Deploying stamp templates');
+    let templatesCreated = 0;
+    let templatesUpdated = 0;
+    let templatesErrors = 0;
+
+    for (const templateData of allStampTemplates) {
+      try {
+        const [template, created] = await StampTemplate.upsert({
+          ...templateData,
+          metadata: JSON.stringify(templateData.metadata)
+        }, {
+          returning: true
+        });
+
+        if (created) {
+          templatesCreated++;
+        } else {
+          templatesUpdated++;
+        }
+      } catch (error) {
+        templatesErrors++;
+        logError(`Failed to process template ${templateData.state} - ${templateData.documentType}: ${error.message}`);
+      }
+    }
+
+    logSuccess(`Stamp templates deployed: ${templatesCreated} created, ${templatesUpdated} updated`);
+    if (templatesErrors > 0) {
+      logWarning(`Stamp template errors: ${templatesErrors}`);
+    }
+
+    // Deploy Stamp Promo Codes
+    logStep(7, 'Deploying stamp promo codes');
+    let promosCreated = 0;
+    let promosUpdated = 0;
+    let promosErrors = 0;
+
+    for (const promoData of allStampPromoCodes) {
+      try {
+        const [promo, created] = await StampPromoCode.upsert(promoData, {
+          returning: true
+        });
+
+        if (created) {
+          promosCreated++;
+          log(`✨ Created promo: ${promoData.code} (${promoData.discountType})`, 'green');
+        } else {
+          promosUpdated++;
+          log(`🔄 Updated promo: ${promoData.code}`, 'yellow');
+        }
+      } catch (error) {
+        promosErrors++;
+        logError(`Failed to process promo ${promoData.code}: ${error.message}`);
+      }
+    }
+
+    logSuccess(`Promo codes deployed: ${promosCreated} created, ${promosUpdated} updated`);
+    if (promosErrors > 0) {
+      logWarning(`Promo code errors: ${promosErrors}`);
+    }
+
+    // Final verification
+    logStep(8, 'Final verification');
+    const finalTemplateCount = await StampTemplate.count();
+    const activeTemplateCount = await StampTemplate.count({ where: { isActive: true } });
+    const finalPromoCount = await StampPromoCode.count();
+    const activePromoCount = await StampPromoCode.count({ where: { isActive: true } });
+
+    log('\n📊 Complete Deployment Summary:', 'bright');
+    log('═'.repeat(60), 'cyan');
+    log('📦 PACKAGES:', 'bright');
+    log(`   Total packages in database: ${finalCount}`, 'cyan');
+    log(`   Active packages: ${activeCount}`, 'green');
+    log(`   Newly created: ${createdCount}`, 'green');
+    log(`   Updated existing: ${updatedCount}`, 'yellow');
+    log(`   Errors: ${errorCount}`, errorCount > 0 ? 'red' : 'green');
+    
+    log('\n📄 STAMP TEMPLATES:', 'bright');
+    log(`   Total templates in database: ${finalTemplateCount}`, 'cyan');
+    log(`   Active templates: ${activeTemplateCount}`, 'green');
+    log(`   Newly created: ${templatesCreated}`, 'green');
+    log(`   Updated existing: ${templatesUpdated}`, 'yellow');
+    log(`   Errors: ${templatesErrors}`, templatesErrors > 0 ? 'red' : 'green');
+    
+    log('\n🎫 PROMO CODES:', 'bright');
+    log(`   Total promo codes in database: ${finalPromoCount}`, 'cyan');
+    log(`   Active promo codes: ${activePromoCount}`, 'green');
+    log(`   Newly created: ${promosCreated}`, 'green');
+    log(`   Updated existing: ${promosUpdated}`, 'yellow');
+    log(`   Errors: ${promosErrors}`, promosErrors > 0 ? 'red' : 'green');
+
+    const totalErrors = errorCount + templatesErrors + promosErrors;
+    
+    if (totalErrors === 0) {
       log('\n🎉 Production deployment completed successfully!', 'bright');
-      logSuccess('All packages are now available in production');
+      logSuccess('All packages, stamp templates, and promo codes are now available in production');
       log('🔧 The platform is ready to handle all service requests', 'green');
     } else {
-      logWarning(`Deployment completed with ${errorCount} errors`);
+      logWarning(`Deployment completed with ${totalErrors} total errors`);
       log('Please review the errors above and re-run if necessary', 'yellow');
     }
 
@@ -846,4 +1064,9 @@ if (require.main === module) {
     });
 }
 
-module.exports = { deployProductionPackages, allPackages };
+module.exports = { 
+  deployProductionPackages, 
+  allPackages, 
+  allStampTemplates, 
+  allStampPromoCodes 
+};

@@ -5,6 +5,7 @@ import clientSlice from './slices/clientSlice'
 import appointmentSlice from './slices/appointmentSlice'
 import reviewSlice from './slices/reviewSlice'
 import paymentSlice from './slices/paymentSlice'
+import stampSlice from './stampSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     appointments: appointmentSlice,
     reviews: reviewSlice,
     payment: paymentSlice,
+    stamp: stampSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

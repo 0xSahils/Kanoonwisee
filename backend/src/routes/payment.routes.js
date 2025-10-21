@@ -2,7 +2,7 @@ const express = require('express');
 const paymentController = require('../controllers/paymentController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { verifyCsrfToken } = require('../middlewares/csrfMiddleware');
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../middlewares/validateRequest');
 const { 
   createOrderSchema, 
   verifyPaymentSchema 

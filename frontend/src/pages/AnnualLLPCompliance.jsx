@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/landing/Header";
 import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
+import { Lock, Building2 } from "lucide-react";
 
 const AnnualLLPCompliance = () => {
   // Scroll to top when component mounts
@@ -151,7 +152,9 @@ const AnnualLLPCompliance = () => {
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-4xl mb-4">🔒</div>
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                <Lock className="w-8 h-8 text-red-600" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 LLP Status at Risk
               </h3>
@@ -163,7 +166,9 @@ const AnnualLLPCompliance = () => {
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-4xl mb-4">🏦</div>
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <Building2 className="w-8 h-8 text-blue-600" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Blocks Business Opportunities
               </h3>

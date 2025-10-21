@@ -31,6 +31,8 @@ const healthRoutes = require("./routes/health.routes");
 const adminRoutes = require("./routes/admin.routes");
 const paymentRoutes = require("./routes/payment.routes");
 const publicPaymentRoutes = require("./routes/publicPayment");
+const stampRoutes = require("./routes/stamp.routes");
+const adminStampRoutes = require("./routes/adminStamp.routes");
 
 const app = express();
 
@@ -79,6 +81,8 @@ app.use("/api/files", fileUploadRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/public-payment", publicPaymentRoutes);
+app.use("/api/stamps", stampRoutes);
+app.use("/api/admin/stamps", adminStampRoutes);
 
 
 // Catch-all handler: send back React's index.html file in production

@@ -137,6 +137,62 @@ const verifyPaymentSchema = Joi.object({
   signature: Joi.string().required(),
 });
 
+// Stamp validation schemas
+const stampOrderSchema = Joi.object({
+  state: Joi.string()
+    .uppercase()
+    .required()
+    .messages({
+      'string.empty': 'State is required',
+    }),
+  documentType: Joi.string().min(3).max(200).required().messages({
+    'string.empty': 'Document type is required',
+  }),
+  purpose: Joi.string().max(500).optional().allow(''),
+  firstPartyName: Joi.string().min(2).max(200).required().messages({
+    'string.empty': 'First party name is required',
+  }),
+  firstPartyPhone: Joi.string()
+    .pattern(/^[6-9]\d{9}$/)
+    .optional()
+    .allow(''),
+  secondPartyName: Joi.string().min(2).max(200).required().messages({
+    'string.empty': 'Second party name is required',
+  }),
+  secondPartyPhone: Joi.string()
+    .pattern(/^[6-9]\d{9}$/)
+    .optional()
+    .allow(''),
+  stampAmount: Joi.number().integer().min(100).required().messages({
+    'number.base': 'Stamp amount must be a number',
+    'number.min': 'Minimum stamp amount is ₹1',
+  }),
+  payingParty: Joi.string().valid('first', 'second', 'both').required(),
+  guestEmail: Joi.string().email().optional(),
+  guestPhone: Joi.string()
+    .pattern(/^[6-9]\d{9}$/)
+    .optional(),
+});
+
+const updateServiceSchema = Joi.object({
+  serviceType: Joi.string().valid('standard', 'express').required(),
+  doorstepDelivery: Joi.boolean().optional(),
+  promoCode: Joi.string().max(50).optional().allow(''),
+  deliveryAddress: Joi.object({
+    name: Joi.string().required(),
+    phone: Joi.string().pattern(/^[6-9]\d{9}$/).required(),
+    address: Joi.string().required(),
+    city: Joi.string().required(),
+    pincode: Joi.string().pattern(/^\d{6}$/).required(),
+    state: Joi.string().required(),
+  }).optional(),
+});
+
+const validatePromoSchema = Joi.object({
+  code: Joi.string().required(),
+  orderAmount: Joi.number().integer().min(0).required(),
+});
+
 module.exports = {
   requestOtpSchema,
   verifyOtpSchema,
@@ -150,4 +206,7 @@ module.exports = {
   lawyerSearchSchema,
   createOrderSchema,
   verifyPaymentSchema,
+  stampOrderSchema,
+  updateServiceSchema,
+  validatePromoSchema,
 };

@@ -1,6 +1,6 @@
 const express = require('express');
 const clientController = require('../controllers/clientController');
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../middlewares/validateRequest');
 const { lawyerSearchSchema } = require('../utils/validationSchemas');
 
 const router = express.Router();
