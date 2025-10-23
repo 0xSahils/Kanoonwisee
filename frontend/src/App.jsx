@@ -56,6 +56,12 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 
+// E-Stamp Pages
+import StampLandingPage from "./pages/stamps/StampLandingPage";
+import StampWizard from "./pages/stamps/StampWizard";
+import StampCheckout from "./pages/stamps/StampCheckout";
+import StampSuccess from "./pages/stamps/StampSuccess";
+
 // Auth Pages
 import Login from "./features/auth/Login";
 
@@ -81,6 +87,8 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import AdminLawyers from "./pages/admin/Lawyers";
+import AdminStampOrders from "./pages/admin/StampOrders";
+import AdminStampTemplates from "./pages/admin/StampTemplates";
 import { CMSManagement } from "./pages/admin";
 
 // Diagnostic Components
@@ -214,6 +222,13 @@ function App() {
             <Route path="/business-services" element={<BusinessServices />} />
             <Route path="/business-setup" element={<BusinessSetup />} />
             <Route path="/trademark-ip" element={<TrademarkIP />} />
+
+            {/* E-Stamp Routes */}
+            <Route path="/stamps" element={<StampLandingPage />} />
+            <Route path="/stamps/order" element={<StampWizard />} />
+            <Route path="/stamps/checkout/:orderId" element={<StampCheckout />} />
+            <Route path="/stamps/success/:orderId" element={<StampSuccess />} />
+
             <Route path="/trademark-services" element={<TrademarkServices />} />
             <Route path="/patent-services" element={<PatentServices />} />
             <Route path="/copyright-services" element={<CopyrightServices />} />
@@ -436,6 +451,26 @@ function App() {
                 <AdminLayout>
                   <ProtectedRoute requiredRole="admin">
                     <AdminLawyers />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/stamp-orders"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminStampOrders />
+                  </ProtectedRoute>
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/stamp-templates"
+              element={
+                <AdminLayout>
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminStampTemplates />
                   </ProtectedRoute>
                 </AdminLayout>
               }

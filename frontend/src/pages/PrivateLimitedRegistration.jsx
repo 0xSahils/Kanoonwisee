@@ -33,7 +33,7 @@ const PrivateLimitedRegistration = () => {
     },
     {
       id: "pro",
-      name: "⚡ Pro Plan",
+      name: "Pro Plan",
       subtitle: "Fast Track + Startup Benefits",
       price: "₹3,999",
       originalPrice: "₹7,999",
@@ -47,7 +47,7 @@ const PrivateLimitedRegistration = () => {
         "SPICe+ Form Filing in just 7 days",
         "Incorporation Certificate within 14–21 days",
         "Digital Welcome Kit (compliance checklist)",
-        "Free MSME Registration 🎉",
+        "Free MSME Registration",
         "Trademark Application Filing (Expedited)",
         "Dedicated compliance support",
         "6 Months Free Legal Consultation",

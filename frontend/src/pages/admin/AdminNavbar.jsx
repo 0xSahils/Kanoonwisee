@@ -49,6 +49,16 @@ const AdminNavbar = () => {
       path: "/admin/dashboard",
     },
     {
+      name: "Stamp Orders",
+      icon: "fas fa-file-contract",
+      path: "/admin/stamp-orders",
+    },
+    {
+      name: "Stamp Templates",
+      icon: "fas fa-stamp",
+      path: "/admin/stamp-templates",
+    },
+    {
       name: "Lawyers",
       icon: "fas fa-balance-scale",
       path: "/admin/lawyers",
@@ -62,11 +72,6 @@ const AdminNavbar = () => {
       name: "Content Management",
       icon: "fas fa-edit",
       path: "/admin/cms",
-    },
-    {
-      name: "Settings",
-      icon: "fas fa-cog",
-      path: "/admin/settings",
     },
   ];
 
@@ -90,45 +95,45 @@ const AdminNavbar = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-4">
             {navItems.map((item, index) => (
               <button
                 key={index}
                 onClick={() => handleNavigation(item.path)}
-                className="flex items-center space-x-2 font-medium transition-colors duration-200 text-gray-700 hover:text-blue-600"
+                className="flex items-center space-x-1.5 font-medium transition-colors duration-200 text-gray-700 hover:text-blue-600 text-sm"
               >
-                <i className={`${item.icon} text-blue-500`}></i>
+                <i className={`${item.icon} text-blue-500 text-sm`}></i>
                 <span>{item.name}</span>
               </button>
             ))}
           </div>
 
           {/* Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-3">
             <button
               onClick={() => handleNavigation("/")}
-              className="font-medium transition-colors duration-200 flex items-center text-gray-700 hover:text-blue-600"
+              className="font-medium transition-colors duration-200 flex items-center text-gray-700 hover:text-blue-600 text-sm"
             >
-              <Home className="h-4 w-4 mr-2" />
-              Back to Site
+              <Home className="h-4 w-4 mr-1.5" />
+              Site
             </button>
             <div className="relative group">
-              <button className="flex items-center space-x-2 font-medium transition-colors duration-200 text-gray-700 hover:text-blue-600">
+              <button className="flex items-center space-x-1.5 font-medium transition-colors duration-200 text-gray-700 hover:text-blue-600 text-sm">
                 <UserIcon className="h-4 w-4" />
                 <span>{user?.email?.split("@")[0] || "Admin"}</span>
               </button>
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="py-2">
+              <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="py-1">
                   <button
                     onClick={() => handleNavigation("/admin/profile")}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 w-full text-left"
+                    className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 w-full text-left text-sm"
                   >
                     <UserIcon className="h-4 w-4" />
                     <span>Profile</span>
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 w-full text-left border-t border-gray-100"
+                    className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 w-full text-left border-t border-gray-100 text-sm"
                     type="button"
                     aria-label="Logout from admin panel"
                   >

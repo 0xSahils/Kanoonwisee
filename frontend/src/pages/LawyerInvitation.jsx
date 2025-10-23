@@ -8,6 +8,7 @@ import { authAPI } from "../api/auth";
 import { verifyOtp } from "../store/slices/authSlice";
 import { store } from "../store"; // Import the store directly
 import axiosInstance from "../api/index";
+import { CheckCircle } from "lucide-react";
 
 const LawyerInvitation = () => {
   const navigate = useNavigate();
@@ -952,8 +953,8 @@ const LawyerInvitation = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
                   {formData.resumeFile && (
-                    <p className="text-xs text-green-600 mt-1">
-                      ✓ {formData.resumeFile.name}
+                    <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> {formData.resumeFile.name}
                     </p>
                   )}
                 </div>
@@ -970,8 +971,8 @@ const LawyerInvitation = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
                   {formData.barRegistrationFile && (
-                    <p className="text-xs text-green-600 mt-1">
-                      ✓ {formData.barRegistrationFile.name}
+                    <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> {formData.barRegistrationFile.name}
                     </p>
                   )}
                 </div>
@@ -988,8 +989,8 @@ const LawyerInvitation = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
                   {formData.photoFile && (
-                    <p className="text-xs text-green-600 mt-1">
-                      ✓ {formData.photoFile.name}
+                    <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> {formData.photoFile.name}
                     </p>
                   )}
                 </div>

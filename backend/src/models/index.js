@@ -6,6 +6,9 @@ const ClientProfile = require('./clientProfile.model');
 const Appointment = require('./appointment.model');
 const Review = require('./review.model');
 const UserSession = require('./userSession.model');
+const StampTemplate = require('./StampTemplate');
+const StampOrder = require('./StampOrder');
+const StampPromoCode = require('./StampPromoCode');
 
 // Define associations
 // Package and Order relationship
@@ -28,6 +31,34 @@ Order.belongsTo(User, {
   as: 'user' 
 });
 
+// Stamp associations
+StampTemplate.hasMany(StampOrder, {
+  foreignKey: 'templateId',
+  as: 'orders'
+});
+StampOrder.belongsTo(StampTemplate, {
+  foreignKey: 'templateId',
+  as: 'template'
+});
+
+User.hasMany(StampOrder, {
+  foreignKey: 'userId',
+  as: 'stampOrders'
+});
+StampOrder.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'user'
+});
+
+StampPromoCode.hasMany(StampOrder, {
+  foreignKey: 'promoCodeId',
+  as: 'orders'
+});
+StampOrder.belongsTo(StampPromoCode, {
+  foreignKey: 'promoCodeId',
+  as: 'appliedPromoCode'  // Changed from 'promoCode' to avoid collision with string field
+});
+
 // Export all models
 module.exports = {
   User,
@@ -38,4 +69,7 @@ module.exports = {
   Appointment,
   Review,
   UserSession,
+  StampTemplate,
+  StampOrder,
+  StampPromoCode,
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/landing/Header";
 import PublicBusinessServicePayment from "../components/payment/PublicBusinessServicePayment";
+import { Lock, Building2 } from "lucide-react";
 
 const AnnualCorporateCompliance = () => {
   // const navigate = useNavigate();
@@ -175,7 +176,9 @@ const AnnualCorporateCompliance = () => {
             </div>
 
             <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🔒</div>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                <Lock className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
+              </div>
               <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 Company Status at Risk
               </h3>
@@ -186,7 +189,9 @@ const AnnualCorporateCompliance = () => {
             </div>
 
             <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">🏦</div>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+              </div>
               <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
                 Blocks Future Growth
               </h3>

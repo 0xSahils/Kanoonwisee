@@ -3,7 +3,7 @@ const reviewController = require('../controllers/reviewController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { verifyCsrfToken } = require('../middlewares/csrfMiddleware');
 const roleMiddleware = require('../middlewares/roleMiddleware');
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../middlewares/validateRequest');
 const { reviewSchema } = require('../utils/validationSchemas');
 
 const router = express.Router();

@@ -4,7 +4,7 @@ const appointmentController = require("../controllers/appointmentController");
 const fileUploadController = require("../controllers/fileUploadController");
 const { authMiddleware } = require("../middlewares/authMiddleware");
 const { verifyCsrfToken } = require("../middlewares/csrfMiddleware");
-const validateRequest = require("../middlewares/validateRequest");
+const { validateRequest } = require("../middlewares/validateRequest");
 const parseFormDataFields = require("../middlewares/parseFormDataFields");
 const { lawyerFileUpload, handleMulterError } = require("../middlewares/fileUploadMiddleware");
 const {

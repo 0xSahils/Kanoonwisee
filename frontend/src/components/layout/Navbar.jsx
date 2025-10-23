@@ -10,9 +10,7 @@ import {
   FileText, 
   Star, 
   Search,
-  LogOut,
-  Sun,
-  Moon
+  LogOut
 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { logoutUser } from '../../store/slices/authSlice'
@@ -20,7 +18,6 @@ import toast from 'react-hot-toast'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const { user, isAuthenticated } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -33,11 +30,6 @@ const Navbar = () => {
     } catch {
       toast.error('Logout failed')
     }
-  }
-
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-    document.documentElement.classList.toggle('dark')
   }
 
   const lawyerLinks = [
@@ -85,15 +77,6 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="h-9 w-9"
-            >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-
             {isAuthenticated ? (
               <div className="hidden md:flex items-center space-x-4">
                 <span className="text-sm text-muted-foreground">
