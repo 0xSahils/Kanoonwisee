@@ -100,7 +100,8 @@ const GlobalDisclaimer = ({ children }) => {
     try {
       const params = new URLSearchParams(window.location.search);
       const forceShow = params.get("showDisclaimer") === "1" || params.get("forceDisclaimer") === "1";
-      const disclaimerAccepted = localStorage.getItem("disclaimerAccepted");
+      // Show modal every new browser session unless user accepts in this session
+      const disclaimerAccepted = sessionStorage.getItem("disclaimerAccepted");
 
       if (!disclaimerAccepted || forceShow) {
         // show modal on first load or when forced via query param
@@ -115,7 +116,14 @@ const GlobalDisclaimer = ({ children }) => {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem("disclaimerAccepted", "true");
+    // Persist only for this browser session
+    try {
+      sessionStorage.setItem("disclaimerAccepted", "true");
+      // Clean up any previous localStorage value to avoid confusion
+      localStorage.removeItem("disclaimerAccepted");
+    } catch {
+      // ignore storage errors
+    }
     setShowDisclaimerModal(false);
   };
 

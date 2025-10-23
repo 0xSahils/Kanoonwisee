@@ -505,12 +505,20 @@ const JusticiaHomepage = () => {
                 </div>
               </div>
             </div>
-            <div className="relative">
-              <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-2xl p-8">
+            <div className="flex justify-center items-center">
+              <div className="relative flex justify-center items-center">
+                <div className="absolute inset-0 flex justify-center items-center">
+                  <div className="w-72 h-80 md:w-96 md:h-96 rounded-2xl bg-gradient-to-br from-yellow-100 to-yellow-200 border-4 border-yellow-200 shadow-lg"></div>
+                </div>
                 <img
-                  src="/founder-photo.jpg"
+                  src="/founder.jpg"
                   alt="Kanoonwise Founder"
-                  className="w-full h-80 object-cover rounded-xl shadow-lg"
+                  className="relative w-72 h-80 md:w-96 md:h-96 object-cover rounded-2xl z-10"
+                  style={{ boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)' }}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = '/placeholder-founder.png';
+                  }}
                 />
               </div>
             </div>
@@ -596,9 +604,13 @@ const JusticiaHomepage = () => {
             <div className="bg-gray-50 rounded-2xl p-8">
               <div className="flex items-start space-x-4 mb-6">
                 <img
-                  src="/founder-spotlight-1.jpg"
+                  src="/founder.jpg"
                   alt="Startup Founder"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-16 h-16 rounded-full object-contain bg-white"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = '/placeholder-founder.png';
+                  }}
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">Sarah Chen</h4>
@@ -627,9 +639,13 @@ const JusticiaHomepage = () => {
             <div className="bg-gray-50 rounded-2xl p-8">
               <div className="flex items-start space-x-4 mb-6">
                 <img
-                  src="/founder-spotlight-2.jpg"
+                  src="/founder.jpg"
                   alt="Business Founder"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-16 h-16 rounded-full object-contain bg-white"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = '/placeholder-founder.png';
+                  }}
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">Rajesh Patel</h4>

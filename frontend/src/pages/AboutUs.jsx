@@ -15,7 +15,7 @@ const AboutUs = () => {
     {
       name: "Furquan Ali",
       role: "Founder & CEO",
-      image: "/team-founder.jpg",
+  image: "/founder.jpg",
       description:
         "As Founder & CEO, Furquan Ali is a legal-domain expert and technology entrepreneur. He is not a practicing advocate and does not provide legal advice through Kanoonwise.",
       linkedin: "#",
@@ -322,7 +322,14 @@ const AboutUs = () => {
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="w-full h-64 object-cover"
+                  className={`w-full ${member.name === 'Furquan Ali' ? 'h-auto object-contain bg-white' : 'h-64 object-cover'}`}
+                  style={member.name === 'Furquan Ali' ? { maxHeight: '420px', background: '#fff' } : {}}
+                  onError={e => {
+                    if (member.name === 'Furquan Ali') {
+                      e.target.onerror = null;
+                      e.target.src = '/placeholder-founder.png';
+                    }
+                  }}
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">

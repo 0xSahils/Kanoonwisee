@@ -3,19 +3,44 @@ import React, { useState, useEffect } from "react";
 const GrievanceBanner = () => {
   const [visible, setVisible] = useState(true);
 
-  // Respect user preference persisted in localStorage (optional)
+  // Helpers: cookie fallback in case localStorage is blocked/cleared
+  const getDismissed = () => {
+    try {
+      const val = localStorage.getItem("grievanceDismissed");
+      if (val === "true") return true;
+    } catch {
+      // ignore storage read error
+    }
+    // cookie fallback
+    try {
+      return document.cookie.split(";").some((c) => c.trim().startsWith("grievanceDismissed=1"));
+    } catch {
+      return false;
+    }
+  };
+
+  const setDismissed = () => {
+    try {
+      localStorage.setItem("grievanceDismissed", "true");
+    } catch {
+      // ignore cookie parsing error
+    }
+    try {
+      // 30 days
+      document.cookie = "grievanceDismissed=1; path=/; max-age=2592000; SameSite=Lax";
+    } catch {
+      // ignore storage write error
+    }
+  };
+
+  // Respect user preference persisted across reloads
   useEffect(() => {
-    const dismissed = localStorage.getItem("grievanceDismissed");
-    if (dismissed === "true") setVisible(false);
+    if (getDismissed()) setVisible(false);
   }, []);
 
   const handleClose = () => {
     setVisible(false);
-    try {
-      localStorage.setItem("grievanceDismissed", "true");
-    } catch {
-      // ignore
-    }
+    setDismissed();
   };
 
   if (!visible) return null;
