@@ -155,10 +155,10 @@ const LegalInsights = () => {
 
   // Load CMS content
   useEffect(() => {
-    const loadContent = async () => {
+    const loadContent = () => {
       try {
         setIsLoading(true);
-        const content = await getPageContent("legal-insights");
+        const content = getPageContent("legal-insights");
         console.log("Legal Insights CMS data:", content);
         setPageContent(content);
         setLoadError(null);

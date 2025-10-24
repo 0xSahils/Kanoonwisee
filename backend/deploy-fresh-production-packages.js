@@ -891,11 +891,10 @@ async function deployProductionPackages() {
           features: JSON.stringify(packageData.features)
         };
 
-        const [package, created] = await Package.upsert(packageForDB, {
+        const [packageInstance, created] = await Package.upsert(packageForDB, {
           where: { name: packageData.name },
           returning: true
         });
-
         if (created) {
           createdCount++;
           log(`✨ Created: ${packageData.name} (₹${packageData.price.toLocaleString('en-IN')})`, 'green');
@@ -972,12 +971,16 @@ async function deployProductionPackages() {
     let promosCreated = 0;
     let promosUpdated = 0;
     let promosErrors = 0;
-
     for (const promoData of allStampPromoCodes) {
       try {
-        const [promo, created] = await StampPromoCode.upsert(promoData, {
-          returning: true
+        const [promo, created] = await StampPromoCode.findOrCreate({
+          where: { code: promoData.code },
+          defaults: promoData
         });
+        
+        if (!created) {
+          await promo.update(promoData);
+        }
 
         if (created) {
           promosCreated++;
@@ -990,8 +993,7 @@ async function deployProductionPackages() {
         promosErrors++;
         logError(`Failed to process promo ${promoData.code}: ${error.message}`);
       }
-    }
-
+    }    
     logSuccess(`Promo codes deployed: ${promosCreated} created, ${promosUpdated} updated`);
     if (promosErrors > 0) {
       logWarning(`Promo code errors: ${promosErrors}`);

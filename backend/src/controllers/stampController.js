@@ -199,6 +199,7 @@ exports.updateServiceSelection = async (req, res) => {
     order.serviceType = serviceType;
     order.doorstepDelivery = doorstepDelivery || false;
     order.serviceCharge = serviceCharge;
+    order.doorstepCharge = doorstepCharge;
     order.promoCode = appliedPromoCode;
     order.promoDiscount = promoDiscount;
     order.totalAmount = totalAmount;
@@ -220,7 +221,6 @@ exports.updateServiceSelection = async (req, res) => {
     }
     
     await order.save();
-
     return res.json({
       success: true,
       data: {

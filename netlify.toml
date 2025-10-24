@@ -1,0 +1,44 @@
+# Netlify Configuration for KanoonWise
+# This file configures how Netlify builds and serves your site
+
+[build]
+  # Directory where frontend build happens
+  base = "frontend"
+  # Command to build the frontend
+  command = "npm run build"
+  # Output directory after build
+  publish = "dist"
+
+# Redirect rules for SPA routing
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Build environment variables (optional)
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Enable Git Gateway for Netlify CMS
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
