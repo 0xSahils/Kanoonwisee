@@ -57,6 +57,15 @@ const StampWizard = () => {
     stampAmount: 0, // User will enter amount
   });
 
+  // State-specific minimum and maximum amounts (in paise)
+  const stateRanges = {
+    'HARYANA': { min: 10100, max: 10000000, label: '₹101 to ₹1 Lac' },
+    'DELHI': { min: 1000, max: 50000, label: '₹10 to ₹500' },
+    'GUJARAT': { min: 30000, max: 30000, label: '₹300 only' },
+    'UTTAR PRADESH': { min: 1000, max: 50000, label: '₹10 to ₹500' },
+    'TAMIL NADU': { min: 2000, max: 1000000, label: '₹20 to ₹10 Lacs' },
+  };
+
   useEffect(() => {
     if (state) {
       dispatch(fetchTemplatesByState(state));
@@ -153,7 +162,7 @@ const StampWizard = () => {
             <Step3
               formData={formData}
               setFormData={setFormData}
-              templates={templates}
+              stateRanges={stateRanges}
               onSubmit={async () => {
                 try {
                   const result = await dispatch(createDraftOrder(formData)).unwrap();
@@ -338,19 +347,18 @@ const Step2 = ({ formData, setFormData, onNext }) => {
 };
 
 // Step 3: Stamp Amount
-const Step3 = ({ formData, setFormData, templates, onSubmit, loading }) => {
-  // Find the selected template to get base price
-  const selectedTemplate = templates.find(
-    (t) => t.documentType === formData.documentType
-  );
-  const basePrice = selectedTemplate?.basePrice || 100; // Default to ₹1 (100 paise) if not found
+const Step3 = ({ formData, setFormData, stateRanges, onSubmit, loading }) => {
+  // Get state-specific range
+  const stateRange = stateRanges[formData.state] || { min: 1000, max: 100000000, label: 'any amount' };
+  const minAmount = stateRange.min;
+  const maxAmount = stateRange.max;
   
-  // Create dynamic schema based on base price
+  // Create dynamic schema based on state-specific limits
   const dynamicStep3Schema = z.object({
     payingParty: z.enum(['first', 'second', 'both']),
     stampAmount: z.number()
-      .min(basePrice, `Minimum amount is ₹${(basePrice / 100).toFixed(2)} for this document type`)
-      .max(100000000, 'Amount too large'),
+      .min(minAmount, `Minimum amount is ₹${(minAmount / 100).toFixed(2)} for ${formData.state}`)
+      .max(maxAmount, `Maximum amount is ₹${(maxAmount / 100).toFixed(2)} for ${formData.state}`),
   });
 
   const {
@@ -371,8 +379,31 @@ const Step3 = ({ formData, setFormData, templates, onSubmit, loading }) => {
     onSubmit();
   };
 
+  // Calculate convenience fee preview
+  const calculateConvenienceFee = (amount) => {
+    if (amount < 100000) { // Less than ₹1000
+      return 6000; // ₹60 flat
+    } else {
+      return Math.round(amount * 0.15); // 15% of stamp value
+    }
+  };
+
+  const currentStampAmount = formData.stampAmount || minAmount;
+  const convenienceFee = calculateConvenienceFee(currentStampAmount);
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+      {/* Fee Information Box */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h4 className="font-semibold text-blue-900 mb-2">Fee Structure for {formData.state}</h4>
+        <ul className="text-sm text-blue-800 space-y-1">
+          <li>• <strong>Stamp Amount Range:</strong> {stateRange.label}</li>
+          <li>• <strong>Convenience Fee:</strong> ₹60 flat for stamps under ₹1000, 15% for above ₹1000</li>
+          <li>• <strong>Home Delivery:</strong> ₹120 flat (checkbox option)</li>
+          <li>• <strong>Express Delivery:</strong> ₹100 (within 1 hour - checkbox option)</li>
+        </ul>
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Who is paying stamp duty?
@@ -389,20 +420,19 @@ const Step3 = ({ formData, setFormData, templates, onSubmit, loading }) => {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Amount (In Rupees)
+          Stamp Amount (In Rupees)
         </label>
-        {selectedTemplate && (
-          <div className="mb-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <span className="font-semibold">Minimum amount for {selectedTemplate.documentType}:</span> ₹{(basePrice / 100).toFixed(2)}
-            </p>
-          </div>
-        )}
+        <div className="mb-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-sm text-yellow-900">
+            <span className="font-semibold">Range for {formData.state}:</span> {stateRange.label}
+          </p>
+        </div>
         <input
           type="number"
           step="0.01"
-          min={(basePrice / 100).toFixed(2)}
-          placeholder={`Eg: ${(basePrice / 100).toFixed(2)}`}
+          min={(minAmount / 100).toFixed(2)}
+          max={(maxAmount / 100).toFixed(2)}
+          placeholder={`Enter amount between ₹${(minAmount / 100).toFixed(2)} and ₹${(maxAmount / 100).toFixed(2)}`}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           onChange={(e) => {
             const rupees = parseFloat(e.target.value) || 0;
@@ -415,9 +445,21 @@ const Step3 = ({ formData, setFormData, templates, onSubmit, loading }) => {
         {errors.stampAmount && (
           <p className="text-red-500 text-sm mt-1">{errors.stampAmount.message}</p>
         )}
-        <p className="text-xs text-gray-500 mt-1">
-          Enter amount up to 2 decimal places (e.g., {(basePrice / 100).toFixed(2)} or {((basePrice + 10000) / 100).toFixed(2)})
-        </p>
+        
+        {/* Convenience Fee Preview */}
+        {currentStampAmount > 0 && (
+          <div className="mt-3 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+            <p className="text-sm text-gray-700">
+              <span className="font-semibold">Convenience Fee:</span> ₹{(convenienceFee / 100).toFixed(2)}
+              <span className="text-xs text-gray-500 ml-2">
+                ({currentStampAmount < 100000 ? 'Flat ₹60' : '15% of stamp value'})
+              </span>
+            </p>
+            <p className="text-sm text-gray-700 mt-1">
+              <span className="font-semibold">Total before delivery options:</span> ₹{((currentStampAmount + convenienceFee) / 100).toFixed(2)}
+            </p>
+          </div>
+        )}
       </div>
 
       <button
@@ -425,7 +467,7 @@ const Step3 = ({ formData, setFormData, templates, onSubmit, loading }) => {
         disabled={loading}
         className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-lg transition-colors"
       >
-        {loading ? 'Processing...' : 'Submit'}
+        {loading ? 'Processing...' : 'Continue to Checkout'}
       </button>
     </form>
   );

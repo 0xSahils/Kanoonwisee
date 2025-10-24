@@ -276,7 +276,7 @@ const StampCheckout = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-semibold">Express Service</span>
-                        <span className="text-orange-600 font-medium">+ ₹70 charge</span>
+                        <span className="text-orange-600 font-medium">+ ₹100 charge</span>
                       </div>
                       <p className="text-sm text-gray-600">Stamp paper provided within 1 hour</p>
                     </div>

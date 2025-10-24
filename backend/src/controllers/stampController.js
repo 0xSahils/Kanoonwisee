@@ -12,18 +12,12 @@ const razorpay = new Razorpay({
 // Get all available states
 exports.getStates = async (req, res) => {
   try {
-    const states = await StampTemplate.findAll({
-      attributes: ['state'],
-      where: { isActive: true },
-      group: ['state'],
-      order: [['state', 'ASC']],
-    });
-
-    const stateList = states.map((s) => s.state);
+    // Only these 5 states are available (10 AM to 5 PM)
+    const availableStates = ['HARYANA', 'DELHI', 'GUJARAT', 'UTTAR PRADESH', 'TAMIL NADU'];
 
     return res.json({
       success: true,
-      data: stateList,
+      data: availableStates,
     });
   } catch (error) {
     console.error('Get states error:', error);
@@ -38,10 +32,21 @@ exports.getStates = async (req, res) => {
 exports.getTemplatesByState = async (req, res) => {
   try {
     const { state } = req.params;
+    const stateUpper = state.toUpperCase();
+
+    // Validate state is one of the allowed states
+    const allowedStates = ['HARYANA', 'DELHI', 'GUJARAT', 'UTTAR PRADESH', 'TAMIL NADU'];
+    
+    if (!allowedStates.includes(stateUpper)) {
+      return res.status(400).json({
+        success: false,
+        message: `Service not available for ${state}. Available states: ${allowedStates.join(', ')}`,
+      });
+    }
 
     const templates = await StampTemplate.findAll({
       where: {
-        state: state.toUpperCase(),
+        state: stateUpper,
         isActive: true,
       },
       order: [['documentType', 'ASC']],
@@ -77,10 +82,21 @@ exports.createDraftOrder = async (req, res) => {
       guestPhone,
     } = req.body;
 
+    // Validate state is one of the allowed states
+    const allowedStates = ['HARYANA', 'DELHI', 'GUJARAT', 'UTTAR PRADESH', 'TAMIL NADU'];
+    const stateUpper = state.toUpperCase();
+    
+    if (!allowedStates.includes(stateUpper)) {
+      return res.status(400).json({
+        success: false,
+        message: `Service not available for ${state}. Available states: ${allowedStates.join(', ')}`,
+      });
+    }
+
     // Find template
     const template = await StampTemplate.findOne({
       where: {
-        state: state.toUpperCase(),
+        state: stateUpper,
         documentType,
         isActive: true,
       },
@@ -93,15 +109,43 @@ exports.createDraftOrder = async (req, res) => {
       });
     }
 
+    // Validate stamp amount based on state limits
+    const metadata = template.metadata || {};
+    const minStamp = metadata.minStamp || template.basePrice;
+    const maxStamp = metadata.maxStamp || 100000000; // Default max 10 crores
+
+    if (stampAmount < minStamp) {
+      return res.status(400).json({
+        success: false,
+        message: `Minimum stamp amount for ${stateUpper} is ₹${(minStamp / 100).toFixed(2)}`,
+      });
+    }
+
+    if (stampAmount > maxStamp) {
+      return res.status(400).json({
+        success: false,
+        message: `Maximum stamp amount for ${stateUpper} is ₹${(maxStamp / 100).toFixed(2)}`,
+      });
+    }
+
+    // Calculate convenience fee based on stamp amount
+    // Under ₹1000: Flat ₹60
+    // Above ₹1000: 15% of stamp value
+    let convenienceFee;
+    if (stampAmount < 100000) { // Less than ₹1000
+      convenienceFee = 6000; // ₹60 flat
+    } else {
+      convenienceFee = Math.round(stampAmount * 0.15); // 15% of stamp value
+    }
+
     // Calculate pricing
     const basePrice = stampAmount;
-    const convenienceFee = template.convenienceFee;
     const totalAmount = basePrice + convenienceFee;
 
     const order = await StampOrder.create({
       userId: req.user?.id || null,
       templateId: template.id,
-      state: state.toUpperCase(),
+      state: stateUpper,
       documentType,
       purpose: purpose || null,
       firstPartyName,
@@ -166,13 +210,13 @@ exports.updateServiceSelection = async (req, res) => {
     // Calculate service charge
     let serviceCharge = 0;
     if (serviceType === 'express') {
-      serviceCharge = 7000; // ₹70 in paise
+      serviceCharge = 10000; // ₹100 for express delivery
     }
 
     // Calculate doorstep delivery charge
     let doorstepCharge = 0;
     if (doorstepDelivery) {
-      doorstepCharge = 12000; // ₹120 in paise
+      doorstepCharge = 12000; // ₹120 for home delivery
     }
 
     // Apply promo code

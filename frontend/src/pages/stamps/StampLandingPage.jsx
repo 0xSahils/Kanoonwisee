@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchStates } from '../../store/stampSlice';
 import Header from '../../components/landing/Header';
 import { Zap, Lock } from 'lucide-react';
 
 const StampLandingPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { states, loading } = useSelector((state) => state.stamp);
   const [selectedState, setSelectedState] = useState('');
 
-  useEffect(() => {
-    dispatch(fetchStates());
-  }, [dispatch]);
+  // Only these 4 states are available
+  const availableStates = ['HARYANA', 'DELHI', 'GUJARAT', 'UTTAR PRADESH', 'TAMIL NADU'];
 
   const handleProceed = () => {
     if (selectedState) {
@@ -57,21 +52,27 @@ const StampLandingPage = () => {
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
               className="w-full px-4 py-4 text-lg border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              disabled={loading}
             >
               <option value="">Select state</option>
-              {Array.isArray(states) && states.map((state) => (
+              {availableStates.map((state) => (
                 <option key={state} value={state}>
                   {state}
                 </option>
               ))}
             </select>
+            
+            {/* Availability Notice */}
+            <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-800">
+                <span className="font-semibold">📅 Service Hours:</span> Available from 10:00 AM to 5:00 PM
+              </p>
+            </div>
           </div>
 
           {/* Proceed Button */}
           <button
             onClick={handleProceed}
-            disabled={!selectedState || loading}
+            disabled={!selectedState}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]"
           >
             Proceed to Stamp Purchase
