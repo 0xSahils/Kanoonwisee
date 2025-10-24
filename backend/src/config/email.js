@@ -18,8 +18,16 @@ if (process.env.USE_ETHEREAL_EMAIL === "true") {
 } else {
   // Use configured SMTP
   // Hard-coded to use port 465 with SSL for production reliability (Render blocks port 587)
+  
+  // Log configuration for debugging (hide password)
+  console.log('📧 Email Configuration:');
+  console.log('   SMTP_HOST:', process.env.SMTP_HOST || 'NOT SET');
+  console.log('   SMTP_USER:', process.env.SMTP_USER || 'NOT SET');
+  console.log('   SMTP_PASS:', process.env.SMTP_PASS ? '***SET***' : 'NOT SET');
+  console.log('   Port: 465 (SSL)');
+  
   transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: 465,
     secure: true, // SSL for port 465
     auth: {
@@ -33,6 +41,9 @@ if (process.env.USE_ETHEREAL_EMAIL === "true") {
     pool: true,
     maxConnections: 5,
     maxMessages: 10,
+    // Add debug for troubleshooting
+    debug: process.env.NODE_ENV === 'production',
+    logger: process.env.NODE_ENV === 'production',
   });
 }
 
@@ -47,11 +58,23 @@ const sendEmail = async (to, subject, text) => {
     return; // Skip actual sending when SEND_REAL_EMAILS is not true
   }
 
+  // TEMPORARY: If SMTP fails in production, just log the OTP
+  // This allows the app to work while you fix email configuration
+  if (process.env.DISABLE_EMAIL_SENDING === "true") {
+    console.log(`📧 [EMAIL DISABLED] Would send to: ${to}`);
+    console.log(`📧 [EMAIL DISABLED] Subject: ${subject}`);
+    console.log(`📧 [EMAIL DISABLED] Content: ${text}`);
+    console.log(`⚠️  IMPORTANT: Email sending is disabled. Re-enable by removing DISABLE_EMAIL_SENDING env var.`);
+    return; // Skip sending but don't throw error
+  }
+
   try {
     // Verify transporter configuration before sending (skip in production to avoid delays)
     if (process.env.NODE_ENV !== 'production') {
       await transporter.verify();
     }
+
+    console.log(`📧 Attempting to send email to ${to}...`);
 
     const info = await transporter.sendMail({
       from: process.env.EMAIL_FROM || "noreply@kanoonwise.com",
@@ -76,13 +99,28 @@ const sendEmail = async (to, subject, text) => {
     }
   } catch (error) {
     console.error("❌ Error sending email:", error);
+    console.error("   Error code:", error.code);
+    console.error("   Error command:", error.command);
     console.log(`[FALLBACK] Email content for ${to}: ${text}`);
 
-    // In production, throw a more descriptive error
+    // In production, provide helpful error message
     if (process.env.NODE_ENV === "production") {
-      const errorMsg = error.code === 'ETIMEDOUT' 
-        ? 'Email service connection timeout. Please check SMTP settings and use port 465 with SSL.'
-        : `Failed to send email: ${error.message}`;
+      let errorMsg = `Failed to send email: ${error.message}`;
+      
+      if (error.code === 'ETIMEDOUT') {
+        errorMsg = 'Email service connection timeout. Possible causes:\n' +
+          '1. SMTP credentials are incorrect\n' +
+          '2. Gmail App Password not generated (needs 2FA enabled)\n' +
+          '3. Render is blocking outgoing SMTP connections\n' +
+          '4. Gmail account has "Less secure app access" disabled\n\n' +
+          'TEMPORARY FIX: Add DISABLE_EMAIL_SENDING=true to environment variables to bypass email (OTP will be logged instead)';
+      } else if (error.code === 'EAUTH') {
+        errorMsg = 'Email authentication failed. Please check:\n' +
+          '1. SMTP_USER is your full Gmail address\n' +
+          '2. SMTP_PASS is a Gmail App Password (16 characters, no spaces)\n' +
+          '3. 2-Step Verification is enabled on your Google Account';
+      }
+      
       throw new Error(errorMsg);
     }
   }
