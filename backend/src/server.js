@@ -36,6 +36,10 @@ const adminStampRoutes = require("./routes/adminStamp.routes");
 
 const app = express();
 
+// Trust proxy - Required for rate limiting and security when behind reverse proxy (Render, Heroku, etc.)
+// This enables Express to trust the X-Forwarded-* headers from the proxy
+app.set('trust proxy', 1);
+
 // Security Middlewares
 app.use(securityHeaders);
 app.use(generalRateLimit);

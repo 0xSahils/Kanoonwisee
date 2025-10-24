@@ -154,19 +154,44 @@ const csrfTokens = csrf();
 /**
  * Session configuration for CSRF protection
  */
-const sessionStore = process.env.NODE_ENV === 'production' 
-  ? new SequelizeStore({
+let sessionStore;
+
+// Only create session store if in production
+if (process.env.NODE_ENV === 'production') {
+  try {
+    sessionStore = new SequelizeStore({
       db: sequelize,
-      tableName: 'UserSessions',
+      tableName: 'Sessions', // Use 'Sessions' not 'UserSessions' to avoid conflict with JWT session table
       checkExpirationInterval: 15 * 60 * 1000, // Check every 15 minutes
-      expiration: 24 * 60 * 60 * 1000 // Session expires after 24 hours
-    })
-  : undefined; // Use default MemoryStore in development
+      expiration: 24 * 60 * 60 * 1000, // Session expires after 24 hours
+      extendDefaultFields: (defaults, session) => {
+        return {
+          data: defaults.data,
+          expires: defaults.expires,
+        };
+      }
+    });
+    
+    // Initialize the session store table in production
+    // Use sync with alter to ensure table structure matches
+    sessionStore.sync({ alter: false })
+      .then(() => {
+        console.log('✅ Session store synchronized with Sessions table');
+      })
+      .catch(err => {
+        console.error('⚠️ Session store sync error:', err.message);
+        // Don't crash the app, just log the error
+      });
+  } catch (err) {
+    console.error('⚠️ Failed to initialize session store:', err.message);
+    sessionStore = undefined; // Fall back to memory store
+  }
+}
 
 const sessionOptions = {
   name: 'kanoonwise.sid',
   secret: process.env.SESSION_SECRET || 'kanoonwise-csrf-secret-key-2024',
-  store: sessionStore,
+  store: sessionStore, // Will be undefined in development (uses MemoryStore)
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -176,11 +201,6 @@ const sessionOptions = {
     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax'
   }
 };
-
-// Initialize the session store table in production
-if (sessionStore) {
-  sessionStore.sync();
-}
 
 module.exports = {
   securityHeaders,
