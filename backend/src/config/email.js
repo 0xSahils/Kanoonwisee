@@ -17,27 +17,22 @@ if (process.env.USE_ETHEREAL_EMAIL === "true") {
   });
 } else {
   // Use configured SMTP
-  // In production (Render), use port 465 with SSL to avoid connection blocks
-  const isProduction = process.env.NODE_ENV === 'production';
-  const smtpPort = isProduction ? 465 : (parseInt(process.env.SMTP_PORT) || 587);
-  
+  // Hard-coded to use port 465 with SSL for production reliability (Render blocks port 587)
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: smtpPort,
-    secure: smtpPort === 465, // true for 465 (SSL), false for 587 (TLS)
+    port: 465,
+    secure: true, // SSL for port 465
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
-    // Add connection timeout and pool settings for production
-    ...(isProduction && {
-      connectionTimeout: 10000, // 10 seconds
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      pool: true,
-      maxConnections: 5,
-      maxMessages: 10,
-    }),
+    // Connection settings for production
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 10,
   });
 }
 
