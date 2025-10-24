@@ -27,6 +27,7 @@ router.get('/stamp-templates/:templateId', adminStampController.getTemplateById)
 router.post('/stamp-templates', adminStampController.createTemplate);
 router.put('/stamp-templates/:templateId', adminStampController.updateTemplate);
 router.delete('/stamp-templates/:templateId', adminStampController.deleteTemplate);
+router.delete('/stamp-templates-bulk/delete-all', adminStampController.deleteAllTemplates); // Bulk delete ALL templates
 
 // Promo Codes Management
 router.get('/promo-codes', adminStampController.getAllPromoCodes);

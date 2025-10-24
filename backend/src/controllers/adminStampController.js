@@ -395,6 +395,70 @@ exports.deleteTemplate = async (req, res) => {
   }
 };
 
+// Delete ALL stamp templates (bulk delete)
+exports.deleteAllTemplates = async (req, res) => {
+  try {
+    // Get count of templates before deletion
+    const templateCount = await StampTemplate.count();
+
+    if (templateCount === 0) {
+      return res.json({
+        success: true,
+        message: 'No templates found to delete',
+        deletedCount: 0,
+      });
+    }
+
+    // Check if any templates are being used in orders
+    const templatesInUse = await StampOrder.findAll({
+      attributes: [[sequelize.fn('DISTINCT', sequelize.col('templateId')), 'templateId']],
+      where: {
+        templateId: { [Op.ne]: null },
+      },
+      raw: true,
+    });
+
+    const templateIdsInUse = templatesInUse.map(t => t.templateId);
+
+    if (templateIdsInUse.length > 0) {
+      // Get count of orders using templates
+      const orderCount = await StampOrder.count({
+        where: {
+          templateId: { [Op.in]: templateIdsInUse },
+        },
+      });
+
+      return res.status(400).json({
+        success: false,
+        message: `Cannot delete all templates: ${templateIdsInUse.length} templates are being used in ${orderCount} orders`,
+        templatesInUse: templateIdsInUse.length,
+        totalTemplates: templateCount,
+      });
+    }
+
+    // Delete all templates
+    const deletedCount = await StampTemplate.destroy({
+      where: {},
+      truncate: false, // Use DELETE instead of TRUNCATE for safety
+    });
+
+    console.log(`🗑️  Admin ${req.user.email} deleted ${deletedCount} stamp templates`);
+
+    return res.json({
+      success: true,
+      message: `Successfully deleted all ${deletedCount} stamp templates`,
+      deletedCount,
+    });
+  } catch (error) {
+    console.error('Delete all templates error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to delete templates',
+      error: error.message,
+    });
+  }
+};
+
 // Get all promo codes
 exports.getAllPromoCodes = async (req, res) => {
   try {
