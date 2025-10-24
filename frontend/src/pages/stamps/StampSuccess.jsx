@@ -82,23 +82,82 @@ const StampSuccess = () => {
   const isGenerating = orderDetails?.status === 'generating' || orderDetails?.status === 'payment_verified';
   const isReady = orderDetails?.status === 'generated';
 
-  const handleDownloadAndNavigate = () => {
-    // Trigger download
-    if (orderDetails?.s3PresignedUrl) {
-      const link = document.createElement('a');
-      link.href = orderDetails.s3PresignedUrl;
-      link.download = `stamp-paper-${orderId}.pdf`;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Navigate to home after a short delay to ensure download starts
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    }
+  const generateReceipt = (order) => {
+    const date = new Date(order.completedAt || order.createdAt).toLocaleString('en-IN', {
+      dateStyle: 'full',
+      timeStyle: 'short'
+    });
+
+    return `
+╔══════════════════════════════════════════════════════════════╗
+║                      KANOONWISE                              ║
+║                  Payment Receipt                             ║
+╚══════════════════════════════════════════════════════════════╝
+
+Receipt Date: ${date}
+Order ID: ${order.id}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ORDER DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+State:              ${order.state}
+Document Type:      ${order.documentType}
+${order.purpose ? `Purpose:            ${order.purpose}\n` : ''}
+First Party:        ${order.firstPartyName}${order.firstPartyPhone ? ` (${order.firstPartyPhone})` : ''}
+Second Party:       ${order.secondPartyName}${order.secondPartyPhone ? ` (${order.secondPartyPhone})` : ''}
+Paying Party:       ${order.payingParty === 'first' ? order.firstPartyName : order.payingParty === 'second' ? order.secondPartyName : 'Both Parties'}
+Service Type:       ${order.serviceType === 'express' ? 'Express Delivery' : 'Standard Delivery'}
+${order.doorstepDelivery ? 'Home Delivery:      Yes\n' : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PAYMENT BREAKDOWN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Stamp Paper Value:                      ₹${(order.basePrice / 100).toFixed(2)}
+Convenience Fee:                         ₹${(order.convenienceFee / 100).toFixed(2)}
+${order.serviceCharge ? `Express Service Charge:                  ₹${(order.serviceCharge / 100).toFixed(2)}\n` : ''}${order.doorstepCharge ? `Home Delivery Charge:                    ₹${(order.doorstepCharge / 100).toFixed(2)}\n` : ''}${order.promoDiscount ? `Promo Discount (${order.promoCode}):             -₹${(order.promoDiscount / 100).toFixed(2)}\n` : ''}                                          ─────────────
+TOTAL AMOUNT PAID:                       ₹${(order.totalAmount / 100).toFixed(2)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PAYMENT INFORMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Payment ID:         ${order.razorpayPaymentId || 'N/A'}
+Order ID:           ${order.razorpayOrderId || 'N/A'}
+Payment Status:     Successful
+Payment Method:     Razorpay
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STAMP PAPER DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Verification Hash:  ${order.verificationHash || 'Generating...'}
+Status:             ${order.status === 'generated' ? 'Generated Successfully' : order.status}
+Valid Until:        ${order.expiresAt ? new Date(order.expiresAt).toLocaleDateString('en-IN', { dateStyle: 'full' }) : 'N/A'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TERMS & CONDITIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• This is an official e-stamp paper issued by KanoonWise
+• Valid for 30 days from date of issue
+• This receipt is proof of payment
+• For support, contact: support@kanoonwise.com
+• Service available: 10:00 AM to 5:00 PM
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Thank you for choosing KanoonWise!
+Visit us at: https://kanoonwise.com
+
+╚══════════════════════════════════════════════════════════════╝
+`;
   };
 
   return (
@@ -174,12 +233,48 @@ const StampSuccess = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <button
-                  onClick={handleDownloadAndNavigate}
-                  className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors"
+                  onClick={() => {
+                    if (orderDetails?.s3PresignedUrl) {
+                      window.open(orderDetails.s3PresignedUrl, '_blank', 'noopener,noreferrer');
+                    }
+                  }}
+                  className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors"
                 >
-                  📄 Download Stamp Paper PDF & Return Home
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Download Stamp Paper PDF
+                </button>
+
+                <button
+                  onClick={() => {
+                    // Generate and download receipt
+                    const receipt = generateReceipt(orderDetails);
+                    const blob = new Blob([receipt], { type: 'text/plain' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `KanoonWise-Receipt-${orderId}.txt`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Download Receipt
+                </button>
+
+                <button
+                  onClick={() => navigate('/')}
+                  className="w-full text-blue-600 hover:text-blue-700 font-medium py-3 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-colors"
+                >
+                  Return Home
                 </button>
               </div>
 
