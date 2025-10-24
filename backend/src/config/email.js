@@ -17,14 +17,27 @@ if (process.env.USE_ETHEREAL_EMAIL === "true") {
   });
 } else {
   // Use configured SMTP
+  // In production (Render), use port 465 with SSL to avoid connection blocks
+  const isProduction = process.env.NODE_ENV === 'production';
+  const smtpPort = isProduction ? 465 : (parseInt(process.env.SMTP_PORT) || 587);
+  
   transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: false, // true for 465, false for 587
+    port: smtpPort,
+    secure: smtpPort === 465, // true for 465 (SSL), false for 587 (TLS)
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    // Add connection timeout and pool settings for production
+    ...(isProduction && {
+      connectionTimeout: 10000, // 10 seconds
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+      pool: true,
+      maxConnections: 5,
+      maxMessages: 10,
+    }),
   });
 }
 
@@ -40,8 +53,10 @@ const sendEmail = async (to, subject, text) => {
   }
 
   try {
-    // Verify transporter configuration before sending
-    await transporter.verify();
+    // Verify transporter configuration before sending (skip in production to avoid delays)
+    if (process.env.NODE_ENV !== 'production') {
+      await transporter.verify();
+    }
 
     const info = await transporter.sendMail({
       from: process.env.EMAIL_FROM || "noreply@kanoonwise.com",
@@ -68,9 +83,12 @@ const sendEmail = async (to, subject, text) => {
     console.error("❌ Error sending email:", error);
     console.log(`[FALLBACK] Email content for ${to}: ${text}`);
 
-    // In production, we should throw the error, but in development we can be more lenient
+    // In production, throw a more descriptive error
     if (process.env.NODE_ENV === "production") {
-      throw new Error(`Failed to send email: ${error.message}`);
+      const errorMsg = error.code === 'ETIMEDOUT' 
+        ? 'Email service connection timeout. Please check SMTP settings and use port 465 with SSL.'
+        : `Failed to send email: ${error.message}`;
+      throw new Error(errorMsg);
     }
   }
 };
