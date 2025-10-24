@@ -946,12 +946,20 @@ async function deployProductionPackages() {
       log(`📂 ${category}: ${dbCount}/${categoryPackages.length} packages`, 'blue');
     }
 
-    // Deploy Stamp Templates
-    logStep(6, 'Deploying stamp templates');
+    // Deploy Stamp Templates - DISABLED
+    // Templates should be added by admin via admin panel
+    // Admin can add templates at: POST /api/admin/stamps/stamp-templates
+    logStep(6, 'Stamp templates deployment - SKIPPED');
+    logInfo('Stamp templates should be added by admin via admin panel');
+    logInfo('API endpoint: POST /api/admin/stamps/stamp-templates');
+    logInfo('Admin can add specific states and document types as needed');
+    
     let templatesCreated = 0;
     let templatesUpdated = 0;
     let templatesErrors = 0;
-
+    
+    /* 
+    // Uncomment this section if you want to deploy default templates
     for (const templateData of allStampTemplates) {
       try {
         const [template, created] = await StampTemplate.upsert({
@@ -971,8 +979,9 @@ async function deployProductionPackages() {
         logError(`Failed to process template ${templateData.state} - ${templateData.documentType}: ${error.message}`);
       }
     }
+    */
 
-    logSuccess(`Stamp templates deployed: ${templatesCreated} created, ${templatesUpdated} updated`);
+    logSuccess(`Stamp templates: ${templatesCreated} in database (managed by admin)`);
     if (templatesErrors > 0) {
       logWarning(`Stamp template errors: ${templatesErrors}`);
     }
