@@ -48,7 +48,6 @@ router.post(
 router.post(
   '/orders/:orderId/verify-payment',
   optionalAuthMiddleware,
-  csrfProtection,
   stampController.verifyPaymentAndGenerate
 );
 
