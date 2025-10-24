@@ -141,9 +141,11 @@ const verifyPaymentSchema = Joi.object({
 const stampOrderSchema = Joi.object({
   state: Joi.string()
     .uppercase()
+    .valid('HARYANA', 'DELHI', 'GUJARAT', 'UTTAR PRADESH', 'TAMIL NADU')
     .required()
     .messages({
       'string.empty': 'State is required',
+      'any.only': 'Service only available for HARYANA, DELHI, GUJARAT, UTTAR PRADESH, and TAMIL NADU',
     }),
   documentType: Joi.string().min(3).max(200).required().messages({
     'string.empty': 'Document type is required',
@@ -163,9 +165,9 @@ const stampOrderSchema = Joi.object({
     .pattern(/^[6-9]\d{9}$/)
     .optional()
     .allow(''),
-  stampAmount: Joi.number().integer().min(100).required().messages({
+  stampAmount: Joi.number().integer().min(1000).required().messages({
     'number.base': 'Stamp amount must be a number',
-    'number.min': 'Minimum stamp amount is ₹1',
+    'number.min': 'Minimum stamp amount is ₹10',
   }),
   payingParty: Joi.string().valid('first', 'second', 'both').required(),
   guestEmail: Joi.string().email().optional(),

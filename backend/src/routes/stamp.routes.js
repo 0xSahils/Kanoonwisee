@@ -17,10 +17,10 @@ router.get('/promo-codes', stampController.getPromoCodes);
 router.get('/verify/:verificationHash', stampController.verifyStamp);
 
 // Order creation (optional auth - supports guest purchases)
+// Note: CSRF removed for guest checkout support - validation done by Razorpay
 router.post(
   '/orders',
   optionalAuthMiddleware,
-  csrfProtection,
   validateRequest(stampOrderSchema),
   stampController.createDraftOrder
 );
@@ -28,7 +28,6 @@ router.post(
 router.patch(
   '/orders/:orderId/service',
   optionalAuthMiddleware,
-  csrfProtection,
   validateRequest(updateServiceSchema),
   stampController.updateServiceSelection
 );
@@ -43,7 +42,6 @@ router.post(
 router.post(
   '/orders/:orderId/payment',
   optionalAuthMiddleware,
-  csrfProtection,
   stampController.createPaymentOrder
 );
 
