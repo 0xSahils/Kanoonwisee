@@ -604,7 +604,7 @@ const JusticiaHomepage = () => {
             <div className="bg-gray-50 rounded-2xl p-8">
               <div className="flex items-start space-x-4 mb-6">
                 <img
-                  src="/founder.jpg"
+                  src="/"
                   alt="Startup Founder"
                   className="w-16 h-16 rounded-full object-contain bg-white"
                   onError={e => {
@@ -639,7 +639,7 @@ const JusticiaHomepage = () => {
             <div className="bg-gray-50 rounded-2xl p-8">
               <div className="flex items-start space-x-4 mb-6">
                 <img
-                  src="/founder.jpg"
+                  src="/"
                   alt="Business Founder"
                   className="w-16 h-16 rounded-full object-contain bg-white"
                   onError={e => {
