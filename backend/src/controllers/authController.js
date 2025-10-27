@@ -25,8 +25,9 @@ const otpLimiter = rateLimit({
 
 const requestOtp = async (req, res, next) => {
   try {
-    const { email, role = "lawyer" } = req.body;
-    const result = await authService.requestOtp(email, role);
+    const { email, role } = req.body;
+    const selectedRole = role || "lawyer"; 
+    const result = await authService.requestOtp(email, selectedRole);
     res.status(200).json(result);
   } catch (error) {
     next(error);
