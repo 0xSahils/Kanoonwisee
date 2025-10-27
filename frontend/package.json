@@ -27,6 +27,7 @@
     "date-fns": "^4.1.0",
     "dompurify": "^2.5.8",
     "gray-matter": "^4.0.3",
+    "kanoonwise-fullstack": "file:..",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.535.0",
     "postcss": "^8.5.6",

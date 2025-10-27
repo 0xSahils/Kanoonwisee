@@ -1,128 +1,77 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// Create transporter based on environment
-let transporter;
+// Create Brevo (Sendinblue) SMTP transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
+  port: Number(process.env.SMTP_PORT) || 587, // 587 = TLS, 465 = SSL
+  secure: process.env.SMTP_PORT === "465", // true for SSL, false for TLS
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
+});
 
-if (process.env.USE_ETHEREAL_EMAIL === "true") {
-  // Use Ethereal Email for testing (creates test accounts automatically)
-  transporter = nodemailer.createTransporter({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
-    auth: {
-      user: "ethereal.user@ethereal.email",
-      pass: "ethereal.pass",
-    },
-  });
-} else {
-  // Use configured SMTP
-  // Hard-coded to use port 465 with SSL for production reliability (Render blocks port 587)
-  
-  // Log configuration for debugging (hide password)
-  console.log('📧 Email Configuration:');
-  console.log('   SMTP_HOST:', process.env.SMTP_HOST || 'NOT SET');
-  console.log('   SMTP_USER:', process.env.SMTP_USER || 'NOT SET');
-  console.log('   SMTP_PASS:', process.env.SMTP_PASS ? '***SET***' : 'NOT SET');
-  console.log('   Port: 465 (SSL)');
-  
-  transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: 465,
-    secure: true, // SSL for port 465
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    // Connection settings for production
-    connectionTimeout: 10000, // 10 seconds
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 10,
-    // Add debug for troubleshooting
-    debug: process.env.NODE_ENV === 'production',
-    logger: process.env.NODE_ENV === 'production',
-  });
-}
-
-const sendEmail = async (to, subject, text) => {
-  // Check if we should send real emails (controlled by SEND_REAL_EMAILS env var)
-  const shouldSendRealEmails = process.env.SEND_REAL_EMAILS === "true";
-
-  if (!shouldSendRealEmails) {
-    console.log(`[DEV MODE] Email would be sent to: ${to}`);
-    console.log(`[DEV MODE] Subject: ${subject}`);
-    console.log(`[DEV MODE] Content: ${text}`);
-    return; // Skip actual sending when SEND_REAL_EMAILS is not true
-  }
-
-  // TEMPORARY: If SMTP fails in production, just log the OTP
-  // This allows the app to work while you fix email configuration
-  if (process.env.DISABLE_EMAIL_SENDING === "true") {
-    console.log(`📧 [EMAIL DISABLED] Would send to: ${to}`);
-    console.log(`📧 [EMAIL DISABLED] Subject: ${subject}`);
-    console.log(`📧 [EMAIL DISABLED] Content: ${text}`);
-    console.log(`⚠️  IMPORTANT: Email sending is disabled. Re-enable by removing DISABLE_EMAIL_SENDING env var.`);
-    return; // Skip sending but don't throw error
-  }
-
+/**
+ * Send Email (OTP / Notification)
+ * @param {string} to - Recipient email address
+ * @param {string} subject - Email subject
+ * @param {string} otp - OTP or message body
+ */
+const sendEmail = async (to, subject, otp) => {
   try {
-    // Verify transporter configuration before sending (skip in production to avoid delays)
-    if (process.env.NODE_ENV !== 'production') {
-      await transporter.verify();
-    }
+    await transporter.verify();
+    console.log("✅ SMTP connection verified with Brevo");
 
-    console.log(`📧 Attempting to send email to ${to}...`);
-
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM || "noreply@kanoonwise.com",
-      to: to,
-      subject: subject,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #2563eb;">KanoonWise</h2>
-          <p>${text}</p>
-          <p style="color: #666; font-size: 12px;">
-            This is an automated email from KanoonWise. Please do not reply to this email.
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; background-color: #f9fafb; padding: 30px;">
+        <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; padding: 25px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+          <h2 style="color: #2563eb; text-align: center;">KanoonWise</h2>
+          <p style="font-size: 16px; color: #333;">Hello,</p>
+          <p style="font-size: 15px; color: #333;">
+            Your One-Time Password (OTP) for authentication is:
+          </p>
+          <div style="text-align: center; margin: 25px 0;">
+            <span style="display: inline-block; font-size: 24px; letter-spacing: 4px; font-weight: bold; background: #2563eb; color: #fff; padding: 10px 25px; border-radius: 8px;">
+              ${otp}
+            </span>
+          </div>
+          <p style="font-size: 14px; color: #555;">
+            This OTP is valid for the next <b>5 minutes</b>. Please do not share it with anyone.
+          </p>
+          <p style="font-size: 12px; color: #999; text-align: center; margin-top: 30px;">
+            © ${new Date().getFullYear()} KanoonWise. All rights reserved.<br>
+            This is an automated email — please do not reply.
           </p>
         </div>
-      `,
+      </div>
+    `;
+
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM || `"KanoonWise" <${process.env.SMTP_USER}>`,
+      to,
+      subject,
+      html: htmlContent,
     });
 
-    console.log(`✅ Email sent successfully to ${to}`);
-
-    // If using Ethereal Email, show preview URL
-    if (process.env.USE_ETHEREAL_EMAIL === "true") {
-      console.log(`📧 Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
-    }
+    console.log(`✅ Email sent successfully to ${to}: ${info.response}`);
   } catch (error) {
-    console.error("❌ Error sending email:", error);
-    console.error("   Error code:", error.code);
-    console.error("   Error command:", error.command);
-    console.log(`[FALLBACK] Email content for ${to}: ${text}`);
+    console.error("❌ Error sending email:");
+    console.error("   Message:", error.message);
+    console.error("   Code:", error.code || "N/A");
 
-    // In production, provide helpful error message
-    if (process.env.NODE_ENV === "production") {
-      let errorMsg = `Failed to send email: ${error.message}`;
-      
-      if (error.code === 'ETIMEDOUT') {
-        errorMsg = 'Email service connection timeout. Possible causes:\n' +
-          '1. SMTP credentials are incorrect\n' +
-          '2. Gmail App Password not generated (needs 2FA enabled)\n' +
-          '3. Render is blocking outgoing SMTP connections\n' +
-          '4. Gmail account has "Less secure app access" disabled\n\n' +
-          'TEMPORARY FIX: Add DISABLE_EMAIL_SENDING=true to environment variables to bypass email (OTP will be logged instead)';
-      } else if (error.code === 'EAUTH') {
-        errorMsg = 'Email authentication failed. Please check:\n' +
-          '1. SMTP_USER is your full Gmail address\n' +
-          '2. SMTP_PASS is a Gmail App Password (16 characters, no spaces)\n' +
-          '3. 2-Step Verification is enabled on your Google Account';
-      }
-      
-      throw new Error(errorMsg);
+    if (error.code === "EAUTH") {
+      console.error("⚠️ Authentication failed. Check your Brevo SMTP user & password.");
+    } else if (error.code === "ETIMEDOUT") {
+      console.error("⚠️ Connection timed out. Check SMTP host/port or firewall.");
+    } else {
+      console.error("⚠️ General send error:", error);
     }
+
+    throw error;
   }
 };
 
