@@ -106,7 +106,7 @@ app.use("/api/admin/stamps", adminStampRoutes);
 // --------------------------------------------------
 // ✅ 8. Redirect all unknown routes to Vercel frontend
 app.get("*", (req, res) => {
-  const vercelUrl = "https://kanoonwise.vercel.app";
+  const vercelUrl = "https://kanoonwisee.vercel.app";
   return res.redirect(`${vercelUrl}${req.originalUrl}`);
 });
 
@@ -140,7 +140,7 @@ async function startServer() {
 
     const server = app.listen(PORT, () => {
       console.log(`✅ Server is running on port ${PORT}`);
-      console.log(`🌐 Frontend served from: https://kanoonwise.vercel.app`);
+      console.log(`🌐 Frontend served from: https://kanoonwisee.vercel.app/`);
     });
 
     // File upload timeout
