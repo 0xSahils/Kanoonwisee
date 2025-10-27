@@ -104,11 +104,6 @@ app.use("/api/stamps", stampRoutes);
 app.use("/api/admin/stamps", adminStampRoutes);
 
 // --------------------------------------------------
-// ✅ 8. Redirect all unknown routes to Vercel frontend
-app.get("*", (req, res) => {
-  const vercelUrl = "https://kanoonwisee.vercel.app";
-  return res.redirect(`${vercelUrl}${req.originalUrl}`);
-});
 
 // --------------------------------------------------
 // ✅ 9. Central Error Handler
