@@ -4,15 +4,20 @@ require("dotenv").config();
 // Create Brevo (Sendinblue) SMTP transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
-  port: Number(process.env.SMTP_PORT) || 587, // 587 = TLS, 465 = SSL
-  secure: process.env.SMTP_PORT === "465", // true for SSL, false for TLS
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: Number(process.env.SMTP_PORT) === 465,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+  pool: true,           // ✅ enable SMTP pooling
+  maxConnections: 5,    // ✅ not nested inside "pool"
+  maxMessages: 100,
+  rateDelta: 1000,
+  rateLimit: 5,
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
 });
 
 /**
@@ -23,8 +28,7 @@ const transporter = nodemailer.createTransport({
  */
 const sendEmail = async (to, subject, otp) => {
   try {
-    await transporter.verify();
-    console.log("✅ SMTP connection verified with Brevo");
+    console.log("📧 Attempting to send email to:", to);
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; background-color: #f9fafb; padding: 30px;">
@@ -51,24 +55,32 @@ const sendEmail = async (to, subject, otp) => {
     `;
 
     const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM || `"KanoonWise" <${process.env.SMTP_USER}>`,
+      from: `"KanoonWise" <${process.env.SMTP_USER}>`, // ✅ must be verified in Brevo
       to,
       subject,
       html: htmlContent,
     });
+    
 
-    console.log(`✅ Email sent successfully to ${to}: ${info.response}`);
+    console.log(`✅ Email sent successfully to ${to}`);
+    console.log("📤 SMTP Response:", info.response);
+    return info;
   } catch (error) {
-    console.error("❌ Error sending email:");
-    console.error("   Message:", error.message);
-    console.error("   Code:", error.code || "N/A");
+    console.error("❌ Error sending email to:", to);
+    console.error("   Error Message:", error.message);
+    console.error("   Error Code:", error.code || "N/A");
+    console.error("   Error Command:", error.command || "N/A");
 
     if (error.code === "EAUTH") {
-      console.error("⚠️ Authentication failed. Check your Brevo SMTP user & password.");
-    } else if (error.code === "ETIMEDOUT") {
-      console.error("⚠️ Connection timed out. Check SMTP host/port or firewall.");
+      console.error("🔐 Authentication failed. Verify SMTP_USER and SMTP_PASS in Render environment.");
+    } else if (error.code === "ETIMEDOUT" || error.code === "ESOCKET") {
+      console.error("⏱️ Network timeout. Verify SMTP_HOST and SMTP_PORT accessibility on Render.");
+      console.error("   Current SMTP_HOST:", process.env.SMTP_HOST);
+      console.error("   Current SMTP_PORT:", process.env.SMTP_PORT);
+    } else if (error.code === "ECONNREFUSED") {
+      console.error("❌ Connection refused. SMTP server may be unreachable.");
     } else {
-      console.error("⚠️ General send error:", error);
+      console.error("❌ Unexpected error:", error);
     }
 
     throw error;
