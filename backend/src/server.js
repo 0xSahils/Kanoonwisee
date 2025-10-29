@@ -36,58 +36,43 @@ const adminStampRoutes = require("./routes/adminStamp.routes");
 
 const app = express();
 
-// --------------------------------------------------
-// ✅ 1. Trust proxy (for Render, Railway, etc.)
-app.set("trust proxy", 1);
+// Trust proxy - Required for rate limiting and security when behind reverse proxy (Render, Heroku, etc.)
+// This enables Express to trust the X-Forwarded-* headers from the proxy
+app.set('trust proxy', 1);
 
-// --------------------------------------------------
-// ✅ 2. Security Middlewares
+// Security Middlewares
 app.use(securityHeaders);
 app.use(generalRateLimit);
 
-// --------------------------------------------------
-// ✅ 3. Cookie + Session
+// Cookie parser for handling httpOnly cookies
 app.use(cookieParser());
+
+// Session middleware for CSRF protection
 app.use(session(sessionOptions));
 
-// --------------------------------------------------
-// ✅ 4. CORS configuration with your Vercel domain
-const allowedOrigins = [
-  "http://localhost:5173",         // local dev (Vite)
-  "http://localhost:3000",         // local fallback
-  "https://kanoonwisee.vercel.app", // your live frontend
-];
+// CORS configuration with credentials support
+app.use(cors(corsOptions));
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// --------------------------------------------------
-// ✅ 5. Body parsing middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-
-// --------------------------------------------------
-// ✅ 6. Timeout for file upload routes
-app.use("/api/lawyer/profile", (req, res, next) => {
+// Increase timeout for file upload requests
+app.use('/api/lawyer/profile', (req, res, next) => {
+  // Set timeout to 60 seconds for file upload
   req.setTimeout(60000);
   res.setTimeout(60000);
   next();
 });
 
-// --------------------------------------------------
-// ✅ 7. Routes
+// Serve static files from React build in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+}
+
+// Routes
 app.use("/working", (req, res) => {
-  res.send("Server is working ✅");
+  res.send("Server is working");
 });
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
@@ -103,44 +88,61 @@ app.use("/api/public-payment", publicPaymentRoutes);
 app.use("/api/stamps", stampRoutes);
 app.use("/api/admin/stamps", adminStampRoutes);
 
-// --------------------------------------------------
 
-// --------------------------------------------------
-// ✅ 9. Central Error Handler
+// Catch-all handler: send back React's index.html file in production
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+  });
+}
+
+// Central Error Handler
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
 console.log(
-  `🚀 Starting server in ${process.env.NODE_ENV || "development"} mode...`
+  `Starting server in ${process.env.NODE_ENV || "development"} mode...`
+);
+console.log(
+  `Frontend static files path: ${path.join(__dirname, "../../frontend/dist")}`
 );
 
-// --------------------------------------------------
-// ✅ 10. Database + Server Start
 async function startServer() {
   try {
+    // Test database connection without forcing sync
     await sequelize.authenticate();
     console.log("✅ Database connection established");
-
-    // Initialize session store if needed
-    if (process.env.NODE_ENV === "production" && sessionOptions.store) {
+    
+    // Initialize session store if in production
+    if (process.env.NODE_ENV === 'production' && sessionOptions.store) {
       console.log("🔄 Initializing session store...");
       try {
         await sessionOptions.store.sync();
         console.log("✅ Session store initialized");
       } catch (sessionError) {
         console.error("⚠️ Session store initialization failed:", sessionError.message);
+        // Don't fail the server startup for session store issues
+        console.log("⚠️ Continuing without session store - sessions will use memory store");
       }
     }
-
+    
     const server = app.listen(PORT, () => {
       console.log(`✅ Server is running on port ${PORT}`);
-      console.log(`🌐 Frontend served from: https://kanoonwisee.vercel.app/`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV || "development"}`);
+      if (process.env.NODE_ENV === "production") {
+        console.log(
+          `📁 Serving static files from: ${path.join(
+            __dirname,
+            "../../frontend/dist"
+          )}`
+        );
+      }
     });
-
-    // File upload timeout
+    
+    // Set server timeout to 60 seconds for file uploads
     server.timeout = 60000;
-    console.log("⏱️ Server timeout set to 60 seconds for uploads");
+    console.log("⏱️  Server timeout set to 60 seconds for file uploads");
   } catch (error) {
     console.error("❌ Server startup failed:", error);
     process.exit(1);
