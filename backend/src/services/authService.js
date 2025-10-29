@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateOtp } = require("../utils/otpGenerator");
-const sendEmail = require("../utils/sendEmail");  // ✅ Correct path (utils/sendEmail.js)
+import { sendEmail } from "../config/email.js";
 const { generateTokens } = require("../utils/jwtHelper");
 
 const requestOtp = async (email, role = "lawyer") => {
