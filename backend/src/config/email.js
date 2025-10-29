@@ -3,18 +3,15 @@ require("dotenv").config();
 
 const apiInstance = new Brevo.TransactionalEmailsApi();
 
-// ✅ Correct way to set API key in new Brevo SDK
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+// ✅ Correct universal way to set API key (works in all SDK versions)
+apiInstance.apiClient.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
 const sendEmail = async (to, subject, otp) => {
   try {
     const emailData = {
       sender: {
+        email: process.env.SENDER_EMAIL, // ✅ MUST be verified in Brevo dashboard
         name: "KanoonWise",
-        email: process.env.SENDER_EMAIL, // ✅ Must be verified sender in Brevo
       },
       to: [{ email: to }],
       subject,
